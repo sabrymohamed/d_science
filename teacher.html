@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة المعلم لمتابعة رسائل أولياء الأمور - أ. صبري محمد حمد</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #2563eb;
+      --secondary: #0f172a;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #e2e8f0 0%, #f8fafc 40%, #f1f5f9 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1.5rem 1rem 3.5rem;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    /* ترويسة المدرسة */
+    .school-banner {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 0.65rem;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1.2rem;
+      text-align: center;
+      border: 2px solid var(--border);
+    }
+
+    .school-banner img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 14px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* الهيدر الرئيسي */
+    .header-card {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #2563eb 100%);
+      color: white;
+      padding: 1.8rem 1.5rem;
+      border-radius: 22px;
+      box-shadow: 0 12px 28px -5px rgba(30, 58, 138, 0.35);
+      margin-bottom: 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header-info h1 {
+      font-size: 1.55rem;
+      font-weight: 900;
+      margin-bottom: 0.4rem;
+    }
+
+    .header-info p {
+      opacity: 0.9;
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .refresh-btn {
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 0.75rem 1.3rem;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .refresh-btn:hover {
+      background: rgba(255, 255, 255, 0.28);
+      transform: translateY(-2px);
+    }
+
+    /* بطاقات العدادات والإحصائيات */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 1.3rem 1.2rem;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .stat-card.total-messages { border-right: 5px solid var(--primary-light); }
+    .stat-card.new-messages { border-right: 5px solid var(--danger); }
+    .stat-card.read-messages { border-right: 5px solid var(--success); }
+    .stat-card.rate-card { border-right: 5px solid var(--warning); }
+
+    .stat-info span {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-info strong {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: var(--secondary);
+    }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .icon-blue { background: #dbeafe; color: #1d4ed8; }
+    .icon-red { background: #fee2e2; color: #dc2626; }
+    .icon-green { background: #dcfce7; color: #059669; }
+    .icon-gold { background: #fef3c7; color: #d97706; }
+
+    /* شريط البحث والفلترة */
+    .controls-card {
+      background: var(--card-bg);
+      padding: 1.2rem;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+      margin-bottom: 1.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 220px;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary-light);
+    }
+
+    .filter-select {
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      background: #f8fafc;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .mark-all-btn {
+      background: #ecfdf5;
+      color: var(--success);
+      border: 1px solid #a7f3d0;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mark-all-btn:hover {
+      background: var(--success);
+      color: white;
+    }
+
+    /* قائمة وسجل الرسائل */
+    .messages-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .message-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 1.3rem 1.4rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+      border: 2px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .message-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+      border-color: #93c5fd;
+    }
+
+    /* تمييز الرسالة الجديدة التي لم يقرأها المعلم بعد */
+    .message-card.unread {
+      background: linear-gradient(to left, #fff1f2 0%, #ffffff 15%);
+      border-color: #fca5a5;
+      border-right: 6px solid var(--danger);
+    }
+
+    .message-card.read {
+      border-right: 6px solid var(--success);
+    }
+
+    .msg-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .student-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .student-title h3 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .student-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .badge-class {
+      background: #dbeafe;
+      color: #1e3a8a;
+      padding: 0.25rem 0.7rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .badge-score {
+      background: #f1f5f9;
+      color: #334155;
+      padding: 0.25rem 0.7rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .status-badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .status-unread {
+      background: #fee2e2;
+      color: #dc2626;
+      animation: pulse 1.8s infinite;
+    }
+
+    .status-read {
+      background: #dcfce7;
+      color: #059669;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .msg-preview {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--secondary);
+      line-height: 1.6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .open-hint {
+      font-size: 0.82rem;
+      color: var(--primary-light);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    /* حالة التحميل أو عدم وجود رسائل */
+    .empty-state {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      border: 2px dashed #cbd5e1;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* النافذة المنبثقة لعرض تفاصيل الرسالة كاملة */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1rem;
+    }
+
+    .modal-box {
+      background: white;
+      max-width: 560px;
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      animation: zoomIn 0.25s ease-out;
+    }
+
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 1.3rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .close-x {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .detail-item {
+      background: #f8fafc;
+      padding: 0.75rem 0.9rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .detail-item span {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .detail-item strong {
+      font-size: 0.98rem;
+      color: var(--secondary);
+      font-weight: 800;
+    }
+
+    .full-message-box {
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .full-message-box h4 {
+      color: var(--primary);
+      font-size: 0.95rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+    }
+
+    .full-message-box p {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.75;
+      white-space: pre-wrap;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: flex-end;
+    }
+
+    .close-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 550px) {
+      .detail-grid { grid-template-columns: 1fr; }
+      .header-card { flex-direction: column; align-items: flex-start; }
+      .refresh-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- ترويسة المدرسة -->
+    <div class="school-banner">
+      <img src="https://i.postimg.cc/K88X7RLb/trwysyh-dhhbyt.png" alt="ترويسة المدرسة">
+    </div>
+
+    <!-- الهيدر -->
+    <div class="header-card">
+      <div class="header-info">
+        <h1>📬 لوحة متابعة رسائل أولياء الأمور (مادة العلوم)</h1>
+        <p>خاصة بالأستاذ: صبري محمد حمد — سجل الردود والملاحظات الواردة</p>
+      </div>
+      <button class="refresh-btn" onclick="loadMessages()">
+        🔄 تحديث الرسائل الآن
+      </button>
+    </div>
+
+    <!-- العدادات الإحصائية -->
+    <div class="stats-grid">
+      <div class="stat-card total-messages">
+        <div class="stat-info">
+          <span>إجمالي الرسائل المكتوبة</span>
+          <strong id="totalCount">0</strong>
+        </div>
+        <div class="stat-icon icon-blue">✉️</div>
+      </div>
+
+      <div class="stat-card new-messages">
+        <div class="stat-info">
+          <span>رسائل جديدة (غير مقروءة)</span>
+          <strong id="unreadCount" style="color: var(--danger);">0</strong>
+        </div>
+        <div class="stat-icon icon-red">🔔</div>
+      </div>
+
+      <div class="stat-card read-messages">
+        <div class="stat-info">
+          <span>رسائل تم الاطلاع عليها</span>
+          <strong id="readCount" style="color: var(--success);">0</strong>
+        </div>
+        <div class="stat-icon icon-green">✅</div>
+      </div>
+
+      <div class="stat-card rate-card">
+        <div class="stat-info">
+          <span>نسبة تفاعل أولياء الأمور</span>
+          <strong id="responseRate">0%</strong>
+        </div>
+        <div class="stat-icon icon-gold">📊</div>
+      </div>
+    </div>
+
+    <!-- أدوات البحث والفلترة -->
+    <div class="controls-card">
+      <input type="text" id="searchInput" class="search-input" placeholder="🔍 ابحث باسم الطالب أو الرقم الشخصي أو محتوى الرسالة..." oninput="renderMessages()">
+      
+      <select id="classFilter" class="filter-select" onchange="renderMessages()">
+        <option value="all">جميع الصفوف</option>
+      </select>
+
+      <select id="statusFilter" class="filter-select" onchange="renderMessages()">
+        <option value="all">كل الرسائل (الجديدة والمقروءة)</option>
+        <option value="unread">🔔 الرسائل الجديدة فقط</option>
+        <option value="read">✅ المقروءة فقط</option>
+      </select>
+
+      <button class="mark-all-btn" onclick="markAllAsRead()">✓ تعليم الكل كمقروء</button>
+    </div>
+
+    <!-- قائمة الرسائل -->
+    <div id="messagesContainer" class="messages-list">
+      <div class="empty-state">⏳ جاري جلب رسائل أولياء الأمور من السجل...</div>
+    </div>
+  </div>
+
+  <!-- نافذة عرض الرسالة كاملة عند الضغط عليها -->
+  <div id="messageModal" class="modal-overlay" onclick="if(event.target===this) closeModal()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>📄 تفاصيل رسالة ولي أمر الطالب</h3>
+        <button class="close-x" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span>اسم الطالب (ولي أمره):</span>
+            <strong id="mStudentName">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>الصف والفرقة:</span>
+            <strong id="mStudentClass">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>الرقم الشخصي / رقم الكشف:</span>
+            <strong id="mStudentId">-</strong>
+          </div>
+          <div class="detail-item">
+            <span>درجة الوقفة الأولى / التشخيصي:</span>
+            <strong id="mStudentScores">-</strong>
+          </div>
+        </div>
+
+        <div class="full-message-box">
+          <h4>💬 محتوى رسالة ولي الأمر:</h4>
+          <p id="mReplyText">-</p>
+        </div>
+
+        <div id="mTeacherNoteBox" class="detail-item" style="margin-bottom: 1.2rem; display: none;">
+          <span>ملاحظة المعلم المسجلة للطالب:</span>
+          <strong id="mTeacherNote" style="color: var(--success);">-</strong>
+        </div>
+
+        <div class="modal-footer">
+          <button class="close-btn" onclick="closeModal()">إغلاق النافذة</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // رابط تطبيق الويب الخاص بك
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTqBIBEU69gXEJqNbTE6334vK5Ub4IU2txITzsG3XOUnAmg9VtBL5Tr88vveXcCGnsjg/exec";
+
+    let allMessages = [];
+    let totalStudentsCount = 0;
+
+    // نحفظ سجل الرسائل التي قرأها المعلم في المتصفح لمعرفة أي رسالة جديدة أو معدلة
+    function getReadRegistry() {
+      try {
+        return JSON.parse(localStorage.getItem("sabry_read_replies_v1") || "{}");
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveReadRegistry(reg) {
+      localStorage.setItem("sabry_read_replies_v1", JSON.stringify(reg));
+    }
+
+    function isMessageRead(msg) {
+      const reg = getReadRegistry();
+      // إذا قام ولي الأمر بتغيير رسالته، ستظهر كرسالة جديدة مرة أخرى
+      return reg[msg.id] === msg.reply;
+    }
+
+    function markMessageRead(msg) {
+      const reg = getReadRegistry();
+      reg[msg.id] = msg.reply;
+      saveReadRegistry(reg);
+    }
+
+    function markAllAsRead() {
+      const reg = getReadRegistry();
+      allMessages.forEach(m => {
+        reg[m.id] = m.reply;
+      });
+      saveReadRegistry(reg);
+      updateCounters();
+      renderMessages();
+    }
+
+    async function loadMessages() {
+      const container = document.getElementById("messagesContainer");
+      container.innerHTML = `<div class="empty-state">⏳ جاري تحديث وجلب رسائل أولياء الأمور...</div>`;
+
+      try {
+        const response = await fetch(`${SCRIPT_URL}?action=getMessages`);
+        const json = await response.json();
+
+        if (json.status === "success") {
+          allMessages = json.messages || [];
+          totalStudentsCount = json.totalStudents || 0;
+
+          populateClassFilter();
+          updateCounters();
+          renderMessages();
+        } else {
+          container.innerHTML = `<div class="empty-state">⚠️ ${json.message || "تعذر جلب البيانات"}</div>`;
+        }
+      } catch (error) {
+        console.error(error);
+        container.innerHTML = `<div class="empty-state">⚠️ تعذر الاتصال بقاعدة البيانات. تأكد من تحديث كود Apps Script وعمل إصدار جديد (New deployment).</div>`;
+      }
+    }
+
+    function populateClassFilter() {
+      const classFilter = document.getElementById("classFilter");
+      const currentVal = classFilter.value;
+      const classes = [...new Set(allMessages.map(m => m.className).filter(Boolean))];
+
+      classFilter.innerHTML = `<option value="all">جميع الصفوف (${allMessages.length})</option>`;
+      classes.forEach(cls => {
+        const count = allMessages.filter(m => m.className === cls).length;
+        const opt = document.createElement("option");
+        opt.value = cls;
+        opt.textContent = `${cls} (${count})`;
+        classFilter.appendChild(opt);
+      });
+
+      if (classes.includes(currentVal)) {
+        classFilter.value = currentVal;
+      }
+    }
+
+    function updateCounters() {
+      const total = allMessages.length;
+      const unread = allMessages.filter(m => !isMessageRead(m)).length;
+      const read = total - unread;
+      const rate = totalStudentsCount > 0 ? Math.round((total / totalStudentsCount) * 100) : 0;
+
+      document.getElementById("totalCount").textContent = total;
+      document.getElementById("unreadCount").textContent = unread;
+      document.getElementById("readCount").textContent = read;
+      document.getElementById("responseRate").textContent = rate + "%";
+    }
+
+    function renderMessages() {
+      const container = document.getElementById("messagesContainer");
+      const searchQ = document.getElementById("searchInput").value.trim().toLowerCase();
+      const selectedClass = document.getElementById("classFilter").value;
+      const selectedStatus = document.getElementById("statusFilter").value;
+
+      // ترتيب الرسائل بحيث تظهر الرسائل الجديدة (غير المقروءة) في الأعلى دائماً
+      const sorted = [...allMessages].sort((a, b) => {
+        const aRead = isMessageRead(a) ? 1 : 0;
+        const bRead = isMessageRead(b) ? 1 : 0;
+        return aRead - bRead;
+      });
+
+      const filtered = sorted.filter(msg => {
+        const matchesSearch = !searchQ ||
+          msg.name.toLowerCase().includes(searchQ) ||
+          msg.id.toLowerCase().includes(searchQ) ||
+          msg.reply.toLowerCase().includes(searchQ) ||
+          msg.className.toLowerCase().includes(searchQ);
+
+        const matchesClass = (selectedClass === "all") || (msg.className === selectedClass);
+
+        const readState = isMessageRead(msg);
+        const matchesStatus = (selectedStatus === "all") ||
+          (selectedStatus === "unread" && !readState) ||
+          (selectedStatus === "read" && readState);
+
+        return matchesSearch && matchesClass && matchesStatus;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="empty-state">📭 لا توجد رسائل مطابقة للبحث أو الفلتر المحدد حالياً.</div>`;
+        return;
+      }
+
+      container.innerHTML = "";
+
+      filtered.forEach(msg => {
+        const read = isMessageRead(msg);
+        const card = document.createElement("div");
+        card.className = `message-card ${read ? "read" : "unread"}`;
+        card.onclick = () => openMessageModal(msg);
+
+        card.innerHTML = `
+          <div class="msg-top">
+            <div class="student-title">
+              <h3>👤 ولي أمر الطالب: ${msg.name}</h3>
+              <div class="student-meta">
+                <span class="badge-class">🏫 ${msg.className}</span>
+                <span class="badge-score">الوقفة الأولى: ${msg.firstAssessment !== "" ? msg.firstAssessment : "-"} / 20</span>
+                <span class="badge-score">الرقم الشخصي: ${msg.id}</span>
+              </div>
+            </div>
+            <span class="status-badge ${read ? "status-read" : "status-unread"}">
+              ${read ? "✓ تم الاطلاع" : "🔔 رسالة جديدة"}
+            </span>
+          </div>
+          <div class="msg-preview">
+            <span>💬 "${msg.reply}"</span>
+            <span class="open-hint">اضغط لفتح التفاصيل ⬅️</span>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function openMessageModal(msg) {
+      // تعليم الرسالة كمقروءة فور فتحها وتحديث العدادات
+      markMessageRead(msg);
+      updateCounters();
+      renderMessages();
+
+      document.getElementById("mStudentName").textContent = msg.name;
+      document.getElementById("mStudentClass").textContent = msg.className;
+      document.getElementById("mStudentId").textContent = `${msg.id} (كشف رقم: ${msg.listNum || "-"})`;
+      document.getElementById("mStudentScores").textContent = `الوقفة (1): ${msg.firstAssessment} من 20 | التشخيصي: ${msg.diagnosticScore}`;
+      document.getElementById("mReplyText").textContent = msg.reply;
+
+      const noteBox = document.getElementById("mTeacherNoteBox");
+      if (msg.teacherNote) {
+        document.getElementById("mTeacherNote").textContent = msg.teacherNote;
+        noteBox.style.display = "block";
+      } else {
+        noteBox.style.display = "none";
+      }
+
+      document.getElementById("messageModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("messageModal").style.display = "none";
+    }
+
+    // تحميل الرسائل تلقائياً عند فتح الصفحة
+    window.addEventListener("DOMContentLoaded", loadMessages);
+  </script>
+</body>
+</html>
