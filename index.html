@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة متابعة مادة العلوم - أ. صبري محمد حمد</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #2563eb;
+      --primary-soft: #eff6ff;
+      --gold: #b45309;
+      --gold-bg: #fffbeb;
+      --gold-border: #fde68a;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #059669;
+      --success-bg: #ecfdf5;
+      --danger: #dc2626;
+      --warning: #d97706;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #e2e8f0 0%, #f8fafc 40%, #f1f5f9 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem 3.5rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 750px;
+    }
+
+    /* حركات الظهور الانسيابية */
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35); }
+      50% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      70% { transform: scale(1.05); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* ترويسة المدرسة */
+    .school-banner {
+      width: 100%;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 0.7rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      margin-bottom: 1.2rem;
+      text-align: center;
+      border: 2px solid #e2e8f0;
+      animation: slideDown 0.6s ease-out;
+    }
+
+    .school-banner img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 14px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* بطاقة العنوان والمعلم */
+    .header-card {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
+      color: white;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-radius: 22px;
+      box-shadow: 0 12px 30px -5px rgba(30, 58, 138, 0.35);
+      margin-bottom: 1.3rem;
+      position: relative;
+      overflow: hidden;
+      animation: slideDown 0.7s ease-out;
+    }
+
+    .header-card::after {
+      content: "🔬";
+      position: absolute;
+      left: -10px;
+      bottom: -15px;
+      font-size: 5.5rem;
+      opacity: 0.1;
+      transform: rotate(-15deg);
+      pointer-events: none;
+    }
+
+    .header-card h1 {
+      font-size: 1.65rem;
+      margin-bottom: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+    }
+
+    .header-card .teacher-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(6px);
+      padding: 0.45rem 1.4rem;
+      border-radius: 999px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    /* لوحة التوجيهات الهامة لولي الأمر */
+    .instructions-card {
+      background: linear-gradient(145deg, #fffbeb, #fef3c7);
+      border: 2px solid #fcd34d;
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 6px 18px rgba(180, 83, 9, 0.08);
+      animation: fadeInUp 0.75s ease-out;
+    }
+
+    .instructions-card h3 {
+      color: #92400e;
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .instructions-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .instructions-list li {
+      position: relative;
+      padding-right: 1.6rem;
+      font-size: 0.98rem;
+      line-height: 1.65;
+      color: #78350f;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.65);
+      padding: 0.75rem 1.8rem 0.75rem 0.9rem;
+      border-radius: 12px;
+      border-right: 4px solid #f59e0b;
+    }
+
+    .instructions-list li::before {
+      content: "✦";
+      position: absolute;
+      right: 0.5rem;
+      top: 0.75rem;
+      color: #d97706;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .highlight-red {
+      color: #dc2626;
+      font-weight: 800;
+      background: #fee2e2;
+      padding: 0.1rem 0.45rem;
+      border-radius: 6px;
+    }
+
+    .highlight-blue {
+      color: #1e3a8a;
+      font-weight: 800;
+      background: #dbeafe;
+      padding: 0.1rem 0.45rem;
+      border-radius: 6px;
+    }
+
+    /* صندوق البحث */
+    .search-box {
+      background: var(--card-bg);
+      padding: 1.7rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.85s ease-out;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    label {
+      font-weight: 800;
+      color: var(--text);
+      font-size: 1.05rem;
+    }
+
+    .english-note {
+      font-size: 0.9rem;
+      color: var(--primary-light);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .input-wrapper {
+      display: flex;
+      gap: 0.7rem;
+      margin-top: 0.35rem;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 0.95rem 1.2rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 14px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      outline: none;
+      transition: all 0.25s ease;
+      direction: ltr;
+      text-align: center;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      background: #f8fafc;
+    }
+
+    input[type="text"]::placeholder {
+      direction: rtl;
+      letter-spacing: 0;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: #94a3b8;
+    }
+
+    input[type="text"]:focus {
+      background: #ffffff;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+    }
+
+    button {
+      background: linear-gradient(135deg, #2563eb, #1e3a8a);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 0.95rem 1.8rem;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* بطاقة عرض النتيجة */
+    .result-card {
+      background: var(--card-bg);
+      border-radius: 22px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: none;
+      animation: fadeInUp 0.45s ease-out;
+    }
+
+    .result-header {
+      background: linear-gradient(90deg, #eff6ff, #dbeafe);
+      border-bottom: 2px solid #bfdbfe;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .result-header h2 {
+      font-size: 1.25rem;
+      color: var(--primary);
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .print-btn {
+      background: white;
+      color: var(--primary);
+      border: 1.5px solid #93c5fd;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      border-radius: 10px;
+      box-shadow: none;
+    }
+
+    .print-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .result-body {
+      padding: 1.5rem;
+    }
+
+    /* ملخص سريع لاسم الطالب والصف */
+    .student-hero {
+      background: linear-gradient(135deg, #f8fafc, #eff6ff);
+      border: 1px solid #bfdbfe;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1.3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .student-hero .name-box h3 {
+      font-size: 1.3rem;
+      color: var(--primary);
+      font-weight: 900;
+      margin-bottom: 0.25rem;
+    }
+
+    .student-hero .name-box span {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .class-badge {
+      background: var(--primary);
+      color: white;
+      padding: 0.45rem 1rem;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table tr {
+      border-bottom: 1px solid #f1f5f9;
+      transition: background 0.15s ease;
+    }
+
+    .data-table tr:hover {
+      background-color: #f8fafc;
+    }
+
+    .data-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .data-table td {
+      padding: 1rem 0.7rem;
+      font-size: 1.02rem;
+      vertical-align: middle;
+    }
+
+    .data-table td.label-cell {
+      font-weight: 800;
+      color: #475569;
+      width: 46%;
+    }
+
+    .data-table td.value-cell {
+      font-weight: 800;
+      color: var(--text);
+      text-align: left;
+    }
+
+    /* شريط تقدم الدرجة والشارات */
+    .score-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.35rem;
+    }
+
+    .progress-bar-bg {
+      width: 140px;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 99px;
+      overflow: hidden;
+      direction: ltr;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.8s ease-out;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .badge-excellent { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .badge-vgood { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+    .badge-good { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .badge-low { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+    .badge-note { background: #ecfdf5; color: #047857; border: 1px solid #6ee7b7; padding: 0.45rem 0.85rem; border-radius: 10px; display: inline-block; }
+
+    /* قسم رد ولي الأمر */
+    .reply-section {
+      margin-top: 1.8rem;
+      padding: 1.4rem;
+      background: #f8fafc;
+      border-radius: 18px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .reply-section label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.7rem;
+      color: var(--primary);
+      font-size: 1.08rem;
+    }
+
+    /* أزرار الردود السريعة */
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .chip-btn {
+      background: white;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: none;
+      transition: all 0.2s;
+    }
+
+    .chip-btn:hover {
+      background: #eff6ff;
+      color: var(--primary-light);
+      border-color: #93c5fd;
+      transform: translateY(-1px);
+    }
+
+    .reply-section textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      resize: vertical;
+      min-height: 95px;
+      margin-bottom: 0.9rem;
+      outline: none;
+      background: white;
+      transition: border 0.2s;
+    }
+
+    .reply-section textarea:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 14px;
+      margin-top: 1rem;
+      font-weight: 800;
+      display: none;
+      text-align: center;
+      animation: popIn 0.3s ease-out;
+    }
+
+    .alert.error {
+      background-color: #fef2f2;
+      color: var(--danger);
+      border: 1px solid #fecaca;
+    }
+
+    .alert.success {
+      background-color: var(--success-bg);
+      color: var(--success);
+      border: 1px solid #a7f3d0;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* نافذة الشكر المنبثقة (Modal) عند وصول رد ولي الأمر */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1rem;
+    }
+
+    .modal-box {
+      background: white;
+      max-width: 440px;
+      width: 100%;
+      border-radius: 24px;
+      padding: 2.2rem 1.6rem;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      animation: popIn 0.4s ease-out;
+      border-top: 6px solid var(--success);
+    }
+
+    .check-icon {
+      width: 72px;
+      height: 72px;
+      background: #dcfce7;
+      color: var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.3rem;
+      margin: 0 auto 1.2rem;
+      box-shadow: 0 0 0 8px #ecfdf5;
+    }
+
+    .modal-box h3 {
+      font-size: 1.4rem;
+      color: #065f46;
+      font-weight: 900;
+      margin-bottom: 0.6rem;
+    }
+
+    .modal-box p {
+      color: #334155;
+      font-size: 1.02rem;
+      line-height: 1.65;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-close-btn {
+      background: linear-gradient(135deg, #059669, #047857);
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 14px;
+      font-size: 1.05rem;
+    }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    /* إعدادات الطباعة */
+    @media print {
+      body { background: white; padding: 0; }
+      .search-box, .reply-section, .print-btn, .instructions-card, footer { display: none !important; }
+      .result-card { display: block !important; box-shadow: none; border: 2px solid #000; }
+    }
+
+    @media (max-width: 520px) {
+      .header-card h1 { font-size: 1.35rem; }
+      .input-wrapper { flex-direction: column; }
+      button { width: 100%; }
+      .student-hero { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- ترويسة المدرسة -->
+    <div class="school-banner">
+      <img src="https://i.postimg.cc/K88X7RLb/trwysyh-dhhbyt.png" alt="ترويسة المدرسة">
+    </div>
+
+    <!-- عنوان البوابة -->
+    <div class="header-card">
+      <h1>بوابة متابعة درجات وتقييمات مادة العلوم</h1>
+      <div class="teacher-badge">👨‍🏫 إشراف الأستاذ: صبري محمد حمد</div>
+    </div>
+
+    <!-- توجيهات هامة لولي الأمر -->
+    <div class="instructions-card">
+      <h3>📌 توجيهات وملاحظات هامة لولي الأمر:</h3>
+      <ul class="instructions-list">
+        <li>هذه البوابة مخصصة <strong>فقط لمادة العلوم</strong> لطلاب الأستاذ <strong>صبري محمد حمد</strong> في <span class="highlight-blue">الصف السادس الابتدائي فرقة 1</span> و<span class="highlight-blue">صفوف الثاني الإعدادي</span> فقط.</li>
+        <li><strong>درجة الاختبار التشخيصي:</strong> هي لقياس المستوى القبلي فقط <span class="highlight-red">ولن تُضاف</span> إلى درجات الطالب.</li>
+        <li><strong>درجات الوقفة التقويمية الأولى:</strong> <span class="highlight-red">هامة جداً</span> وستُضاف مباشرة إلى درجات الطالب وأعمال السنة.</li>
+        <li><strong>ملزمة العلوم:</strong> نرجو من ولي الأمر الكريم حث الطالب على الاهتمام بملزمة العلوم وتكملة الصفحات الناقصة حتى لا تضيع منه درجات الملزمة، وإن شاء الله سوف يتم إضافة درجات الملزمة <strong>بعد أول شهر نوفمبر 2026</strong>.</li>
+      </ul>
+    </div>
+
+    <!-- صندوق البحث بالرقم الشخصي -->
+    <div class="search-box">
+      <div class="form-group">
+        <label for="studentId">🔍 الاستعلام بالرقم الشخصي للطالب:</label>
+        <div class="english-note">⚠️ يرجى كتابة الرقم الشخصي بالأرقام الإنجليزية (يتم التحويل تلقائياً)</div>
+        <div class="input-wrapper">
+          <input type="text" id="studentId" inputmode="numeric" placeholder="أدخل الرقم الشخصي بالإنجليزية هنا (مثال: 150413912)..." autocomplete="off">
+          <button id="searchBtn" onclick="fetchStudentData()">
+            <span id="btnText">عرض النتيجة</span>
+            <span id="spinner" class="spinner" style="display: none;"></span>
+          </button>
+        </div>
+      </div>
+      <div id="alertBox" class="alert error"></div>
+    </div>
+
+    <!-- بطاقة عرض النتائج -->
+    <div id="resultCard" class="result-card">
+      <div class="result-header">
+        <h2>📊 بطاقة أداء الطالب في مادة العلوم</h2>
+        <button class="print-btn" onclick="window.print()">🖨️ طباعة البطاقة</button>
+      </div>
+      <div class="result-body">
+        <!-- ترويسة اسم الطالب وصفه -->
+        <div id="studentHero" class="student-hero" style="display: none;">
+          <div class="name-box">
+            <h3 id="heroStudentName">-</h3>
+            <span id="heroStudentId">-</span>
+          </div>
+          <div class="class-badge" id="heroStudentClass">-</div>
+        </div>
+
+        <!-- جدول الدرجات والبيانات -->
+        <table class="data-table" id="dataTable"></table>
+
+        <!-- قسم إرسال رد ولي الأمر -->
+        <div class="reply-section">
+          <label for="parentReply">✉️ إرسال رد أو ملاحظة ولي الأمر للمعلم:</label>
+          
+          <div class="quick-replies">
+            <button type="button" class="chip-btn" onclick="setQuickReply('تم الاطلاع على النتيجة، جزاكم الله خيراً أستاذ صبري على جهودكم.')">👍 تم الاطلاع وشكراً لجهودكم</button>
+            <button type="button" class="chip-btn" onclick="setQuickReply('تم الاطلاع، وإن شاء الله سنتابع الطالب لتكملة صفحات الملزمة الناقصة.')">📘 سنتابع تكملة الملزمة</button>
+            <button type="button" class="chip-btn" onclick="setQuickReply('شكراً جزيلاً لكم، وسنحرص على رفع مستوى الطالب في التقييمات القادمة.')">📈 سنحرص على تطوير مستواه</button>
+          </div>
+
+          <textarea id="parentReply" placeholder="اكتب ردك أو ملاحظتك هنا ليصل مباشرة إلى الأستاذ صبري محمد حمد..."></textarea>
+          <button id="replyBtn" onclick="sendParentReply()">
+            <span id="replyBtnText">🚀 إرسال وحفظ رد ولي الأمر</span>
+            <span id="replySpinner" class="spinner" style="display: none;"></span>
+          </button>
+          <div id="replyAlert" class="alert"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      إعداد وتصميم الأستاذ: صبري محمد حمد — جميع الحقوق محفوظة © 2026
+    </footer>
+  </div>
+
+  <!-- نافذة رسالة الشكر المنبثقة بعد إرسال رد ولي الأمر -->
+  <div id="thankYouModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="check-icon">✓</div>
+      <h3>شكراً لتعاونكم وتواصلكم الكريم!</h3>
+      <p id="modalMessage">
+        تم استلام ردكم بنجاح ووصلت رسالتكم مباشرة إلى كشف الأستاذ <strong>صبري محمد حمد</strong>.<br>
+        تعاونكم المستمر ومتابعتكم لملزمة العلوم هما سر تفوق وتميز أبنائنا الطلاب.
+      </p>
+      <button class="modal-close-btn" onclick="closeThankYouModal()">حسناً، إغلاق</button>
+    </div>
+  </div>
+
+  <script>
+    // رابط تطبيق الويب الجديد المعتمد
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTqBIBEU69gXEJqNbTE6334vK5Ub4IU2txITzsG3XOUnAmg9VtBL5Tr88vveXcCGnsjg/exec";
+
+    let currentStudentId = "";
+    let currentStudentName = "";
+
+    // تحويل الأرقام العربية أو الفارسية تلقائياً إلى أرقام إنجليزية
+    function toEnglishDigits(str) {
+      return str.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+                .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+                .replace(/[^0-9]/g, "");
+    }
+
+    const studentIdInput = document.getElementById("studentId");
+    studentIdInput.addEventListener("input", function() {
+      this.value = toEnglishDigits(this.value);
+    });
+
+    function setQuickReply(text) {
+      const textarea = document.getElementById("parentReply");
+      textarea.value = text;
+      textarea.focus();
+    }
+
+    // حساب التقدير التلقائي بناءً على درجة الوقفة الأولى (من 20)
+    function getAutoGradeBadge(scoreVal) {
+      const num = parseFloat(String(scoreVal).replace("٫", "."));
+      if (isNaN(num)) return null;
+      if (num >= 18) return { text: "ممتاز 🌟", cls: "badge-excellent", color: "#10b981", pct: (num / 20) * 100 };
+      if (num >= 16) return { text: "جيد جداً 👍", cls: "badge-vgood", color: "#3b82f6", pct: (num / 20) * 100 };
+      if (num >= 12) return { text: "جيد ✔️", cls: "badge-good", color: "#f59e0b", pct: (num / 20) * 100 };
+      return { text: "يحتاج إلى متابعة واهتمام ⚠️", cls: "badge-low", color: "#ef4444", pct: Math.max((num / 20) * 100, 8) };
+    }
+
+    async function fetchStudentData() {
+      const id = toEnglishDigits(studentIdInput.value.trim());
+      studentIdInput.value = id;
+
+      const alertBox = document.getElementById("alertBox");
+      const resultCard = document.getElementById("resultCard");
+      const dataTable = document.getElementById("dataTable");
+      const searchBtn = document.getElementById("searchBtn");
+      const btnText = document.getElementById("btnText");
+      const spinner = document.getElementById("spinner");
+      const replyAlert = document.getElementById("replyAlert");
+
+      alertBox.style.display = "none";
+      replyAlert.style.display = "none";
+      resultCard.style.display = "none";
+      dataTable.innerHTML = "";
+
+      if (!id) {
+        showAlert("يرجى إدخال الرقم الشخصي للطالب بالأرقام الإنجليزية أولاً");
+        return;
+      }
+
+      searchBtn.disabled = true;
+      btnText.textContent = "جاري البحث...";
+      spinner.style.display = "inline-block";
+
+      try {
+        const response = await fetch(`${SCRIPT_URL}?id=${encodeURIComponent(id)}`);
+        const json = await response.json();
+
+        if (json.status === "success") {
+          currentStudentId = id;
+          renderData(json.data);
+          resultCard.style.display = "block";
+          resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          showAlert(json.message || "لم يتم العثور على طالب بهذا الرقم الشخصي ضمن الصفوف المشمولة");
+        }
+      } catch (error) {
+        console.error(error);
+        showAlert("تعذر الاتصال بقاعدة البيانات، يرجى التأكد من اتصال الإنترنت وإعدادات النشر");
+      } finally {
+        searchBtn.disabled = false;
+        btnText.textContent = "عرض النتيجة";
+        spinner.style.display = "none";
+      }
+    }
+
+    function renderData(data) {
+      const table = document.getElementById("dataTable");
+      const parentReplyInput = document.getElementById("parentReply");
+      const studentHero = document.getElementById("studentHero");
+      table.innerHTML = "";
+      parentReplyInput.value = "";
+
+      let firstAssessmentScore = null;
+      let sName = "";
+      let sClass = "";
+
+      // استخراج درجة الوقفة الأولى واسم الطالب والصف أولاً
+      for (const [key, value] of Object.entries(data)) {
+        if (key.includes("الوقفة الأولى")) firstAssessmentScore = value;
+        if (key.includes("اسم الطالب")) sName = value;
+        if (key.includes("الصف")) sClass = value;
+      }
+
+      currentStudentName = sName;
+
+      if (sName) {
+        document.getElementById("heroStudentName").textContent = sName;
+        document.getElementById("heroStudentId").textContent = "الرقم الشخصي: " + currentStudentId;
+        document.getElementById("heroStudentClass").textContent = sClass || "مادة العلوم";
+        studentHero.style.display = "flex";
+      } else {
+        studentHero.style.display = "none";
+      }
+
+      const autoGrade = getAutoGradeBadge(firstAssessmentScore);
+
+      for (const [key, value] of Object.entries(data)) {
+        if (key.includes("رد ولي الامر") || key.includes("رد ولي الأمر")) {
+          parentReplyInput.value = value || "";
+        }
+
+        const tr = document.createElement("tr");
+
+        const tdLabel = document.createElement("td");
+        tdLabel.className = "label-cell";
+        tdLabel.textContent = key;
+
+        const tdValue = document.createElement("td");
+        tdValue.className = "value-cell";
+        tdValue.id = "cell-" + key;
+
+        const hasVal = (value !== "" && value !== null && value !== undefined);
+
+        // تنسيق خاص لدرجة الوقفة الأولى مع شريط التقدم
+        if (key.includes("الوقفة الأولى") && hasVal && autoGrade) {
+          tdValue.innerHTML = `
+            <div class="score-container">
+              <span style="color: var(--primary); font-size: 1.25rem; font-weight: 900;">${value} <small style="font-size:0.85rem; color:#64748b;">/ 20</small></span>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: ${autoGrade.pct}%; background: ${autoGrade.color};"></div>
+              </div>
+            </div>
+          `;
+        }
+        // تنسيق التقدير (إظهار التقدير المسجل أو حسابه تلقائياً إذا كان فارغاً)
+        else if (key.includes("التقدير")) {
+          if (hasVal) {
+            tdValue.innerHTML = `<span class="badge badge-vgood">${value}</span>`;
+          } else if (autoGrade) {
+            tdValue.innerHTML = `<span class="badge ${autoGrade.cls}">${autoGrade.text}</span>`;
+          } else {
+            tdValue.textContent = "-";
+          }
+        }
+        // تنسيق ملاحظات المعلم
+        else if (key.includes("ملاحظات المعلم") && hasVal) {
+          tdValue.innerHTML = `<span class="badge-note">🌟 ${value}</span>`;
+        }
+        // تنسيق رد ولي الأمر داخل الجدول
+        else if (key.includes("رد ولي الامر") || key.includes("رد ولي الأمر")) {
+          tdValue.id = "parentReplyCell";
+          tdValue.textContent = hasVal ? value : "لم يتم تسجيل رد بعد";
+          if (hasVal) tdValue.style.color = "#059669";
+        }
+        else {
+          tdValue.textContent = hasVal ? value : "-";
+        }
+
+        tr.appendChild(tdLabel);
+        tr.appendChild(tdValue);
+        table.appendChild(tr);
+      }
+    }
+
+    async function sendParentReply() {
+      const replyText = document.getElementById("parentReply").value.trim();
+      const replyBtn = document.getElementById("replyBtn");
+      const replyBtnText = document.getElementById("replyBtnText");
+      const replySpinner = document.getElementById("replySpinner");
+      const replyAlert = document.getElementById("replyAlert");
+
+      if (!replyText) {
+        replyAlert.className = "alert error";
+        replyAlert.textContent = "⚠️ يرجى كتابة الرد أو اختيار أحد الردود السريعة أولاً قبل الإرسال";
+        replyAlert.style.display = "block";
+        return;
+      }
+
+      replyBtn.disabled = true;
+      replyBtnText.textContent = "جاري إرسال الرد للمعلم...";
+      replySpinner.style.display = "inline-block";
+      replyAlert.style.display = "none";
+
+      try {
+        const url = `${SCRIPT_URL}?action=reply&id=${encodeURIComponent(currentStudentId)}&reply=${encodeURIComponent(replyText)}`;
+        const response = await fetch(url);
+        const json = await response.json();
+
+        if (json.status === "success") {
+          // تحديث الخلية في الجدول فوراً أمام ولي الأمر
+          const replyCell = document.getElementById("parentReplyCell");
+          if (replyCell) {
+            replyCell.textContent = replyText;
+            replyCell.style.color = "#059669";
+          }
+
+          // إظهار رسالة نجاح أسفل الزر + النافذة المنبثقة
+          replyAlert.className = "alert success";
+          replyAlert.textContent = "✅ وصل ردكم بنجاح إلى الأستاذ صبري محمد حمد، شكراً لتعاونكم.";
+          replyAlert.style.display = "block";
+
+          openThankYouModal();
+        } else {
+          replyAlert.className = "alert error";
+          replyAlert.textContent = json.message || "حدث خطأ أثناء حفظ الرد";
+          replyAlert.style.display = "block";
+        }
+      } catch (err) {
+        replyAlert.className = "alert error";
+        replyAlert.textContent = "تعذر إرسال الرد، يرجى التأكد من اتصال الإنترنت والمحاولة مرة أخرى";
+        replyAlert.style.display = "block";
+      } finally {
+        replyBtn.disabled = false;
+        replyBtnText.textContent = "🚀 إرسال وحفظ رد ولي الأمر";
+        replySpinner.style.display = "none";
+      }
+    }
+
+    function openThankYouModal() {
+      const modal = document.getElementById("thankYouModal");
+      const modalMessage = document.getElementById("modalMessage");
+      if (currentStudentName) {
+        modalMessage.innerHTML = `
+          تم استلام رد ولي أمر الطالب <strong>(${currentStudentName})</strong> بنجاح، ووصلت رسالتكم مباشرة إلى سجل الأستاذ <strong>صبري محمد حمد</strong>.<br><br>
+          نشكر لكم اهتمامكم وحرصكم على متابعة الطالب وتكملة <strong>ملزمة العلوم</strong>.
+        `;
+      }
+      modal.style.display = "flex";
+    }
+
+    function closeThankYouModal() {
+      document.getElementById("thankYouModal").style.display = "none";
+    }
+
+    function showAlert(msg) {
+      const alertBox = document.getElementById("alertBox");
+      alertBox.textContent = msg;
+      alertBox.style.display = "block";
+    }
+
+    studentIdInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        fetchStudentData();
+      }
+    });
+  </script>
+</body>
+</html>
