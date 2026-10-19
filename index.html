@@ -7,753 +7,562 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
+      --navy: #0f172a;
       --primary: #1e3a8a;
       --primary-light: #2563eb;
-      --primary-soft: #eff6ff;
-      --gold: #b45309;
-      --gold-bg: #fffbeb;
-      --gold-border: #fde68a;
-      --bg: #f1f5f9;
-      --card-bg: #ffffff;
+      --sky: #38bdf8;
+      --bg: #eef2f9;
+      --card: #ffffff;
       --text: #1e293b;
-      --text-muted: #64748b;
+      --muted: #64748b;
       --border: #e2e8f0;
       --success: #059669;
-      --success-bg: #ecfdf5;
       --danger: #dc2626;
-      --warning: #d97706;
+      --amber: #d97706;
+      --radius: 22px;
+      --shadow: 0 10px 30px -8px rgba(30, 58, 138, .18);
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Tajawal', sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+    html { scroll-behavior: smooth; }
 
     body {
-      background: linear-gradient(180deg, #e2e8f0 0%, #f8fafc 40%, #f1f5f9 100%);
+      background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1.5rem 1rem 3.5rem;
+      padding: 1.4rem 1rem 3rem;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    .container {
-      width: 100%;
-      max-width: 750px;
+    /* خلفية متحركة هادئة */
+    .bg-orbs { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+    .bg-orbs span {
+      position: absolute; border-radius: 50%; filter: blur(70px); opacity: .45;
+      animation: floatOrb 18s ease-in-out infinite;
+    }
+    .bg-orbs span:nth-child(1) { width: 360px; height: 360px; background: #bfdbfe; top: -90px; right: -80px; }
+    .bg-orbs span:nth-child(2) { width: 300px; height: 300px; background: #c7d2fe; bottom: 10%; left: -90px; animation-delay: -6s; }
+    .bg-orbs span:nth-child(3) { width: 240px; height: 240px; background: #a5f3fc; top: 45%; right: 30%; animation-delay: -11s; opacity: .3; }
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -40px) scale(1.1); }
     }
 
-    /* حركات الظهور الانسيابية */
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .container { width: 100%; max-width: 760px; }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35); }
-      50% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
-    }
-
-    @keyframes popIn {
-      0% { opacity: 0; transform: scale(0.8); }
-      70% { transform: scale(1.05); }
-      100% { opacity: 1; transform: scale(1); }
-    }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-24px); } to { opacity: 1; transform: none; } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+    @keyframes popIn { 0% { opacity: 0; transform: scale(.7); } 65% { transform: scale(1.06); } 100% { opacity: 1; transform: scale(1); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
     /* ترويسة المدرسة */
     .school-banner {
-      width: 100%;
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 0.7rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-      margin-bottom: 1.2rem;
-      text-align: center;
-      border: 2px solid #e2e8f0;
-      animation: slideDown 0.6s ease-out;
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: .6rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.1rem;
+      border: 1px solid var(--border);
+      animation: slideDown .6s ease-out both;
     }
+    .school-banner img { width: 100%; height: auto; border-radius: 16px; display: block; }
 
-    .school-banner img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 14px;
-      display: block;
-      margin: 0 auto;
-    }
-
-    /* بطاقة العنوان والمعلم */
+    /* بطاقة العنوان */
     .header-card {
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
-      color: white;
+      background: linear-gradient(135deg, #0b1226 0%, #1e3a8a 55%, #2563eb 100%);
+      color: #fff;
       text-align: center;
-      padding: 2rem 1.5rem;
-      border-radius: 22px;
-      box-shadow: 0 12px 30px -5px rgba(30, 58, 138, 0.35);
-      margin-bottom: 1.3rem;
+      padding: 2.2rem 1.4rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: 0 18px 40px -10px rgba(30, 58, 138, .5);
+      margin-bottom: 1.2rem;
       position: relative;
       overflow: hidden;
-      animation: slideDown 0.7s ease-out;
+      animation: slideDown .7s ease-out both;
     }
-
-    .header-card::after {
-      content: "🔬";
-      position: absolute;
-      left: -10px;
-      bottom: -15px;
-      font-size: 5.5rem;
-      opacity: 0.1;
-      transform: rotate(-15deg);
-      pointer-events: none;
+    .header-card::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(56,189,248,.28), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(99,102,241,.35), transparent 45%);
     }
-
-    .header-card h1 {
-      font-size: 1.65rem;
-      margin-bottom: 0.65rem;
-      font-weight: 900;
-      letter-spacing: 0.3px;
-    }
-
-    .header-card .teacher-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(255, 255, 255, 0.16);
+    .header-card > * { position: relative; }
+    .header-icon {
+      width: 70px; height: 70px; margin: 0 auto 1rem;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 22px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
       backdrop-filter: blur(6px);
-      padding: 0.45rem 1.4rem;
+      animation: floaty 3.5s ease-in-out infinite;
+    }
+    .header-card h1 { font-size: 1.6rem; font-weight: 900; margin-bottom: .8rem; line-height: 1.5; }
+    .teacher-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(6px);
+      padding: .45rem 1.3rem;
       border-radius: 999px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      font-size: 1.02rem; font-weight: 700;
+      border: 1px solid rgba(255,255,255,.35);
     }
 
-    /* لوحة التوجيهات الهامة لولي الأمر */
+    /* التوجيهات */
     .instructions-card {
-      background: linear-gradient(145deg, #fffbeb, #fef3c7);
-      border: 2px solid #fcd34d;
-      border-radius: 20px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 6px 18px rgba(180, 83, 9, 0.08);
-      animation: fadeInUp 0.75s ease-out;
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      margin-bottom: 1.3rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      animation: fadeInUp .75s ease-out both;
     }
-
     .instructions-card h3 {
-      color: #92400e;
-      font-size: 1.2rem;
-      font-weight: 900;
-      margin-bottom: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      font-size: 1.15rem; font-weight: 900; color: var(--primary);
+      margin-bottom: 1rem; display: flex; align-items: center; gap: .6rem;
     }
-
-    .instructions-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
+    .instructions-card h3 .ico {
+      width: 38px; height: 38px; border-radius: 12px;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
     }
-
+    .instructions-list { list-style: none; display: grid; gap: .7rem; }
     .instructions-list li {
-      position: relative;
-      padding-right: 1.6rem;
-      font-size: 0.98rem;
-      line-height: 1.65;
-      color: #78350f;
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.65);
-      padding: 0.75rem 1.8rem 0.75rem 0.9rem;
-      border-radius: 12px;
-      border-right: 4px solid #f59e0b;
+      display: flex; gap: .8rem; align-items: flex-start;
+      padding: .85rem 1rem;
+      border-radius: 14px;
+      font-size: .97rem; line-height: 1.75; font-weight: 600;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      transition: transform .25s, box-shadow .25s;
+      opacity: 0;
+      animation: fadeInUp .6s ease-out forwards;
     }
-
-    .instructions-list li::before {
-      content: "✦";
-      position: absolute;
-      right: 0.5rem;
-      top: 0.75rem;
-      color: #d97706;
-      font-size: 1rem;
-      font-weight: 900;
+    .instructions-list li:nth-child(1) { animation-delay: .25s; }
+    .instructions-list li:nth-child(2) { animation-delay: .4s; }
+    .instructions-list li:nth-child(3) { animation-delay: .55s; }
+    .instructions-list li:nth-child(4) { animation-delay: .7s; }
+    .instructions-list li:hover { transform: translateX(-4px); box-shadow: 0 6px 16px rgba(30,58,138,.1); }
+    .li-icon {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
     }
-
-    .highlight-red {
-      color: #dc2626;
-      font-weight: 800;
-      background: #fee2e2;
-      padding: 0.1rem 0.45rem;
-      border-radius: 6px;
-    }
-
-    .highlight-blue {
-      color: #1e3a8a;
-      font-weight: 800;
-      background: #dbeafe;
-      padding: 0.1rem 0.45rem;
-      border-radius: 6px;
-    }
+    .li-blue .li-icon { background: #dbeafe; }
+    .li-gray .li-icon { background: #e2e8f0; }
+    .li-red .li-icon { background: #fee2e2; }
+    .li-gold .li-icon { background: #fef3c7; }
+    .li-gold { background: linear-gradient(135deg, #fffbeb, #fef9e7); border-color: #fde68a; }
+    .li-red { border-color: #fecaca; background: #fffafa; }
+    .hl-red { color: #b91c1c; font-weight: 800; background: #fee2e2; padding: .05rem .45rem; border-radius: 6px; }
+    .hl-blue { color: var(--primary); font-weight: 800; background: #dbeafe; padding: .05rem .45rem; border-radius: 6px; }
+    .hl-gold { color: #92400e; font-weight: 800; background: #fde68a; padding: .05rem .45rem; border-radius: 6px; }
 
     /* صندوق البحث */
     .search-box {
-      background: var(--card-bg);
-      padding: 1.7rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+      background: var(--card);
+      padding: 1.6rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       border: 1px solid var(--border);
-      margin-bottom: 1.5rem;
-      animation: fadeInUp 0.85s ease-out;
+      margin-bottom: 1.4rem;
+      animation: fadeInUp .85s ease-out both;
     }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.55rem;
-    }
-
-    label {
-      font-weight: 800;
-      color: var(--text);
-      font-size: 1.05rem;
-    }
-
-    .english-note {
-      font-size: 0.9rem;
-      color: var(--primary-light);
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .input-wrapper {
-      display: flex;
-      gap: 0.7rem;
-      margin-top: 0.35rem;
-    }
-
+    .form-group { display: flex; flex-direction: column; gap: .55rem; }
+    label { font-weight: 800; font-size: 1.05rem; }
+    .english-note { font-size: .88rem; color: var(--primary-light); font-weight: 700; }
+    .input-wrapper { display: flex; gap: .7rem; margin-top: .3rem; }
     input[type="text"] {
-      flex: 1;
-      padding: 0.95rem 1.2rem;
+      flex: 1; min-width: 0;
+      padding: .95rem 1.1rem;
       border: 2px solid #cbd5e1;
       border-radius: 14px;
-      font-size: 1.2rem;
-      font-weight: 800;
+      font-size: 1.2rem; font-weight: 800;
       outline: none;
-      transition: all 0.25s ease;
-      direction: ltr;
-      text-align: center;
-      letter-spacing: 1.5px;
+      transition: all .25s ease;
+      direction: ltr; text-align: center; letter-spacing: 1.5px;
       color: var(--primary);
       background: #f8fafc;
     }
-
-    input[type="text"]::placeholder {
-      direction: rtl;
-      letter-spacing: 0;
-      font-weight: 500;
-      font-size: 0.95rem;
-      color: #94a3b8;
-    }
-
-    input[type="text"]:focus {
-      background: #ffffff;
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
-    }
+    input[type="text"]::placeholder { direction: rtl; letter-spacing: 0; font-weight: 500; font-size: .92rem; color: #94a3b8; }
+    input[type="text"]:focus { background: #fff; border-color: var(--primary-light); box-shadow: 0 0 0 4px rgba(37,99,235,.15); }
 
     button {
       background: linear-gradient(135deg, #2563eb, #1e3a8a);
-      color: white;
-      border: none;
-      border-radius: 14px;
-      padding: 0.95rem 1.8rem;
-      font-size: 1.05rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+      color: #fff; border: none; border-radius: 14px;
+      padding: .95rem 1.7rem;
+      font-size: 1.05rem; font-weight: 800; cursor: pointer;
+      transition: all .25s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      box-shadow: 0 6px 16px rgba(37,99,235,.28);
+      position: relative; overflow: hidden;
+    }
+    button::after {
+      content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,.35), transparent);
+      transition: left .6s;
+    }
+    button:hover::after { left: 140%; }
+    button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(37,99,235,.35); }
+    button:active { transform: translateY(0) scale(.98); }
+    button:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .spinner {
+      display: inline-block; width: 18px; height: 18px;
+      border: 3px solid rgba(255,255,255,.3); border-top-color: #fff;
+      border-radius: 50%; animation: spin .8s linear infinite;
     }
 
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    .alert {
+      padding: .95rem; border-radius: 14px; margin-top: 1rem;
+      font-weight: 800; display: none; text-align: center;
     }
+    .alert.show { animation: popIn .35s ease-out; }
+    .alert.error { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+    .alert.error.show { animation: shake .4s ease-out; }
+    .alert.success { background: #ecfdf5; color: var(--success); border: 1px solid #a7f3d0; }
 
-    button:active {
-      transform: translateY(0);
+    /* بطاقة النتيجة */
+    .result-card { display: none; }
+    .result-card.show { display: block; }
+    .result-top {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: .8rem; margin-bottom: 1rem;
     }
-
-    button:disabled {
-      background: #94a3b8;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    /* بطاقة عرض النتيجة */
-    .result-card {
-      background: var(--card-bg);
-      border-radius: 22px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      display: none;
-      animation: fadeInUp 0.45s ease-out;
-    }
-
-    .result-header {
-      background: linear-gradient(90deg, #eff6ff, #dbeafe);
-      border-bottom: 2px solid #bfdbfe;
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-    }
-
-    .result-header h2 {
-      font-size: 1.25rem;
-      color: var(--primary);
-      font-weight: 900;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
+    .result-top h2 { font-size: 1.25rem; color: var(--primary); font-weight: 900; }
     .print-btn {
-      background: white;
-      color: var(--primary);
-      border: 1.5px solid #93c5fd;
-      padding: 0.5rem 1rem;
-      font-size: 0.9rem;
-      border-radius: 10px;
-      box-shadow: none;
+      background: #fff; color: var(--primary);
+      border: 1.5px solid #93c5fd; padding: .5rem 1rem;
+      font-size: .9rem; border-radius: 10px; box-shadow: none;
     }
+    .print-btn:hover { background: var(--primary); color: #fff; }
 
-    .print-btn:hover {
-      background: var(--primary);
-      color: white;
-    }
+    .reveal { opacity: 0; transform: translateY(22px); animation: fadeInUp .6s ease-out forwards; }
 
-    .result-body {
-      padding: 1.5rem;
-    }
-
-    /* ملخص سريع لاسم الطالب والصف */
+    /* بطاقة الطالب */
     .student-hero {
-      background: linear-gradient(135deg, #f8fafc, #eff6ff);
-      border: 1px solid #bfdbfe;
-      border-radius: 16px;
-      padding: 1.2rem;
-      margin-bottom: 1.3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      box-shadow: 0 14px 30px -10px rgba(30,58,138,.5);
+      position: relative; overflow: hidden;
     }
-
-    .student-hero .name-box h3 {
-      font-size: 1.3rem;
-      color: var(--primary);
-      font-weight: 900;
-      margin-bottom: 0.25rem;
+    .student-hero::after {
+      content: ""; position: absolute; width: 180px; height: 180px; border-radius: 50%;
+      background: rgba(255,255,255,.08); left: -50px; top: -60px;
     }
-
-    .student-hero .name-box span {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      font-weight: 700;
+    .avatar {
+      width: 62px; height: 62px; border-radius: 20px;
+      background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem; font-weight: 900; flex-shrink: 0; position: relative; z-index: 1;
     }
-
+    .name-box { flex: 1; min-width: 160px; position: relative; z-index: 1; }
+    .name-box h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: .2rem; }
+    .name-box span { font-size: .92rem; opacity: .85; font-weight: 700; }
     .class-badge {
-      background: var(--primary);
-      color: white;
-      padding: 0.45rem 1rem;
-      border-radius: 10px;
-      font-weight: 800;
-      font-size: 0.95rem;
+      background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.4);
+      padding: .45rem 1rem; border-radius: 12px; font-weight: 800; font-size: .93rem;
+      position: relative; z-index: 1;
     }
 
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
+    /* بطاقة الدرجة (حلقة التقدم) */
+    .score-card {
+      background: var(--card); border-radius: var(--radius);
+      padding: 1.4rem; margin-bottom: 1rem;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap;
     }
-
-    .data-table tr {
-      border-bottom: 1px solid #f1f5f9;
-      transition: background 0.15s ease;
+    .ring-wrap { position: relative; width: 130px; height: 130px; flex-shrink: 0; }
+    .ring-wrap svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+    .ring-bg { fill: none; stroke: #e2e8f0; stroke-width: 11; }
+    .ring-fg {
+      fill: none; stroke-width: 11; stroke-linecap: round;
+      stroke-dasharray: 326.7; stroke-dashoffset: 326.7;
+      transition: stroke-dashoffset 1.4s cubic-bezier(.22,.9,.3,1);
     }
-
-    .data-table tr:hover {
-      background-color: #f8fafc;
+    .ring-text {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
     }
-
-    .data-table tr:last-child {
-      border-bottom: none;
+    .ring-text b { font-size: 1.9rem; font-weight: 900; color: var(--primary); line-height: 1; }
+    .ring-text small { font-size: .85rem; color: var(--muted); font-weight: 700; margin-top: .2rem; }
+    .score-info { flex: 1; min-width: 180px; }
+    .score-info .title { font-weight: 800; color: var(--muted); font-size: .95rem; margin-bottom: .45rem; }
+    .score-info .big-badge {
+      display: inline-block; padding: .5rem 1.2rem; border-radius: 999px;
+      font-size: 1.1rem; font-weight: 900; margin-bottom: .6rem;
     }
-
-    .data-table td {
-      padding: 1rem 0.7rem;
-      font-size: 1.02rem;
-      vertical-align: middle;
-    }
-
-    .data-table td.label-cell {
-      font-weight: 800;
-      color: #475569;
-      width: 46%;
-    }
-
-    .data-table td.value-cell {
-      font-weight: 800;
-      color: var(--text);
-      text-align: left;
-    }
-
-    /* شريط تقدم الدرجة والشارات */
-    .score-container {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.35rem;
-    }
-
-    .progress-bar-bg {
-      width: 140px;
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 99px;
-      overflow: hidden;
-      direction: ltr;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      border-radius: 99px;
-      transition: width 0.8s ease-out;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 800;
-    }
+    .score-info p { font-size: .92rem; color: #475569; font-weight: 600; line-height: 1.7; }
 
     .badge-excellent { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
     .badge-vgood { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
     .badge-good { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
     .badge-low { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
-    .badge-note { background: #ecfdf5; color: #047857; border: 1px solid #6ee7b7; padding: 0.45rem 0.85rem; border-radius: 10px; display: inline-block; }
+
+    /* شبكة البيانات */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .8rem; margin-bottom: 1rem; }
+    .info-tile {
+      background: var(--card); border-radius: 18px; padding: 1rem 1.1rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 14px rgba(30,58,138,.07);
+      display: flex; gap: .85rem; align-items: center;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .info-tile:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(30,58,138,.14); border-color: #93c5fd; }
+    .tile-ico {
+      width: 46px; height: 46px; border-radius: 14px; flex-shrink: 0;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      display: flex; align-items: center; justify-content: center; font-size: 1.35rem;
+    }
+    .tile-label { font-size: .84rem; color: var(--muted); font-weight: 700; margin-bottom: .15rem; }
+    .tile-value { font-size: 1.1rem; font-weight: 900; color: var(--text); word-break: break-word; }
+    .tile-value.empty { color: #94a3b8; font-weight: 700; }
+
+    .note-card {
+      background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+      border: 1px solid #86efac; border-radius: 18px;
+      padding: 1.1rem 1.2rem; margin-bottom: 1rem;
+      display: flex; gap: .9rem; align-items: flex-start;
+    }
+    .note-card .tile-ico { background: #bbf7d0; }
+    .note-card .tile-label { color: #166534; }
+    .note-card .tile-value { color: #14532d; font-size: 1.02rem; line-height: 1.7; }
+
+    .reply-saved {
+      background: #f8fafc; border: 1px dashed #94a3b8; border-radius: 18px;
+      padding: 1rem 1.2rem; margin-bottom: 1rem;
+      display: flex; gap: .9rem; align-items: flex-start;
+    }
+    .reply-saved .tile-value { font-size: 1rem; line-height: 1.7; }
 
     /* قسم رد ولي الأمر */
     .reply-section {
-      margin-top: 1.8rem;
-      padding: 1.4rem;
-      background: #f8fafc;
-      border-radius: 18px;
-      border: 2px solid #e2e8f0;
+      background: var(--card); border-radius: var(--radius);
+      padding: 1.4rem; box-shadow: var(--shadow); border: 1px solid var(--border);
     }
-
-    .reply-section label {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.7rem;
-      color: var(--primary);
-      font-size: 1.08rem;
+    .reply-section > label {
+      display: flex; align-items: center; gap: .5rem;
+      color: var(--primary); font-size: 1.1rem; margin-bottom: .8rem;
     }
-
-    /* أزرار الردود السريعة */
-    .quick-replies {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 0.85rem;
-    }
-
+    .quick-replies { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .85rem; }
     .chip-btn {
-      background: white;
-      color: #334155;
-      border: 1px solid #cbd5e1;
-      border-radius: 999px;
-      padding: 0.4rem 0.9rem;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: none;
-      transition: all 0.2s;
+      background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1;
+      border-radius: 999px; padding: .42rem .95rem;
+      font-size: .85rem; font-weight: 700; box-shadow: none;
     }
-
-    .chip-btn:hover {
-      background: #eff6ff;
-      color: var(--primary-light);
-      border-color: #93c5fd;
-      transform: translateY(-1px);
-    }
-
+    .chip-btn:hover { background: #dbeafe; color: var(--primary); border-color: #93c5fd; box-shadow: none; }
+    .chip-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .reply-section textarea {
-      width: 100%;
-      padding: 0.9rem 1rem;
-      border: 2px solid #cbd5e1;
-      border-radius: 14px;
-      font-size: 1rem;
-      font-weight: 600;
-      resize: vertical;
-      min-height: 95px;
-      margin-bottom: 0.9rem;
-      outline: none;
-      background: white;
-      transition: border 0.2s;
+      width: 100%; padding: .9rem 1rem; border: 2px solid #cbd5e1; border-radius: 14px;
+      font-size: 1rem; font-weight: 600; resize: vertical; min-height: 100px;
+      margin-bottom: .9rem; outline: none; background: #f8fafc; transition: all .2s;
     }
+    .reply-section textarea:focus { border-color: var(--primary-light); background: #fff; box-shadow: 0 0 0 4px rgba(37,99,235,.12); }
+    #replyBtn { width: 100%; }
 
-    .reply-section textarea:focus {
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-    }
-
-    .alert {
-      padding: 1rem;
-      border-radius: 14px;
-      margin-top: 1rem;
-      font-weight: 800;
-      display: none;
-      text-align: center;
-      animation: popIn 0.3s ease-out;
-    }
-
-    .alert.error {
-      background-color: #fef2f2;
-      color: var(--danger);
-      border: 1px solid #fecaca;
-    }
-
-    .alert.success {
-      background-color: var(--success-bg);
-      color: var(--success);
-      border: 1px solid #a7f3d0;
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 0.8s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* نافذة الشكر المنبثقة (Modal) عند وصول رد ولي الأمر */
+    /* النافذة المنبثقة */
     .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(5px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 1rem;
+      position: fixed; inset: 0; background: rgba(15,23,42,.6);
+      backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 9999; padding: 1rem;
     }
-
+    .modal-overlay.show { display: flex; animation: fadeIn .3s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .modal-box {
-      background: white;
-      max-width: 440px;
-      width: 100%;
-      border-radius: 24px;
-      padding: 2.2rem 1.6rem;
+      background: #fff; max-width: 470px; width: 100%;
+      border-radius: 28px; padding: 2.2rem 1.5rem 1.6rem;
       text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      animation: popIn 0.4s ease-out;
-      border-top: 6px solid var(--success);
+      box-shadow: 0 30px 60px -15px rgba(0,0,0,.35);
+      animation: popIn .5s ease-out;
+      position: relative; overflow: hidden;
+      max-height: 92vh; overflow-y: auto;
     }
-
+    .modal-box::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 7px;
+      background: linear-gradient(90deg, #059669, #38bdf8, #2563eb);
+    }
     .check-icon {
-      width: 72px;
-      height: 72px;
-      background: #dcfce7;
-      color: var(--success);
+      width: 82px; height: 82px; margin: 0 auto 1rem;
+      background: linear-gradient(135deg, #34d399, #059669);
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.3rem;
-      margin: 0 auto 1.2rem;
-      box-shadow: 0 0 0 8px #ecfdf5;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 9px #d1fae5, 0 10px 24px rgba(5,150,105,.4);
+    }
+    .check-icon svg { width: 42px; height: 42px; }
+    .check-icon path {
+      stroke: #fff; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 40; stroke-dashoffset: 40;
+      animation: drawCheck .6s .35s ease-out forwards;
+    }
+    @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+    .modal-box h3 { font-size: 1.45rem; color: #065f46; font-weight: 900; margin-bottom: .6rem; }
+    .modal-lead { color: #334155; font-size: 1rem; line-height: 1.8; font-weight: 600; margin-bottom: 1rem; }
+
+    .modal-notice {
+      text-align: right;
+      background: linear-gradient(135deg, #eff6ff, #e0f2fe);
+      border: 1px solid #bae6fd; border-radius: 18px;
+      padding: 1rem 1.1rem; margin-bottom: 1.2rem;
+    }
+    .modal-notice h4 {
+      color: var(--primary); font-size: 1.02rem; font-weight: 900;
+      margin-bottom: .55rem; display: flex; align-items: center; gap: .45rem;
+    }
+    .modal-notice ul { list-style: none; display: grid; gap: .5rem; }
+    .modal-notice li {
+      font-size: .94rem; line-height: 1.75; color: #1e3a5f; font-weight: 600;
+      padding-right: 1.4rem; position: relative;
+    }
+    .modal-notice li::before { content: "◆"; position: absolute; right: 0; color: #0ea5e9; font-size: .75rem; top: .35rem; }
+    .modal-close-btn { background: linear-gradient(135deg, #059669, #047857); width: 100%; box-shadow: 0 8px 18px rgba(5,150,105,.35); }
+
+    .confetti-piece {
+      position: fixed; top: -14px; width: 10px; height: 16px; z-index: 10000;
+      pointer-events: none; opacity: .95;
+      animation: confettiFall linear forwards;
+    }
+    @keyframes confettiFall {
+      to { transform: translateY(105vh) rotate(720deg); opacity: .9; }
     }
 
-    .modal-box h3 {
-      font-size: 1.4rem;
-      color: #065f46;
-      font-weight: 900;
-      margin-bottom: 0.6rem;
-    }
+    footer { margin-top: 2rem; text-align: center; color: var(--muted); font-size: .9rem; font-weight: 700; }
 
-    .modal-box p {
-      color: #334155;
-      font-size: 1.02rem;
-      line-height: 1.65;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-    }
-
-    .modal-close-btn {
-      background: linear-gradient(135deg, #059669, #047857);
-      width: 100%;
-      padding: 0.9rem;
-      border-radius: 14px;
-      font-size: 1.05rem;
-    }
-
-    footer {
-      margin-top: 2rem;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-
-    /* إعدادات الطباعة */
     @media print {
-      body { background: white; padding: 0; }
-      .search-box, .reply-section, .print-btn, .instructions-card, footer { display: none !important; }
-      .result-card { display: block !important; box-shadow: none; border: 2px solid #000; }
+      body { background: #fff; padding: 0; }
+      .bg-orbs, .search-box, .reply-section, .print-btn, .instructions-card, .header-card, .school-banner, footer { display: none !important; }
+      .reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
+      .student-hero { background: #fff !important; color: #000 !important; border: 2px solid #000; box-shadow: none; }
+      .info-tile, .score-card { box-shadow: none; border: 1px solid #000; }
     }
-
     @media (max-width: 520px) {
-      .header-card h1 { font-size: 1.35rem; }
+      .header-card h1 { font-size: 1.3rem; }
       .input-wrapper { flex-direction: column; }
-      button { width: 100%; }
-      .student-hero { flex-direction: column; align-items: flex-start; }
+      .input-wrapper button { width: 100%; }
+      .score-card { justify-content: center; text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
 <body>
+  <div class="bg-orbs"><span></span><span></span><span></span></div>
 
   <div class="container">
-    <!-- ترويسة المدرسة -->
     <div class="school-banner">
       <img src="https://i.postimg.cc/K88X7RLb/trwysyh-dhhbyt.png" alt="ترويسة المدرسة">
     </div>
 
-    <!-- عنوان البوابة -->
     <div class="header-card">
+      <div class="header-icon">🔬</div>
       <h1>بوابة متابعة درجات وتقييمات مادة العلوم</h1>
       <div class="teacher-badge">👨‍🏫 إشراف الأستاذ: صبري محمد حمد</div>
     </div>
 
-    <!-- توجيهات هامة لولي الأمر -->
     <div class="instructions-card">
-      <h3>📌 توجيهات وملاحظات هامة لولي الأمر:</h3>
+      <h3><span class="ico">📌</span> توجيهات وملاحظات هامة لولي الأمر</h3>
       <ul class="instructions-list">
-        <li>هذه البوابة مخصصة <strong>فقط لمادة العلوم</strong> لطلاب الأستاذ <strong>صبري محمد حمد</strong> في <span class="highlight-blue">الصف السادس الابتدائي فرقة 1</span> و<span class="highlight-blue">صفوف الثاني الإعدادي</span> فقط.</li>
-        <li><strong>درجة الاختبار التشخيصي:</strong> هي لقياس المستوى القبلي فقط <span class="highlight-red">ولن تُضاف</span> إلى درجات الطالب.</li>
-        <li><strong>درجات الوقفة التقويمية الأولى:</strong> <span class="highlight-red">هامة جداً</span> وستُضاف مباشرة إلى درجات الطالب وأعمال السنة.</li>
-        <li><strong>ملزمة العلوم:</strong> نرجو من ولي الأمر الكريم حث الطالب على الاهتمام بملزمة العلوم وتكملة الصفحات الناقصة حتى لا تضيع منه درجات الملزمة، وإن شاء الله سوف يتم إضافة درجات الملزمة <strong>بعد أول شهر نوفمبر 2026</strong>.</li>
+        <li class="li-blue">
+          <span class="li-icon">🎓</span>
+          <div>هذه البوابة مخصصة <strong>لمادة العلوم فقط</strong> لطلاب الأستاذ <strong>صبري محمد حمد</strong> في <span class="hl-blue">الصف السادس الابتدائي (فرقة 1)</span> و<span class="hl-blue">صفوف الثاني الإعدادي</span>.</div>
+        </li>
+        <li class="li-gray">
+          <span class="li-icon">📝</span>
+          <div><strong>درجة الاختبار التشخيصي:</strong> تهدف إلى قياس المستوى القبلي للطالب فقط، <span class="hl-red">ولا تُضاف</span> إلى درجاته.</div>
+        </li>
+        <li class="li-red">
+          <span class="li-icon">⭐</span>
+          <div><strong>درجات الوقفة التقويمية الأولى:</strong> <span class="hl-red">مهمة جداً</span>، وتُضاف مباشرة إلى درجات الطالب وأعمال السنة.</div>
+        </li>
+        <li class="li-gold">
+          <span class="li-icon">📘</span>
+          <div><strong>ملزمة العلوم:</strong> بإذن الله ستُرصد درجات الملزمة وتُعرض <span class="hl-gold">في هذا الرابط نفسه مطلع شهر نوفمبر 2026</span>. ونأمل من ولي الأمر الكريم تشجيع ابنه على <strong>استكمال الصفحات الناقصة</strong> قبل ذلك الموعد؛ حفاظاً على حقه في الدرجة كاملة.</div>
+        </li>
       </ul>
     </div>
 
-    <!-- صندوق البحث بالرقم الشخصي -->
     <div class="search-box">
       <div class="form-group">
-        <label for="studentId">🔍 الاستعلام بالرقم الشخصي للطالب:</label>
-        <div class="english-note">⚠️ يرجى كتابة الرقم الشخصي بالأرقام الإنجليزية (يتم التحويل تلقائياً)</div>
+        <label for="studentId">🔍 الاستعلام بالرقم الشخصي للطالب</label>
+        <div class="english-note">يرجى كتابة الرقم الشخصي بالأرقام الإنجليزية (يتم التحويل تلقائياً)</div>
         <div class="input-wrapper">
-          <input type="text" id="studentId" inputmode="numeric" placeholder="أدخل الرقم الشخصي بالإنجليزية هنا (مثال: 150413912)..." autocomplete="off">
+          <input type="text" id="studentId" inputmode="numeric" placeholder="أدخل الرقم الشخصي هنا (مثال: 15012345)" autocomplete="off">
           <button id="searchBtn" onclick="fetchStudentData()">
             <span id="btnText">عرض النتيجة</span>
-            <span id="spinner" class="spinner" style="display: none;"></span>
+            <span id="spinner" class="spinner" style="display:none;"></span>
           </button>
         </div>
       </div>
       <div id="alertBox" class="alert error"></div>
     </div>
 
-    <!-- بطاقة عرض النتائج -->
     <div id="resultCard" class="result-card">
-      <div class="result-header">
+      <div class="result-top reveal">
         <h2>📊 بطاقة أداء الطالب في مادة العلوم</h2>
         <button class="print-btn" onclick="window.print()">🖨️ طباعة البطاقة</button>
       </div>
-      <div class="result-body">
-        <!-- ترويسة اسم الطالب وصفه -->
-        <div id="studentHero" class="student-hero" style="display: none;">
-          <div class="name-box">
-            <h3 id="heroStudentName">-</h3>
-            <span id="heroStudentId">-</span>
-          </div>
-          <div class="class-badge" id="heroStudentClass">-</div>
+
+      <div id="resultContent"></div>
+
+      <div class="reply-section reveal" id="replySection">
+        <label for="parentReply">✉️ إرسال رد أو ملاحظة ولي الأمر للمعلم</label>
+        <div class="quick-replies">
+          <button type="button" class="chip-btn" onclick="setQuickReply(this, 'تم الاطلاع على النتيجة، جزاكم الله خيراً أستاذ صبري على جهودكم.')">👍 تم الاطلاع وشكراً لجهودكم</button>
+          <button type="button" class="chip-btn" onclick="setQuickReply(this, 'تم الاطلاع، وإن شاء الله سنتابع الطالب لاستكمال صفحات الملزمة الناقصة.')">📘 سنتابع استكمال الملزمة</button>
+          <button type="button" class="chip-btn" onclick="setQuickReply(this, 'شكراً جزيلاً لكم، وسنحرص على رفع مستوى الطالب في التقييمات القادمة.')">📈 سنحرص على تطوير مستواه</button>
         </div>
-
-        <!-- جدول الدرجات والبيانات -->
-        <table class="data-table" id="dataTable"></table>
-
-        <!-- قسم إرسال رد ولي الأمر -->
-        <div class="reply-section">
-          <label for="parentReply">✉️ إرسال رد أو ملاحظة ولي الأمر للمعلم:</label>
-          
-          <div class="quick-replies">
-            <button type="button" class="chip-btn" onclick="setQuickReply('تم الاطلاع على النتيجة، جزاكم الله خيراً أستاذ صبري على جهودكم.')">👍 تم الاطلاع وشكراً لجهودكم</button>
-            <button type="button" class="chip-btn" onclick="setQuickReply('تم الاطلاع، وإن شاء الله سنتابع الطالب لتكملة صفحات الملزمة الناقصة.')">📘 سنتابع تكملة الملزمة</button>
-            <button type="button" class="chip-btn" onclick="setQuickReply('شكراً جزيلاً لكم، وسنحرص على رفع مستوى الطالب في التقييمات القادمة.')">📈 سنحرص على تطوير مستواه</button>
-          </div>
-
-          <textarea id="parentReply" placeholder="اكتب ردك أو ملاحظتك هنا ليصل مباشرة إلى الأستاذ صبري محمد حمد..."></textarea>
-          <button id="replyBtn" onclick="sendParentReply()">
-            <span id="replyBtnText">🚀 إرسال وحفظ رد ولي الأمر</span>
-            <span id="replySpinner" class="spinner" style="display: none;"></span>
-          </button>
-          <div id="replyAlert" class="alert"></div>
-        </div>
+        <textarea id="parentReply" placeholder="اكتب ردك أو ملاحظتك هنا ليصل مباشرة إلى الأستاذ صبري محمد حمد..."></textarea>
+        <button id="replyBtn" onclick="sendParentReply()">
+          <span id="replyBtnText">🚀 إرسال وحفظ رد ولي الأمر</span>
+          <span id="replySpinner" class="spinner" style="display:none;"></span>
+        </button>
+        <div id="replyAlert" class="alert"></div>
       </div>
     </div>
 
-    <footer>
-      إعداد وتصميم الأستاذ: صبري محمد حمد — جميع الحقوق محفوظة © 2026
-    </footer>
+    <footer>إعداد وتصميم الأستاذ: صبري محمد حمد — جميع الحقوق محفوظة © 2026</footer>
   </div>
 
-  <!-- نافذة رسالة الشكر المنبثقة بعد إرسال رد ولي الأمر -->
-  <div id="thankYouModal" class="modal-overlay">
+  <!-- نافذة الشكر -->
+  <div id="thankYouModal" class="modal-overlay" onclick="if(event.target===this)closeThankYouModal()">
     <div class="modal-box">
-      <div class="check-icon">✓</div>
-      <h3>شكراً لتعاونكم وتواصلكم الكريم!</h3>
-      <p id="modalMessage">
-        تم استلام ردكم بنجاح ووصلت رسالتكم مباشرة إلى كشف الأستاذ <strong>صبري محمد حمد</strong>.<br>
-        تعاونكم المستمر ومتابعتكم لملزمة العلوم هما سر تفوق وتميز أبنائنا الطلاب.
+      <div class="check-icon">
+        <svg viewBox="0 0 52 52"><path d="M14 27 L23 36 L39 17"/></svg>
+      </div>
+      <h3>وصل ردّكم الكريم.. شكراً لكم 🌹</h3>
+      <p class="modal-lead" id="modalMessage">
+        تم استلام ردّكم بنجاح، وحُفظ في سجل الأستاذ <strong>صبري محمد حمد</strong>.
+        شراكتكم معنا في المتابعة هي الركيزة الأولى لنجاح أبنائنا وتفوّقهم.
       </p>
-      <button class="modal-close-btn" onclick="closeThankYouModal()">حسناً، إغلاق</button>
+      <div class="modal-notice">
+        <h4>📘 تذكير تربوي بخصوص ملزمة العلوم</h4>
+        <ul>
+          <li>بإذن الله ستُرصد درجات الملزمة وتُعرض <strong>في هذا الرابط نفسه مطلع شهر نوفمبر 2026</strong>.</li>
+          <li>نأمل من حضرتكم تشجيع الطالب على <strong>استكمال الصفحات الناقصة</strong> قبل ذلك الموعد؛ ليحصل على الدرجة الكاملة التي يستحقها بجهده.</li>
+          <li>كل صفحة يُنجزها اليوم هي خطوة نحو التميّز غداً. 🌟</li>
+        </ul>
+      </div>
+      <button class="modal-close-btn" onclick="closeThankYouModal()">حسناً، شكراً لكم</button>
     </div>
   </div>
 
   <script>
-    // رابط تطبيق الويب الجديد المعتمد
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTqBIBEU69gXEJqNbTE6334vK5Ub4IU2txITzsG3XOUnAmg9VtBL5Tr88vveXcCGnsjg/exec";
 
     let currentStudentId = "";
     let currentStudentName = "";
 
-    // تحويل الأرقام العربية أو الفارسية تلقائياً إلى أرقام إنجليزية
     function toEnglishDigits(str) {
       return str.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
                 .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
@@ -761,47 +570,65 @@
     }
 
     const studentIdInput = document.getElementById("studentId");
-    studentIdInput.addEventListener("input", function() {
-      this.value = toEnglishDigits(this.value);
-    });
+    studentIdInput.addEventListener("input", function () { this.value = toEnglishDigits(this.value); });
+    studentIdInput.addEventListener("keypress", e => { if (e.key === "Enter") fetchStudentData(); });
 
-    function setQuickReply(text) {
-      const textarea = document.getElementById("parentReply");
-      textarea.value = text;
-      textarea.focus();
+    function setQuickReply(btn, text) {
+      const ta = document.getElementById("parentReply");
+      ta.value = text;
+      ta.focus();
+      document.querySelectorAll(".chip-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
     }
 
-    // حساب التقدير التلقائي بناءً على درجة الوقفة الأولى (من 20)
-    function getAutoGradeBadge(scoreVal) {
-      const num = parseFloat(String(scoreVal).replace("٫", "."));
-      if (isNaN(num)) return null;
-      if (num >= 18) return { text: "ممتاز 🌟", cls: "badge-excellent", color: "#10b981", pct: (num / 20) * 100 };
-      if (num >= 16) return { text: "جيد جداً 👍", cls: "badge-vgood", color: "#3b82f6", pct: (num / 20) * 100 };
-      if (num >= 12) return { text: "جيد ✔️", cls: "badge-good", color: "#f59e0b", pct: (num / 20) * 100 };
-      return { text: "يحتاج إلى متابعة واهتمام ⚠️", cls: "badge-low", color: "#ef4444", pct: Math.max((num / 20) * 100, 8) };
+    function getAutoGrade(scoreVal) {
+      const num = parseFloat(toEnglishDigits(String(scoreVal).replace("٫", ".")).replace(/^$/, "NaN"));
+      const n = parseFloat(String(scoreVal).replace("٫", "."));
+      const v = isNaN(n) ? num : n;
+      if (isNaN(v)) return null;
+      const pct = Math.min(Math.max((v / 20) * 100, 4), 100);
+      if (v >= 18) return { text: "ممتاز 🌟", cls: "badge-excellent", color: "#10b981", pct, msg: "أداء رائع ومتميّز، بارك الله فيه واستمروا على هذا النهج." };
+      if (v >= 16) return { text: "جيد جداً 👍", cls: "badge-vgood", color: "#3b82f6", pct, msg: "مستوى جيد جداً، وبقليل من الاجتهاد يصل بإذن الله إلى التميّز." };
+      if (v >= 12) return { text: "جيد ✔️", cls: "badge-good", color: "#f59e0b", pct, msg: "مستوى جيد، ونأمل المزيد من المراجعة والمتابعة لرفعه في الوقفات القادمة." };
+      return { text: "يحتاج إلى متابعة واهتمام ⚠️", cls: "badge-low", color: "#ef4444", pct, msg: "نرجو دعم الطالب بالمراجعة المنتظمة، ونحن معكم لمساعدته على التحسّن." };
+    }
+
+    function pickIcon(key) {
+      if (key.includes("تشخيصي")) return "🧪";
+      if (key.includes("الملزمة")) return "📘";
+      if (key.includes("حضور") || key.includes("غياب")) return "📅";
+      if (key.includes("مشارك")) return "🙋";
+      if (key.includes("واجب")) return "📚";
+      if (key.includes("تقدير")) return "🏅";
+      if (key.includes("درجة") || key.includes("الوقفة")) return "📝";
+      return "📌";
+    }
+
+    function el(tag, cls, html) {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (html !== undefined) e.innerHTML = html;
+      return e;
+    }
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     }
 
     async function fetchStudentData() {
       const id = toEnglishDigits(studentIdInput.value.trim());
       studentIdInput.value = id;
 
-      const alertBox = document.getElementById("alertBox");
       const resultCard = document.getElementById("resultCard");
-      const dataTable = document.getElementById("dataTable");
       const searchBtn = document.getElementById("searchBtn");
       const btnText = document.getElementById("btnText");
       const spinner = document.getElementById("spinner");
-      const replyAlert = document.getElementById("replyAlert");
 
-      alertBox.style.display = "none";
-      replyAlert.style.display = "none";
-      resultCard.style.display = "none";
-      dataTable.innerHTML = "";
+      document.getElementById("alertBox").style.display = "none";
+      document.getElementById("replyAlert").style.display = "none";
+      resultCard.classList.remove("show");
+      document.getElementById("resultContent").innerHTML = "";
 
-      if (!id) {
-        showAlert("يرجى إدخال الرقم الشخصي للطالب بالأرقام الإنجليزية أولاً");
-        return;
-      }
+      if (!id) { showAlert("يرجى إدخال الرقم الشخصي للطالب بالأرقام الإنجليزية أولاً"); return; }
 
       searchBtn.disabled = true;
       btnText.textContent = "جاري البحث...";
@@ -810,18 +637,17 @@
       try {
         const response = await fetch(`${SCRIPT_URL}?id=${encodeURIComponent(id)}`);
         const json = await response.json();
-
         if (json.status === "success") {
           currentStudentId = id;
           renderData(json.data);
-          resultCard.style.display = "block";
+          resultCard.classList.add("show");
           resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
         } else {
           showAlert(json.message || "لم يتم العثور على طالب بهذا الرقم الشخصي ضمن الصفوف المشمولة");
         }
       } catch (error) {
         console.error(error);
-        showAlert("تعذر الاتصال بقاعدة البيانات، يرجى التأكد من اتصال الإنترنت وإعدادات النشر");
+        showAlert("تعذر الاتصال بقاعدة البيانات، يرجى التأكد من اتصال الإنترنت والمحاولة مرة أخرى");
       } finally {
         searchBtn.disabled = false;
         btnText.textContent = "عرض النتيجة";
@@ -830,92 +656,113 @@
     }
 
     function renderData(data) {
-      const table = document.getElementById("dataTable");
-      const parentReplyInput = document.getElementById("parentReply");
-      const studentHero = document.getElementById("studentHero");
-      table.innerHTML = "";
-      parentReplyInput.value = "";
+      const box = document.getElementById("resultContent");
+      const replyInput = document.getElementById("parentReply");
+      box.innerHTML = "";
+      replyInput.value = "";
+      document.querySelectorAll(".chip-btn").forEach(b => b.classList.remove("active"));
 
-      let firstAssessmentScore = null;
-      let sName = "";
-      let sClass = "";
-
-      // استخراج درجة الوقفة الأولى واسم الطالب والصف أولاً
+      let firstScore = null, sName = "", sClass = "";
       for (const [key, value] of Object.entries(data)) {
-        if (key.includes("الوقفة الأولى")) firstAssessmentScore = value;
+        if (key.includes("الوقفة الأولى")) firstScore = value;
         if (key.includes("اسم الطالب")) sName = value;
         if (key.includes("الصف")) sClass = value;
       }
-
       currentStudentName = sName;
+      const hasScore = firstScore !== null && firstScore !== "" && firstScore !== undefined;
+      const grade = hasScore ? getAutoGrade(firstScore) : null;
 
+      let delay = 0;
+      const next = () => (delay += 0.12) + "s";
+
+      // بطاقة الطالب
       if (sName) {
-        document.getElementById("heroStudentName").textContent = sName;
-        document.getElementById("heroStudentId").textContent = "الرقم الشخصي: " + currentStudentId;
-        document.getElementById("heroStudentClass").textContent = sClass || "مادة العلوم";
-        studentHero.style.display = "flex";
-      } else {
-        studentHero.style.display = "none";
+        const hero = el("div", "student-hero reveal");
+        hero.style.animationDelay = next();
+        hero.innerHTML = `
+          <div class="avatar">${esc(String(sName).trim().charAt(0) || "👤")}</div>
+          <div class="name-box"><h3>${esc(sName)}</h3><span>الرقم الشخصي: ${esc(currentStudentId)}</span></div>
+          <div class="class-badge">${esc(sClass || "مادة العلوم")}</div>`;
+        box.appendChild(hero);
       }
 
-      const autoGrade = getAutoGradeBadge(firstAssessmentScore);
+      // بطاقة الدرجة الدائرية
+      if (hasScore && grade) {
+        const sc = el("div", "score-card reveal");
+        sc.style.animationDelay = next();
+        sc.innerHTML = `
+          <div class="ring-wrap">
+            <svg viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+              <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="52" style="stroke:${grade.color}"></circle>
+            </svg>
+            <div class="ring-text"><b>${esc(firstScore)}</b><small>من 20</small></div>
+          </div>
+          <div class="score-info">
+            <div class="title">🏆 درجة الوقفة التقويمية الأولى</div>
+            <div class="big-badge ${grade.cls}">${grade.text}</div>
+            <p>${grade.msg}</p>
+          </div>`;
+        box.appendChild(sc);
+        setTimeout(() => {
+          const ring = document.getElementById("ringFg");
+          if (ring) ring.style.strokeDashoffset = (326.7 * (1 - grade.pct / 100)).toFixed(1);
+        }, 500);
+      }
+
+      // بقية البيانات
+      const grid = el("div", "info-grid");
+      let notesHtml = null, savedReply = null;
 
       for (const [key, value] of Object.entries(data)) {
-        if (key.includes("رد ولي الامر") || key.includes("رد ولي الأمر")) {
-          parentReplyInput.value = value || "";
+        const hasVal = value !== "" && value !== null && value !== undefined;
+        const isName = key.includes("اسم الطالب");
+        const isClass = key.includes("الصف");
+        const isFirst = key.includes("الوقفة الأولى");
+        const isReply = key.includes("رد ولي الامر") || key.includes("رد ولي الأمر");
+        const isNote = key.includes("ملاحظات المعلم");
+        const isGradeKey = key.includes("التقدير");
+        const isIdKey = key.includes("الرقم الشخصي");
+
+        if (isReply) { replyInput.value = hasVal ? value : ""; savedReply = hasVal ? value : null; continue; }
+        if (isName || isClass || isIdKey) continue;
+        if (isFirst && hasScore && grade) continue;
+        if (isNote) { if (hasVal) notesHtml = value; continue; }
+
+        let display;
+        if (isGradeKey) {
+          if (hasVal) display = `<span class="badge-vgood" style="padding:.2rem .8rem;border-radius:999px;background:#dbeafe;color:#1d4ed8;border:1px solid #93c5fd;font-size:.95rem;display:inline-block">${esc(value)}</span>`;
+          else if (grade) display = `<span class="${grade.cls}" style="padding:.2rem .8rem;border-radius:999px;font-size:.95rem;display:inline-block">${grade.text}</span>`;
+          else display = null;
+        } else {
+          display = hasVal ? esc(value) : null;
         }
 
-        const tr = document.createElement("tr");
-
-        const tdLabel = document.createElement("td");
-        tdLabel.className = "label-cell";
-        tdLabel.textContent = key;
-
-        const tdValue = document.createElement("td");
-        tdValue.className = "value-cell";
-        tdValue.id = "cell-" + key;
-
-        const hasVal = (value !== "" && value !== null && value !== undefined);
-
-        // تنسيق خاص لدرجة الوقفة الأولى مع شريط التقدم
-        if (key.includes("الوقفة الأولى") && hasVal && autoGrade) {
-          tdValue.innerHTML = `
-            <div class="score-container">
-              <span style="color: var(--primary); font-size: 1.25rem; font-weight: 900;">${value} <small style="font-size:0.85rem; color:#64748b;">/ 20</small></span>
-              <div class="progress-bar-bg">
-                <div class="progress-bar-fill" style="width: ${autoGrade.pct}%; background: ${autoGrade.color};"></div>
-              </div>
-            </div>
-          `;
-        }
-        // تنسيق التقدير (إظهار التقدير المسجل أو حسابه تلقائياً إذا كان فارغاً)
-        else if (key.includes("التقدير")) {
-          if (hasVal) {
-            tdValue.innerHTML = `<span class="badge badge-vgood">${value}</span>`;
-          } else if (autoGrade) {
-            tdValue.innerHTML = `<span class="badge ${autoGrade.cls}">${autoGrade.text}</span>`;
-          } else {
-            tdValue.textContent = "-";
-          }
-        }
-        // تنسيق ملاحظات المعلم
-        else if (key.includes("ملاحظات المعلم") && hasVal) {
-          tdValue.innerHTML = `<span class="badge-note">🌟 ${value}</span>`;
-        }
-        // تنسيق رد ولي الأمر داخل الجدول
-        else if (key.includes("رد ولي الامر") || key.includes("رد ولي الأمر")) {
-          tdValue.id = "parentReplyCell";
-          tdValue.textContent = hasVal ? value : "لم يتم تسجيل رد بعد";
-          if (hasVal) tdValue.style.color = "#059669";
-        }
-        else {
-          tdValue.textContent = hasVal ? value : "-";
-        }
-
-        tr.appendChild(tdLabel);
-        tr.appendChild(tdValue);
-        table.appendChild(tr);
+        const tile = el("div", "info-tile reveal");
+        tile.style.animationDelay = next();
+        tile.innerHTML = `
+          <div class="tile-ico">${pickIcon(key)}</div>
+          <div><div class="tile-label">${esc(key)}</div>
+          <div class="tile-value ${display ? "" : "empty"}">${display || "—"}</div></div>`;
+        grid.appendChild(tile);
       }
+      if (grid.children.length) box.appendChild(grid);
+
+      if (notesHtml) {
+        const n = el("div", "note-card reveal");
+        n.style.animationDelay = next();
+        n.innerHTML = `<div class="tile-ico">🌟</div><div><div class="tile-label">ملاحظات المعلم</div><div class="tile-value">${esc(notesHtml)}</div></div>`;
+        box.appendChild(n);
+      }
+
+      const rs = el("div", "reply-saved reveal");
+      rs.id = "replySavedBox";
+      rs.style.animationDelay = next();
+      rs.innerHTML = `<div class="tile-ico">💬</div><div><div class="tile-label">رد ولي الأمر</div>
+        <div class="tile-value ${savedReply ? "" : "empty"}" id="parentReplyCell" ${savedReply ? 'style="color:#059669"' : ""}>${savedReply ? esc(savedReply) : "لم يتم تسجيل رد بعد"}</div></div>`;
+      box.appendChild(rs);
+
+      document.getElementById("replySection").style.animationDelay = next();
     }
 
     async function sendParentReply() {
@@ -926,7 +773,7 @@
       const replyAlert = document.getElementById("replyAlert");
 
       if (!replyText) {
-        replyAlert.className = "alert error";
+        replyAlert.className = "alert error show";
         replyAlert.textContent = "⚠️ يرجى كتابة الرد أو اختيار أحد الردود السريعة أولاً قبل الإرسال";
         replyAlert.style.display = "block";
         return;
@@ -943,26 +790,20 @@
         const json = await response.json();
 
         if (json.status === "success") {
-          // تحديث الخلية في الجدول فوراً أمام ولي الأمر
-          const replyCell = document.getElementById("parentReplyCell");
-          if (replyCell) {
-            replyCell.textContent = replyText;
-            replyCell.style.color = "#059669";
-          }
+          const cell = document.getElementById("parentReplyCell");
+          if (cell) { cell.textContent = replyText; cell.classList.remove("empty"); cell.style.color = "#059669"; }
 
-          // إظهار رسالة نجاح أسفل الزر + النافذة المنبثقة
-          replyAlert.className = "alert success";
-          replyAlert.textContent = "✅ وصل ردكم بنجاح إلى الأستاذ صبري محمد حمد، شكراً لتعاونكم.";
+          replyAlert.className = "alert success show";
+          replyAlert.textContent = "✅ وصل ردّكم بنجاح إلى الأستاذ صبري محمد حمد، شكراً لتعاونكم.";
           replyAlert.style.display = "block";
-
           openThankYouModal();
         } else {
-          replyAlert.className = "alert error";
+          replyAlert.className = "alert error show";
           replyAlert.textContent = json.message || "حدث خطأ أثناء حفظ الرد";
           replyAlert.style.display = "block";
         }
       } catch (err) {
-        replyAlert.className = "alert error";
+        replyAlert.className = "alert error show";
         replyAlert.textContent = "تعذر إرسال الرد، يرجى التأكد من اتصال الإنترنت والمحاولة مرة أخرى";
         replyAlert.style.display = "block";
       } finally {
@@ -972,33 +813,44 @@
       }
     }
 
-    function openThankYouModal() {
-      const modal = document.getElementById("thankYouModal");
-      const modalMessage = document.getElementById("modalMessage");
-      if (currentStudentName) {
-        modalMessage.innerHTML = `
-          تم استلام رد ولي أمر الطالب <strong>(${currentStudentName})</strong> بنجاح، ووصلت رسالتكم مباشرة إلى سجل الأستاذ <strong>صبري محمد حمد</strong>.<br><br>
-          نشكر لكم اهتمامكم وحرصكم على متابعة الطالب وتكملة <strong>ملزمة العلوم</strong>.
-        `;
+    function launchConfetti() {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const colors = ["#2563eb", "#38bdf8", "#10b981", "#f59e0b", "#f43f5e", "#a78bfa"];
+      for (let i = 0; i < 46; i++) {
+        const p = document.createElement("div");
+        p.className = "confetti-piece";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.background = colors[i % colors.length];
+        p.style.borderRadius = Math.random() > .5 ? "50%" : "3px";
+        p.style.animationDuration = 2.2 + Math.random() * 2 + "s";
+        p.style.animationDelay = Math.random() * .6 + "s";
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 5200);
       }
-      modal.style.display = "flex";
+    }
+
+    function openThankYouModal() {
+      const msg = document.getElementById("modalMessage");
+      if (currentStudentName) {
+        msg.innerHTML = `تم استلام ردّ ولي أمر الطالب <strong>(${esc(currentStudentName)})</strong> بنجاح، وحُفظ في سجل الأستاذ <strong>صبري محمد حمد</strong>.<br>شراكتكم معنا في المتابعة هي الركيزة الأولى لنجاح أبنائنا وتفوّقهم.`;
+      }
+      document.getElementById("thankYouModal").classList.add("show");
+      launchConfetti();
     }
 
     function closeThankYouModal() {
-      document.getElementById("thankYouModal").style.display = "none";
+      document.getElementById("thankYouModal").classList.remove("show");
     }
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeThankYouModal(); });
 
     function showAlert(msg) {
-      const alertBox = document.getElementById("alertBox");
-      alertBox.textContent = msg;
-      alertBox.style.display = "block";
+      const a = document.getElementById("alertBox");
+      a.textContent = msg;
+      a.style.display = "block";
+      a.classList.remove("show");
+      void a.offsetWidth;
+      a.classList.add("show");
     }
-
-    studentIdInput.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        fetchStudentData();
-      }
-    });
   </script>
 </body>
 </html>
