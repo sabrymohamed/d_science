@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>شهادات شكر وتقدير - تميز ملزمة العلوم - أ. صبري محمد حمد</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <!-- مكتبة توليد ملفات PDF منفردة باسم كل طالب -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root {
       --navy: #0f172a;
@@ -14,6 +16,8 @@
       --gold-light: #d97706;
       --gold-soft: #fef3c7;
       --gold-border: #f59e0b;
+      --success: #059669;
+      --danger: #dc2626;
       --bg: #e2e8f0;
     }
 
@@ -30,14 +34,14 @@
       padding: 1.5rem 1rem 4rem;
     }
 
-    /* لوحة التحكم العلوية (تختفي عند الطباعة) */
+    /* لوحة التحكم والإحصائيات العلوية (تختفي عند الطباعة) */
     .control-panel {
-      max-width: 1120px;
+      max-width: 1140px;
       margin: 0 auto 1.8rem;
       background: white;
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 1.5rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
       border: 2px solid #cbd5e1;
     }
 
@@ -60,72 +64,220 @@
 
     .panel-header p {
       color: #475569;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.95rem;
       margin-top: 0.25rem;
     }
 
-    .actions-row {
+    .top-buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-      justify-content: space-between;
+      gap: 0.65rem;
     }
 
-    .class-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.55rem;
-    }
-
-    .tab-btn {
-      background: #f8fafc;
-      color: var(--navy);
-      border: 2px solid #cbd5e1;
-      padding: 0.65rem 1.15rem;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .tab-btn:hover {
-      border-color: var(--blue);
-      background: #eff6ff;
-    }
-
-    .tab-btn.active {
-      background: var(--royal);
-      color: white;
-      border-color: var(--royal);
-      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
-    }
-
-    .print-all-btn {
-      background: linear-gradient(135deg, #059669, #047857);
-      color: white;
+    .btn-action {
       border: none;
-      padding: 0.85rem 1.6rem;
-      border-radius: 14px;
-      font-size: 1.05rem;
-      font-weight: 900;
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 6px 16px rgba(5, 150, 105, 0.3);
-      transition: transform 0.2s;
+      gap: 0.45rem;
+      transition: all 0.2s;
+      color: white;
     }
 
-    .print-all-btn:hover {
+    .btn-action:hover {
       transform: translateY(-2px);
     }
 
+    .btn-print-class { background: linear-gradient(135deg, #059669, #047857); box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25); }
+    .btn-print-new { background: linear-gradient(135deg, #dc2626, #b91c1c); box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25); }
+    .btn-pdf-separate { background: linear-gradient(135deg, #1e3a8a, #2563eb); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+    .btn-sync { background: #f1f5f9; color: var(--royal); border: 1.5px solid #cbd5e1; }
+
+    /* بطاقات الإحصائيات السريعة لكل صف */
+    .stats-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .stat-box {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .stat-box:hover {
+      border-color: #93c5fd;
+      background: #eff6ff;
+    }
+
+    .stat-box.active {
+      background: #eff6ff;
+      border-color: var(--blue);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+
+    .stat-box .cls-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 0.35rem;
+      display: block;
+    }
+
+    .stat-box .cls-numbers {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-box .total-num {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--royal);
+    }
+
+    .new-pill-badge {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fca5a5;
+      padding: 0.15rem 0.55rem;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    /* جدول كشف أسماء الطلاب والتواريخ والطباعة المنفردة */
+    .roster-section {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .roster-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .roster-header h3 {
+      font-size: 1.08rem;
+      color: var(--royal);
+      font-weight: 900;
+    }
+
+    .roster-table-wrap {
+      max-height: 290px;
+      overflow-y: auto;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .roster-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    .roster-table th {
+      background: #eff6ff;
+      color: var(--royal);
+      padding: 0.7rem 0.8rem;
+      text-align: right;
+      font-weight: 900;
+      position: sticky;
+      top: 0;
+      border-bottom: 2px solid #bfdbfe;
+    }
+
+    .roster-table td {
+      padding: 0.65rem 0.8rem;
+      border-bottom: 1px solid #f1f5f9;
+      font-weight: 700;
+    }
+
+    .roster-table tr.is-new-row {
+      background: #fff1f2;
+    }
+
+    .roster-table tr:hover {
+      background: #f8fafc;
+    }
+
+    .date-tag {
+      background: #f1f5f9;
+      color: #334155;
+      padding: 0.2rem 0.6rem;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      display: inline-block;
+    }
+
+    .date-tag.today-new {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+
+    .status-tag-new {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 0.2rem 0.65rem;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 900;
+    }
+
+    .status-tag-printed {
+      background: #dcfce7;
+      color: #059669;
+      padding: 0.2rem 0.65rem;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 900;
+    }
+
+    .mini-btn {
+      border: none;
+      padding: 0.38rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-left: 0.3rem;
+    }
+
+    .mini-print { background: var(--royal); color: white; }
+    .mini-pdf { background: #059669; color: white; }
+    .mini-toggle { background: #e2e8f0; color: #334155; }
+
+    /* شريط الإضافة اليدوية */
     .add-Quick-row {
-      margin-top: 1rem;
-      padding-top: 1rem;
+      margin-top: 0.9rem;
+      padding-top: 0.9rem;
       border-top: 1px solid #e2e8f0;
       display: flex;
       flex-wrap: wrap;
@@ -134,10 +286,10 @@
     }
 
     .add-Quick-row input, .add-Quick-row select {
-      padding: 0.6rem 0.9rem;
+      padding: 0.55rem 0.85rem;
       border: 1.5px solid #cbd5e1;
       border-radius: 10px;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 700;
     }
 
@@ -145,7 +297,7 @@
       background: var(--blue);
       color: white;
       border: none;
-      padding: 0.6rem 1.1rem;
+      padding: 0.58rem 1.1rem;
       border-radius: 10px;
       font-weight: 800;
       cursor: pointer;
@@ -157,6 +309,33 @@
       flex-direction: column;
       align-items: center;
       gap: 2.5rem;
+    }
+
+    /* شريط أدوات فوق كل شهادة (يختفي عند الطباعة) */
+    .cert-card-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .single-cert-toolbar {
+      width: 297mm;
+      background: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .single-cert-toolbar.toolbar-new {
+      border-color: #f87171;
+      background: #fff1f2;
     }
 
     /* تصميم الشهادة الأفقية الواحدة (مقاس A4 Landscape الدقيق) */
@@ -172,7 +351,6 @@
       break-after: page;
     }
 
-    /* الإطار الخارجي والداخلي المزخرف */
     .cert-outer-border {
       width: 100%;
       height: 100%;
@@ -196,7 +374,6 @@
       z-index: 2;
     }
 
-    /* زخارف الزوايا العلمية */
     .corner-sci {
       position: absolute;
       font-size: 2.2rem;
@@ -209,7 +386,6 @@
     .corner-bl { bottom: 12px; left: 16px; }
     .corner-br { bottom: 12px; right: 16px; }
 
-    /* علامة مائية علمية في الوسط */
     .science-watermark {
       position: absolute;
       inset: 0;
@@ -222,7 +398,6 @@
       z-index: 0;
     }
 
-    /* ترويسة المدرسة العلوية */
     .cert-top-banner {
       width: 100%;
       text-align: center;
@@ -238,7 +413,6 @@
       margin: 0 auto;
     }
 
-    /* شريط عنوان الشهادة */
     .cert-title-section {
       text-align: center;
       margin: 1mm 0 2mm;
@@ -270,7 +444,6 @@
       color: var(--gold);
     }
 
-    /* محتوى نص الشهادة */
     .cert-body {
       text-align: center;
       padding: 0 6mm;
@@ -287,7 +460,6 @@
       color: #334155;
     }
 
-    /* اسم الطالب والصف في مستطيل فاخر */
     .student-honor-box {
       display: inline-flex;
       align-items: center;
@@ -336,7 +508,6 @@
       font-weight: 900;
     }
 
-    /* شريط الأوسمة العلمية */
     .science-badges-row {
       display: flex;
       justify-content: center;
@@ -357,7 +528,6 @@
       gap: 0.35rem;
     }
 
-    /* التوقيعات والختم في أسفل الشهادة */
     .cert-footer {
       display: grid;
       grid-template-columns: 1fr 1fr 0.9fr 1fr 1fr;
@@ -394,7 +564,6 @@
       margin-top: 3mm;
     }
 
-    /* ختم المدرسة في المنتصف */
     .stamp-block {
       display: flex;
       flex-direction: column;
@@ -411,7 +580,7 @@
       filter: contrast(1.08);
     }
 
-    /* إعدادات الطباعة الدقيقة (كل شهادة في صفحة A4 أفقية مستقلة) */
+    /* إعدادات الطباعة الدقيقة */
     @media print {
       @page {
         size: A4 landscape;
@@ -426,13 +595,22 @@
         print-color-adjust: exact !important;
       }
 
-      .control-panel {
+      .control-panel, .single-cert-toolbar {
         display: none !important;
       }
 
       .certificates-wrapper {
         gap: 0 !important;
         display: block !important;
+      }
+
+      .cert-card-container {
+        display: block !important;
+      }
+
+      /* عند اختيار طباعة شهادة طالب واحد فقط أو الجدد فقط نخفي الباقي */
+      .cert-card-container.hide-on-print {
+        display: none !important;
       }
 
       .certificate-page {
@@ -443,17 +621,13 @@
         page-break-after: always !important;
         break-after: page !important;
       }
-
-      .certificate-page:last-child {
-        page-break-after: auto !important;
-        break-after: auto !important;
-      }
     }
 
-    /* ملائمة العرض على شاشات الجوال والكمبيوتر الصغير قبل الطباعة */
     @media screen and (max-width: 1150px) {
-      .certificate-page {
+      .certificate-page, .single-cert-toolbar {
         width: 100%;
+      }
+      .certificate-page {
         height: auto;
         min-height: 540px;
       }
@@ -466,23 +640,51 @@
 </head>
 <body>
 
-  <!-- لوحة التحكم والفلترة (لا تظهر في الطباعة) -->
+  <!-- لوحة التحكم والإحصائيات (لا تظهر عند الطباعة) -->
   <div class="control-panel">
     <div class="panel-header">
       <div>
-        <h1>🏆 منصة إصدار وطباعة شهادات التميز في ملزمة العلوم</h1>
-        <p id="syncStatus">✅ تم حصر الطلاب المتميزين في الملزمة (سبتمبر وأكتوبر 2026) وجاهزون للطباعة حسب الصف</p>
+        <h1>🏆 لوحة إحصائيات وإصدار شهادات التميز في ملزمة العلوم</h1>
+        <p id="syncStatus">⏳ جاري فحص ملف الإكسيل لجلب الطلاب المتميزين وتواريخ تسجيلهم...</p>
       </div>
-      <button class="print-all-btn" onclick="window.print()">
-        🖨️ طباعة جميع شهادات الصف المحدد معاً
-      </button>
+      <div class="top-buttons">
+        <button class="btn-action btn-sync" onclick="syncFromSheet()">🔄 تحديث من الإكسيل</button>
+        <button class="btn-action btn-print-new" onclick="printOnlyNewStudents()">🆕 طباعة الطلاب الجدد فقط</button>
+        <button class="btn-action btn-print-class" onclick="printCurrentClassAll()">🖨️ طباعة كل شهادات الصف معاً</button>
+        <button class="btn-action btn-pdf-separate" id="batchPdfBtn" onclick="downloadClassSeparatePDFs()">📥 تنزيل شهادات الصف منفردة بأسماء الطلاب</button>
+      </div>
     </div>
 
-    <div class="actions-row">
-      <div class="class-tabs" id="classTabs"></div>
+    <!-- بطاقات إحصائيات الصفوف -->
+    <div class="stats-cards-grid" id="statsCardsGrid"></div>
+
+    <!-- جدول كشف أسماء الطلاب وتاريخ التسجيل والطباعة الفردية -->
+    <div class="roster-section">
+      <div class="roster-header">
+        <h3 id="rosterTitle">📋 كشف أسماء الطلاب المكرمين وتاريخ التسجيل:</h3>
+        <div>
+          <button class="mini-btn mini-toggle" onclick="markCurrentViewPrinted(true)">✅ تعليم الكل كمطبوع</button>
+          <button class="mini-btn mini-toggle" onclick="markCurrentViewPrinted(false)">🆕 إعادة الكل كجديد</button>
+        </div>
+      </div>
+      <div class="roster-table-wrap">
+        <table class="roster-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم الطالب</th>
+              <th>الصف</th>
+              <th>تاريخ تسجيل الملاحظة</th>
+              <th>الحالة</th>
+              <th>طباعة / تحميل منفرد باسم الطالب</th>
+            </tr>
+          </thead>
+          <tbody id="rosterTableBody"></tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- إضافة طالب إضافي للشهادات فورا عند الحاجة -->
+    <!-- إضافة طالب يدوياً -->
     <div class="add-Quick-row">
       <strong style="font-size:0.9rem; color:var(--royal);">➕ إضافة طالب للشهادات يدوياً:</strong>
       <input type="text" id="newStudentName" placeholder="اسم الطالب ثلاثياً أو رباعياً...">
@@ -506,96 +708,440 @@
     const BANNER_URL = "https://i.postimg.cc/K88X7RLb/trwysyh-dhhbyt.png";
     const STAMP_URL = "https://i.postimg.cc/x1zBrkqF/khtm-shfaf.jpg";
 
-    // القائمة المحصورة من ملف الإكسيل جاهزة فوراً (ويتم تحديثها أيضاً تلقائياً من الإكسيل)
+    // القائمة الأساسية المستخرجة من الإكسيل مع تواريخ تسجيلها
     let honoredStudents = [
       // الصف السادس الابتدائي فرقة 1
-      { name: "إيليا سعيد حسن حسن", className: "السادس الابتدائي فرقة 1" },
-      { name: "حسين عمار جاسم الاسكافي", className: "السادس الابتدائي فرقة 1" },
-      { name: "سيدحامد حسين محمد درويش", className: "السادس الابتدائي فرقة 1" },
-      { name: "صادق علي عبدالله اسماعيل", className: "السادس الابتدائي فرقة 1" },
-      { name: "عبدالعزيز جلال عبدالعزيز حاجي عبدالله", className: "السادس الابتدائي فرقة 1" },
-      { name: "عبدالله حسين عبدالله مال الله", className: "السادس الابتدائي فرقة 1" },
-      { name: "ليث محمود مسعود الوطني", className: "السادس الابتدائي فرقة 1" },
-      { name: "محمد صالح شوقي البناء", className: "السادس الابتدائي فرقة 1" },
-      { name: "محمد عباس خميس السودان", className: "السادس الابتدائي فرقة 1" },
-      { name: "نوح زهير عبدالوهاب غزوان", className: "السادس الابتدائي فرقة 1" },
+      { id: "150302150", name: "إيليا سعيد حسن حسن", className: "السادس الابتدائي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "141124520", name: "حسين عمار جاسم الاسكافي", className: "السادس الابتدائي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "150610874", name: "سيدحامد حسين محمد درويش", className: "السادس الابتدائي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "150313462", name: "صادق علي عبدالله اسماعيل", className: "السادس الابتدائي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "141005289", name: "عبدالعزيز جلال عبدالعزيز حاجي عبدالله", className: "السادس الابتدائي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "150403038", name: "عبدالله حسين عبدالله مال الله", className: "السادس الابتدائي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "150212909", name: "ليث محمود مسعود الوطني", className: "السادس الابتدائي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "150705034", name: "محمد صالح شوقي البناء", className: "السادس الابتدائي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "141021578", name: "محمد عباس خميس السودان", className: "السادس الابتدائي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "150508140", name: "نوح زهير عبدالوهاب غزوان", className: "السادس الابتدائي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
 
       // الصف الثاني الإعدادي فرقة 1
-      { name: "السيد محمد حسين حمزه علي", className: "الثاني الاعدادي فرقة 1" },
-      { name: "حسين محمد حبيب غريب", className: "الثاني الاعدادي فرقة 1" },
-      { name: "صادق جعفر عبدالوهاب البصري", className: "الثاني الاعدادي فرقة 1" },
-      { name: "عباس عبدالله ابراهيم ال عميرى", className: "الثاني الاعدادي فرقة 1" },
-      { name: "علي فيصل مختار محمد", className: "الثاني الاعدادي فرقة 1" },
-      { name: "علي يوسف سلمان الصفار", className: "الثاني الاعدادي فرقة 1" },
+      { id: "130203092", name: "السيد محمد حسين حمزه علي", className: "الثاني الاعدادي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "130807796", name: "حسين محمد حبيب غريب", className: "الثاني الاعدادي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "131005413", name: "صادق جعفر عبدالوهاب البصري", className: "الثاني الاعدادي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "130317594", name: "عباس عبدالله ابراهيم ال عميرى", className: "الثاني الاعدادي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "130117781", name: "علي فيصل مختار محمد", className: "الثاني الاعدادي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "130602981", name: "علي يوسف سلمان الصفار", className: "الثاني الاعدادي فرقة 1", dateRecorded: "الثلاثاء 2026/10/20" },
 
       // الصف الثاني الإعدادي فرقة 2
-      { name: "سجاد حسين محسن عاشور", className: "الثاني الاعدادي فرقة 2" },
-      { name: "سجاد زهير حسن عبدالرسول", className: "الثاني الاعدادي فرقة 2" },
-      { name: "علي حمد احمد علي", className: "الثاني الاعدادي فرقة 2" },
+      { id: "130205907", name: "سجاد حسين محسن عاشور", className: "الثاني الاعدادي فرقة 2", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "130606260", name: "سجاد زهير حسن عبدالرسول", className: "الثاني الاعدادي فرقة 2", dateRecorded: "الثلاثاء 2026/10/20" },
+      { id: "130106615", name: "علي حمد احمد علي", className: "الثاني الاعدادي فرقة 2", dateRecorded: "الثلاثاء 2026/10/20" },
 
       // الصف الثاني الإعدادي فرقة 3
-      { name: "يوسف زهير عبدالوهاب غزوان", className: "الثاني الاعدادي فرقة 3" }
+      { id: "130208213", name: "يوسف زهير عبدالوهاب غزوان", className: "الثاني الاعدادي فرقة 3", dateRecorded: "الثلاثاء 2026/10/20" }
     ];
 
     let selectedClass = "السادس الابتدائي فرقة 1";
 
-    // جلب أي تحديثات جديدة مباشرة من ملف الإكسيل (لمن أُضيفت لهم "الملزمة منظمة" في أي صف)
+    // حفظ واسترجاع حالة الطباعة لكل طالب (لمعرفة الطلاب الجدد الذين لم تُطبع شهاداتهم بعد)
+    function getPrintedMap() {
+      try {
+        return JSON.parse(localStorage.getItem("sabry_printed_certs_v1") || "{}");
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function setStudentPrinted(studentKey, isPrinted) {
+      const map = getPrintedMap();
+      if (isPrinted) {
+        map[studentKey] = true;
+      } else {
+        delete map[studentKey];
+      }
+      localStorage.setItem("sabry_printed_certs_v1", JSON.stringify(map));
+    }
+
+    function isStudentPrinted(student) {
+      const map = getPrintedMap();
+      const key = student.id || student.name;
+      return !!map[key];
+    }
+
+    // استخراج التاريخ المكتوب بجانب ملاحظة "الملزمة منظمة" من نص الإكسيل
+    function extractNoteDate(positivesText) {
+      if (!positivesText) return "الثلاثاء 2026/10/20";
+      const lines = String(positivesText).split("\n").filter(Boolean);
+      // نبحث عن السطر الذي فيه الملزمة منظمة أو نأخذ آخر سطر
+      const targetLine = lines.find(l => l.includes("الملزمة منظمة")) || lines[lines.length - 1] || "";
+      const match = targetLine.match(/\[([^\]]+)\]/);
+      return match ? match[1].trim() : "مسجل في الإكسيل";
+    }
+
+    // التزامن المباشر مع الإكسيل لجلب أي طالب جديد سُجلت له "الملزمة منظمة" وتاريخ تسجيله
     async function syncFromSheet() {
+      const statusEl = document.getElementById("syncStatus");
+      statusEl.textContent = "⏳ جاري التزامن مع ملف الإكسيل...";
       try {
         const res = await fetch(`${SCRIPT_URL}?action=getStudentsList`);
         const json = await res.json();
         if (json.status === "success" && Array.isArray(json.students)) {
-          const liveMatched = json.students.filter(st => {
-            const pos = String(st.positives || "");
-            return pos.includes("الملزمة منظمة") || pos.includes("اعمال رائعة") || pos.includes("أعمال رائعة");
-          });
+          let newlyAddedCount = 0;
 
-          liveMatched.forEach(st => {
-            const exists = honoredStudents.some(h => h.name.trim() === st.name.trim());
-            if (!exists) {
-              honoredStudents.push({ name: st.name.trim(), className: st.className.trim() });
+          json.students.forEach(st => {
+            const pos = String(st.positives || "");
+            if (pos.includes("الملزمة منظمة") || pos.includes("اعمال رائعة") || pos.includes("أعمال رائعة")) {
+              const dateStr = extractNoteDate(pos);
+              const existing = honoredStudents.find(h => (h.id && h.id === st.id) || h.name.trim() === st.name.trim());
+              if (existing) {
+                existing.dateRecorded = dateStr;
+              } else {
+                honoredStudents.push({
+                  id: st.id || st.name.trim(),
+                  name: st.name.trim(),
+                  className: st.className.trim(),
+                  dateRecorded: dateStr
+                });
+                newlyAddedCount++;
+              }
             }
           });
 
-          document.getElementById("syncStatus").textContent =
-            `✅ تم التزامن المباشر مع ملف الإكسيل — إجمالي الطلاب المكرمين: (${honoredStudents.length}) طالباً`;
-          renderTabs();
-          renderCertificates();
+          const unprintedTotal = honoredStudents.filter(s => !isStudentPrinted(s)).length;
+          statusEl.innerHTML = `✅ متصل بملف الإكسيل — الإجمالي: <strong>(${honoredStudents.length})</strong> طالباً | الطلاب الجدد غير المطبوعين: <strong style="color:#dc2626;">(${unprintedTotal})</strong>`;
+          renderAll();
         }
       } catch (e) {
-        // في حال عدم تحديث الاسكربت بعد، يعمل بالقائمة المحصورة فوراً بدون أي مشكلة
+        statusEl.textContent = `✅ القائمة جاهزة — إجمالي الطلاب المكرمين: (${honoredStudents.length}) طالباً`;
+        renderAll();
       }
     }
 
-    function renderTabs() {
-      const tabsContainer = document.getElementById("classTabs");
-      const classes = [...new Set(honoredStudents.map(s => s.className))];
+    function renderAll() {
+      renderStatsCards();
+      renderRosterTable();
+      renderCertificates();
+    }
 
-      tabsContainer.innerHTML = "";
+    function renderStatsCards() {
+      const grid = document.getElementById("statsCardsGrid");
+      const allClasses = [
+        "السادس الابتدائي فرقة 1",
+        "الثاني الاعدادي فرقة 1",
+        "الثاني الاعدادي فرقة 2",
+        "الثاني الاعدادي فرقة 3",
+        "الثاني الاعدادي فرقة 4"
+      ];
 
-      // زر عرض جميع الصفوف
-      const allBtn = document.createElement("button");
-      allBtn.className = `tab-btn ${selectedClass === "all" ? "active" : ""}`;
-      allBtn.textContent = `كل الصفوف (${honoredStudents.length})`;
-      allBtn.onclick = () => {
-        selectedClass = "all";
-        renderTabs();
-        renderCertificates();
-      };
-      tabsContainer.appendChild(allBtn);
+      grid.innerHTML = "";
 
-      classes.forEach(cls => {
-        const count = honoredStudents.filter(s => s.className === cls).length;
-        const btn = document.createElement("button");
-        btn.className = `tab-btn ${selectedClass === cls ? "active" : ""}`;
-        btn.textContent = `${cls} (${count})`;
-        btn.onclick = () => {
-          selectedClass = cls;
-          renderTabs();
-          renderCertificates();
-        };
-        tabsContainer.appendChild(btn);
+      // بطاقة كل الصفوف
+      const allUnprinted = honoredStudents.filter(s => !isStudentPrinted(s)).length;
+      const allBox = document.createElement("div");
+      allBox.className = `stat-box ${selectedClass === "all" ? "active" : ""}`;
+      allBox.onclick = () => { selectedClass = "all"; renderAll(); };
+      allBox.innerHTML = `
+        <span class="cls-title">📊 إجمالي كل الصفوف</span>
+        <div class="cls-numbers">
+          <span class="total-num">${honoredStudents.length} <small style="font-size:0.8rem;">طالب</small></span>
+          ${allUnprinted > 0 ? `<span class="new-pill-badge">🆕 ${allUnprinted} جديد</span>` : `<span style="color:#059669;font-size:0.8rem;font-weight:800;">✓ مكتمل</span>`}
+        </div>
+      `;
+      grid.appendChild(allBox);
+
+      allClasses.forEach(cls => {
+        const list = honoredStudents.filter(s => s.className === cls);
+        const newCount = list.filter(s => !isStudentPrinted(s)).length;
+
+        const box = document.createElement("div");
+        box.className = `stat-box ${selectedClass === cls ? "active" : ""}`;
+        box.onclick = () => { selectedClass = cls; renderAll(); };
+        box.innerHTML = `
+          <span class="cls-title">🏫 ${cls}</span>
+          <div class="cls-numbers">
+            <span class="total-num">${list.length} <small style="font-size:0.8rem;">طالب</small></span>
+            ${newCount > 0 ? `<span class="new-pill-badge">🆕 ${newCount} جديد</span>` : (list.length > 0 ? `<span style="color:#059669;font-size:0.8rem;font-weight:800;">✓ طُبع</span>` : ``)}
+          </div>
+        `;
+        grid.appendChild(box);
       });
+    }
+
+    function getFilteredStudents() {
+      return selectedClass === "all"
+        ? honoredStudents
+        : honoredStudents.filter(s => s.className === selectedClass);
+    }
+
+    function renderRosterTable() {
+      const tbody = document.getElementById("rosterTableBody");
+      const title = document.getElementById("rosterTitle");
+      const filtered = getFilteredStudents();
+
+      title.textContent = `📋 كشف أسماء الطلاب (${selectedClass === "all" ? "جميع الصفوف" : selectedClass}) — العدد: ${filtered.length} طالب`;
+      tbody.innerHTML = "";
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:#64748b;">لا يوجد طلاب مسجلون في هذا الصف حتى الآن.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach((st, idx) => {
+        const printed = isStudentPrinted(st);
+        const key = st.id || st.name;
+        const tr = document.createElement("tr");
+        if (!printed) tr.className = "is-new-row";
+
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td style="color:var(--royal); font-weight:900;">${st.name}</td>
+          <td>${st.className}</td>
+          <td><span class="date-tag ${!printed ? 'today-new' : ''}">📅 ${st.dateRecorded || "مسجل"}</span></td>
+          <td>
+            ${!printed
+              ? `<span class="status-tag-new">🆕 جديد</span>`
+              : `<span class="status-tag-printed">✅ تمت الطباعة</span>`
+            }
+          </td>
+          <td>
+            <button class="mini-btn mini-print" onclick="printSingleStudent('${key}')">🖨️ طباعة منفردة باسمه</button>
+            <button class="mini-btn mini-pdf" onclick="downloadSingleStudentPDF('${key}')">📥 PDF باسمه</button>
+            <button class="mini-btn mini-toggle" onclick="toggleStudentStatus('${key}')">${printed ? 'إعادة كجديد' : 'تعليم كمطبوع'}</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleStudentStatus(studentKey) {
+      const st = honoredStudents.find(s => (s.id || s.name) === studentKey);
+      if (!st) return;
+      setStudentPrinted(studentKey, !isStudentPrinted(st));
+      renderAll();
+    }
+
+    function markCurrentViewPrinted(status) {
+      const filtered = getFilteredStudents();
+      filtered.forEach(st => setStudentPrinted(st.id || st.name, status));
+      renderAll();
+    }
+
+    function renderCertificates() {
+      const container = document.getElementById("certificatesContainer");
+      const filtered = getFilteredStudents();
+
+      container.innerHTML = "";
+
+      filtered.forEach((student, idx) => {
+        const key = student.id || student.name;
+        const printed = isStudentPrinted(student);
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "cert-card-container";
+        wrapper.id = `cert-wrap-${key}`;
+
+        wrapper.innerHTML = `
+          <!-- شريط التحكم الفردي أعلى كل شهادة (يختفي عند الطباعة) -->
+          <div class="single-cert-toolbar ${!printed ? 'toolbar-new' : ''}">
+            <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+              <strong style="color:var(--royal);">${idx + 1}. ${student.name} (${student.className})</strong>
+              <span class="date-tag">📅 تاريخ التسجيل: ${student.dateRecorded || "مسجل"}</span>
+              ${!printed ? `<span class="status-tag-new">🆕 جديد - لم يُطبع بعد</span>` : `<span class="status-tag-printed">✅ تمت الطباعة</span>`}
+            </div>
+            <div>
+              <button class="mini-btn mini-print" onclick="printSingleStudent('${key}')">🖨️ طباعة هذه الشهادة فقط باسم الطالب</button>
+              <button class="mini-btn mini-pdf" onclick="downloadSingleStudentPDF('${key}')">📥 حفظ PDF باسم الطالب</button>
+            </div>
+          </div>
+
+          <!-- صفحة الشهادة نفسها -->
+          <div class="certificate-page" id="cert-page-${key}">
+            <div class="cert-outer-border">
+              <div class="science-watermark">⚛️</div>
+              <span class="corner-sci corner-tl">🔬</span>
+              <span class="corner-sci corner-tr">🧪</span>
+              <span class="corner-sci corner-bl">🧬</span>
+              <span class="corner-sci corner-br">⚛️</span>
+
+              <div class="cert-inner-border">
+                <div class="cert-top-banner">
+                  <img src="${BANNER_URL}" crossorigin="anonymous" alt="ترويسة المدرسة">
+                </div>
+
+                <div class="cert-title-section">
+                  <div class="science-pill">🔬 قسم العلوم — تكريم التميز لشهري سبتمبر وأكتوبر 2026م 🧪</div>
+                  <h2 class="cert-main-title">شهادة <span>شكر وتقدير</span> وتميز علمي</h2>
+                </div>
+
+                <div class="cert-body">
+                  <p class="intro-line">
+                    يسر إدارة المدرسة وقسم العلوم أن يتقدما بوافر الشكر وعظيم التقدير والاعتزاز إلى الطالب المتميز:
+                  </p>
+
+                  <div class="student-honor-box">
+                    <span class="honored-name">🌟 ${student.name}</span>
+                    <span class="honored-class">${student.className}</span>
+                  </div>
+
+                  <p class="appreciation-paragraph">
+                    وإلى <span class="highlight-royal">ولي أمره الكريم</span> على اهتمامهم المثمر ومتابعتهم المستمرة لـ <span class="highlight-gold">ملزمة العلوم</span>، والحرص على استكمال الأنشطة وإثرائها بالصور والرسومات العلمية المبدعة، حتى ظهرت الملزمة بصورة <span class="highlight-gold">منظمة وكاملة ورائعة</span> خلال شهري <span class="highlight-royal">سبتمبر وأكتوبر 2026م</span>، سائلين الله له دوام التفوق والنجاح.
+                  </p>
+
+                  <div class="science-badges-row">
+                    <span class="sci-badge-item">📘 ملزمة منظمة وكاملة ورائعة</span>
+                    <span class="sci-badge-item">🎨 صور ورسومات علمية متميزة</span>
+                    <span class="sci-badge-item">🤝 متابعة متميزة من ولي الأمر</span>
+                  </div>
+                </div>
+
+                <div class="cert-footer">
+                  <div class="sig-block">
+                    <span class="sig-role">معلم المادة</span>
+                    <span class="sig-name">أ. صبري محمد حمد</span>
+                    <div class="sig-line"></div>
+                  </div>
+
+                  <div class="sig-block">
+                    <span class="sig-role">المعلم الأول</span>
+                    <span class="sig-name">أ. عبدالرضا عبدالرسول</span>
+                    <div class="sig-line"></div>
+                  </div>
+
+                  <div class="stamp-block">
+                    <img src="${STAMP_URL}" crossorigin="anonymous" alt="ختم المدرسة">
+                  </div>
+
+                  <div class="sig-block">
+                    <span class="sig-role">المدير المساعد</span>
+                    <span class="sig-name">أ. عبدالله أحمد دليم</span>
+                    <div class="sig-line"></div>
+                  </div>
+
+                  <div class="sig-block">
+                    <span class="sig-role">مدير المدرسة</span>
+                    <span class="sig-name">أ. محمد إبراهيم محمد ناصر</span>
+                    <div class="sig-line"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(wrapper);
+      });
+    }
+
+    // 1) طباعة شهادة طالب واحد فقط مع تسمية ملف الطباعة باسم الطالب وصفه
+    function printSingleStudent(studentKey) {
+      const st = honoredStudents.find(s => (s.id || s.name) === studentKey);
+      if (!st) return;
+
+      const originalTitle = document.title;
+      // تغيير اسم المستند ليظهر اسم الطالب وصفه تلقائياً عند الحفظ كـ PDF في نافذة الطباعة
+      document.title = `شهادة_تقدير_${st.name}_${st.className}`;
+
+      const allWrappers = document.querySelectorAll(".cert-card-container");
+      allWrappers.forEach(w => {
+        if (w.id !== `cert-wrap-${studentKey}`) {
+          w.classList.add("hide-on-print");
+        } else {
+          w.classList.remove("hide-on-print");
+        }
+      });
+
+      window.print();
+
+      // إعادة إظهار جميع الشهادات وتعليم الطالب كمطبوع
+      allWrappers.forEach(w => w.classList.remove("hide-on-print"));
+      document.title = originalTitle;
+      setStudentPrinted(studentKey, true);
+      renderAll();
+    }
+
+    // 2) طباعة جميع شهادات الصف المحدد مجمعة معاً
+    function printCurrentClassAll() {
+      const filtered = getFilteredStudents();
+      if (filtered.length === 0) return;
+
+      const originalTitle = document.title;
+      const clsTitle = selectedClass === "all" ? "جميع_الصفوف" : selectedClass;
+      document.title = `شهادات_ملزمة_العلوم_${clsTitle}`;
+
+      document.querySelectorAll(".cert-card-container").forEach(w => w.classList.remove("hide-on-print"));
+      window.print();
+
+      document.title = originalTitle;
+      filtered.forEach(st => setStudentPrinted(st.id || st.name, true));
+      renderAll();
+    }
+
+    // 3) طباعة الطلاب الجدد (غير المطبوعين) فقط
+    function printOnlyNewStudents() {
+      const filtered = getFilteredStudents();
+      const newOnes = filtered.filter(s => !isStudentPrinted(s));
+
+      if (newOnes.length === 0) {
+        alert("جميع الطلاب في هذا العرض تمت طباعة شهاداتهم مسبقاً! يمكنك إعادة أي طالب كـ (جديد) من الجدول إذا أردت.");
+        return;
+      }
+
+      const originalTitle = document.title;
+      document.title = `شهادات_الطلاب_الجدد_${selectedClass === "all" ? "كل_الصفوف" : selectedClass}`;
+
+      const newKeys = new Set(newOnes.map(s => `cert-wrap-${s.id || s.name}`));
+      const allWrappers = document.querySelectorAll(".cert-card-container");
+      allWrappers.forEach(w => {
+        if (!newKeys.has(w.id)) {
+          w.classList.add("hide-on-print");
+        } else {
+          w.classList.remove("hide-on-print");
+        }
+      });
+
+      window.print();
+
+      allWrappers.forEach(w => w.classList.remove("hide-on-print"));
+      document.title = originalTitle;
+      newOnes.forEach(st => setStudentPrinted(st.id || st.name, true));
+      renderAll();
+    }
+
+    // 4) تنزيل شهادة طالب واحد مباشرة كملف PDF باسمه وصفه
+    async function downloadSingleStudentPDF(studentKey) {
+      const st = honoredStudents.find(s => (s.id || s.name) === studentKey);
+      const element = document.getElementById(`cert-page-${studentKey}`);
+      if (!st || !element) return;
+
+      const fileName = `شهادة_${st.name}_${st.className}.pdf`;
+      const opt = {
+        margin: 0,
+        filename: fileName,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+      };
+
+      await html2pdf().set(opt).from(element).save();
+      setStudentPrinted(studentKey, true);
+      renderAll();
+    }
+
+    // 5) تنزيل جميع شهادات الصف كملفات PDF منفردة (ملف مستقل لكل طالب باسمه وصفه)
+    async function downloadClassSeparatePDFs() {
+      const filtered = getFilteredStudents();
+      if (filtered.length === 0) return;
+
+      const btn = document.getElementById("batchPdfBtn");
+      const originalText = btn.textContent;
+
+      for (let i = 0; i < filtered.length; i++) {
+        const st = filtered[i];
+        const key = st.id || st.name;
+        btn.textContent = `⏳ جاري حفظ (${i + 1}/${filtered.length}): ${st.name}...`;
+        await downloadSingleStudentPDF(key);
+        await new Promise(r => setTimeout(r, 450));
+      }
+
+      btn.textContent = originalText;
     }
 
     function addManualStudent() {
@@ -605,108 +1151,25 @@
       const cls = classSelect.value;
 
       if (!name) return;
-      honoredStudents.push({ name: name, className: cls });
+
+      const days = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+      const now = new Date();
+      const dateStr = `${days[now.getDay()]} ${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,"0")}/${String(now.getDate()).padStart(2,"0")}`;
+
+      honoredStudents.push({
+        id: "manual_" + Date.now(),
+        name: name,
+        className: cls,
+        dateRecorded: dateStr
+      });
+
       selectedClass = cls;
       nameInput.value = "";
-      renderTabs();
-      renderCertificates();
-    }
-
-    function renderCertificates() {
-      const container = document.getElementById("certificatesContainer");
-      const filtered = selectedClass === "all"
-        ? honoredStudents
-        : honoredStudents.filter(s => s.className === selectedClass);
-
-      container.innerHTML = "";
-
-      filtered.forEach(student => {
-        const cert = document.createElement("div");
-        cert.className = "certificate-page";
-
-        cert.innerHTML = `
-          <div class="cert-outer-border">
-            <div class="science-watermark">⚛️</div>
-            <span class="corner-sci corner-tl">🔬</span>
-            <span class="corner-sci corner-tr">🧪</span>
-            <span class="corner-sci corner-bl">🧬</span>
-            <span class="corner-sci corner-br">⚛️</span>
-
-            <div class="cert-inner-border">
-              <!-- ترويسة المدرسة -->
-              <div class="cert-top-banner">
-                <img src="${BANNER_URL}" alt="ترويسة المدرسة">
-              </div>
-
-              <!-- عنوان الشهادة -->
-              <div class="cert-title-section">
-                <div class="science-pill">🔬 قسم العلوم — تكريم التميز لشهري سبتمبر وأكتوبر 2026م 🧪</div>
-                <h2 class="cert-main-title">شهادة <span>شكر وتقدير</span> وتميز علمي</h2>
-              </div>
-
-              <!-- متن الشهادة -->
-              <div class="cert-body">
-                <p class="intro-line">
-                  يسر إدارة المدرسة وقسم العلوم أن يتقدما بوافر الشكر وعظيم التقدير والاعتزاز إلى الطالب المتميز:
-                </p>
-
-                <div class="student-honor-box">
-                  <span class="honored-name">🌟 ${student.name}</span>
-                  <span class="honored-class">${student.className}</span>
-                </div>
-
-                <p class="appreciation-paragraph">
-                  وإلى <span class="highlight-royal">ولي أمره الكريم</span> على اهتمامهم المثمر ومتابعتهم المستمرة لـ <span class="highlight-gold">ملزمة العلوم</span>، والحرص على استكمال الأنشطة وإثرائها بالصور والرسومات العلمية المبدعة، حتى ظهرت الملزمة بصورة <span class="highlight-gold">منظمة وكاملة ورائعة</span> خلال شهري <span class="highlight-royal">سبتمبر وأكتوبر 2026م</span>، سائلين الله له دوام التفوق والنجاح.
-                </p>
-
-                <div class="science-badges-row">
-                  <span class="sci-badge-item">📘 ملزمة منظمة وكاملة ورائعة</span>
-                  <span class="sci-badge-item">🎨 صور ورسومات علمية متميزة</span>
-                  <span class="sci-badge-item">🤝 متابعة متميزة من ولي الأمر</span>
-                </div>
-              </div>
-
-              <!-- التوقيعات والختم -->
-              <div class="cert-footer">
-                <div class="sig-block">
-                  <span class="sig-role">معلم المادة</span>
-                  <span class="sig-name">أ. صبري محمد حمد</span>
-                  <div class="sig-line"></div>
-                </div>
-
-                <div class="sig-block">
-                  <span class="sig-role">المعلم الأول</span>
-                  <span class="sig-name">أ. عبدالرضا عبدالرسول</span>
-                  <div class="sig-line"></div>
-                </div>
-
-                <div class="stamp-block">
-                  <img src="${STAMP_URL}" alt="ختم المدرسة">
-                </div>
-
-                <div class="sig-block">
-                  <span class="sig-role">المدير المساعد</span>
-                  <span class="sig-name">أ. عبدالله أحمد دليم</span>
-                  <div class="sig-line"></div>
-                </div>
-
-                <div class="sig-block">
-                  <span class="sig-role">مدير المدرسة</span>
-                  <span class="sig-name">أ. محمد إبراهيم محمد ناصر</span>
-                  <div class="sig-line"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-
-        container.appendChild(cert);
-      });
+      renderAll();
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      renderTabs();
-      renderCertificates();
+      renderAll();
       syncFromSheet();
     });
   </script>
