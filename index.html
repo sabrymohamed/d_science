@@ -213,7 +213,6 @@
     .st-info { flex: 1; min-width: 0; cursor: pointer; }
     .st-name { font-weight: 700; color: var(--ink); font-size: .98rem; }
     .st-sub { font-size: .82rem; font-weight: 600; color: var(--muted); display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 2px; }
-    .st-note { font-size: .8rem; color: var(--primary); margin-top: 3px; white-space: pre-line; }
     .st-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
     .empty-box { padding: 30px; text-align: center; color: var(--muted); font-weight: 600; }
 
@@ -507,7 +506,7 @@
     const BANNER_URL = "https://i.postimg.cc/K88X7RLb/trwysyh-dhhbyt.png";
     const DEFAULT_CLASSES = ["السادس الابتدائي فرقة 1", "الثاني الاعدادي فرقة 1", "الثاني الاعدادي فرقة 2", "الثاني الاعدادي فرقة 3", "الثاني الاعدادي فرقة 4"];
 
-    const LIST_CACHE_KEY = "initiativeList_v3";
+    const LIST_CACHE_KEY = "initiativeList_v4";
     const CLASSES_CACHE_KEY = "initiativeClasses_v1";
     const LAST_CLASS_KEY = "initiativeLastClass";
     const LOCAL_SUBMIT_GRACE_MS = 3 * 60 * 1000;
@@ -722,7 +721,9 @@
       } catch (e) { return null; }
     }
     function saveListCache() {
-      try { localStorage.setItem(LIST_CACHE_KEY, JSON.stringify({ t: Date.now(), students: initiativeStudents })); } catch (e) {}
+      // لا تُحفظ ملاحظات ولي الأمر عن المبادرة في ذاكرة الجهاز
+      const clean = initiativeStudents.map(({ initNotes, ...rest }) => rest);
+      try { localStorage.setItem(LIST_CACHE_KEY, JSON.stringify({ t: Date.now(), students: clean })); } catch (e) {}
     }
 
     function setStatus(text, kind = "ok") {
@@ -864,7 +865,6 @@
                 ? `<span class="pill pill-green">✅ سلّم — ${esc(st.totalInitScore || 12)} / 12</span>`
                 : `<span class="pill pill-red">⏳ لم يسلّم بعد</span>`}
             </div>
-            ${st.initNotes ? `<div class="st-note">💬 ${esc(parseEntries(st.initNotes).map(e => e.text).join(" • "))}</div>` : ""}
           </div>
           <div class="st-actions">
             ${st.folderUrl ? `<a href="${esc(st.folderUrl)}" target="_blank" rel="noopener" class="btn btn-sm btn-ghost">${st.submitted ? "👁️ المبادرة" : "📂 المجلد"}</a>` : ""}
