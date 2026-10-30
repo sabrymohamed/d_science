@@ -361,7 +361,7 @@
       <div class="initiative-launch-card">
         <div class="initiative-launch-info">
           <h2>🚀 مهمة العلوم (المبادرة العلمية — 12 درجة)</h2>
-          <p>اضغط هنا للاطلاع على كشف التسليم المحدث فوراً أو لرفع مبادرة الطالب (صور، فيديو، PDF) والحصول تلقائياً على درجة المبادرة (12 من 12).</p>
+          <p>اضغط هنا للاطلاع على كشف التسليم المحدث فوراً أو لرفع مبادرة الطالب (صور، فيديو، PDF) والحصول تلقائياً على درجة المبادرة ( من 12).</p>
         </div>
         <button type="button" class="launch-initiative-btn" onclick="openInitiativeView()">
           📂 فتح مهمة العلوم (المبادرة) ⬅️
@@ -543,7 +543,7 @@
           <span id="uploadBtnText">✅ رفع وحفظ المبادرة</span>
           <span id="uploadSpinner" class="spinner" style="display:none;"></span>
         </button>
-        <button type="button" id="cancelUploadBtn" onclick="closeUploadModal()" style="background:#e2e8f0; color:#334155; box-shadow:none;">إلغاء</button>
+        <button type="button" id="cancelUploadBtn" onclick="returnToGradesAfterUpload=false; closeUploadModal()" style="background:#e2e8f0; color:#334155; box-shadow:none;">إلغاء</button>
       </div>
 
       <div id="uploadAlert" class="alert"></div>
@@ -604,10 +604,26 @@
       document.getElementById("homeView").style.display = "none";
       document.getElementById("initiativeView").style.display = "block";
       window.scrollTo({ top: 0, behavior: "smooth" });
-      loadInitiativeWithLoadingScreen(selectedInitClass || "السادس الابتدائي فرقة 1", true);
+
+      // 1) عرض فوري من الذاكرة أو من آخر نسخة محفوظة في الجهاز
+      if (!initiativeStudents.length) {
+        const cached = readListCache();
+        if (cached) initiativeStudents = cached.students;
+      }
+      const hasData = initiativeStudents.length > 0;
+      if (hasData) {
+        if (!selectedInitClass) selectedInitClass = firstClassName();
+        showInitiativeList();
+        setBanner("🔄 جاري التحقق من آخر التحديثات في الخلفية...", false);
+      }
+
+      // 2) جلب سريع من الجدول ثم فحص مجلدات الصف الحالي في الخلفية
+      loadInitiativeList({ silent: hasData }).then(() => backgroundSyncClass(selectedInitClass));
+      startInitiativeAutoRefresh();
     }
 
     function backToHomeView() {
+      stopInitiativeAutoRefresh();
       document.getElementById("initiativeView").style.display = "none";
       document.getElementById("homeView").style.display = "block";
       document.getElementById("selectedStudentPrompt").style.display = "none";
@@ -635,64 +651,188 @@
     // ====================================================
     // شاشة "جاري تحميل البيانات" ثم عرض آخر تحديث لمن سلّم ومن لم يسلّم
     // ====================================================
-    async function loadInitiativeWithLoadingScreen(targetClass, forceFolderSync) {
-      const loadingScreen = document.getElementById("initiativeLoadingScreen");
-      const listContainer = document.getElementById("initiativeListContainer");
-      const lastBanner = document.getElementById("lastUpdatedBanner");
-      const loadingTitle = document.getElementById("loadingScreenTitle");
+    // ====================================================
+    // أدوات الاتصال والتخزين المؤقت
+    // ====================================================
+    const LIST_CACHE_KEY = "initiativeList_v2";
+    const LOCAL_SUBMIT_GRACE_MS = 3 * 60 * 1000;   // حماية التسليم المحلي من بيانات قديمة
+    const AUTO_REFRESH_MS = 45 * 1000;              // تحديث هادئ للقائمة كل 45 ثانية
+    const CLASS_RESYNC_MS = 60 * 1000;              // إعادة فحص مجلدات الصف بعد دقيقة
 
-      // إظهار شاشة جاري التحميل وإخفاء القائمة القديمة حتى يكتمل التحديث
-      listContainer.style.display = "none";
-      loadingScreen.style.display = "block";
-      loadingTitle.textContent = `⏳ جاري تحميل البيانات وفحص آخر تحديث لـ (${targetClass || "الصفوف"})...`;
+    let localSubmissions = {};      // rowIndex -> وقت الرفع من هذا الجهاز
+    let classSyncedAt = {};         // className -> آخر وقت فحص
+    let classSyncInFlight = {};
+    let listLoadInFlight = null;
+    let autoRefreshTimer = null;
+    let lastGradesData = null;      // بيانات بطاقة الدرجات المعروضة حالياً
+    let currentGradesRowIndex = null;
+    let gradesPollTimer = null;
+    let returnToGradesAfterUpload = false;
 
-      try {
-        const shouldSync = forceFolderSync || !syncedClassesSet.has(targetClass);
-        const syncParam = shouldSync && targetClass ? `&syncClass=${encodeURIComponent(targetClass)}` : "";
-
-        const res = await fetch(`${SCRIPT_URL}?action=getInitiativeList${syncParam}&t=${Date.now()}`, {
-          method: "GET",
-          redirect: "follow",
-          cache: "no-store"
-        });
-        const json = await res.json();
-
-        if (json.status === "success") {
-          initiativeStudents = json.students || [];
-          if (targetClass) syncedClassesSet.add(targetClass);
-
-          const classes = [...new Set(initiativeStudents.map(s => s.className).filter(Boolean))];
-          if (!selectedInitClass && classes.length > 0) {
-            selectedInitClass = classes[0];
-          } else if (targetClass && classes.includes(targetClass)) {
-            selectedInitClass = targetClass;
-          }
-
-          buildInitClassTabs();
-          renderInitiativeList();
-
-          loadingScreen.style.display = "none";
-          listContainer.style.display = "flex";
-          lastBanner.style.display = "flex";
-          document.getElementById("lastUpdatedText").textContent =
-            `✅ آخر تحديث مؤكد لبيانات التسليم والدرجات: الساعة ${getFormattedTimeNow()}`;
-        } else {
-          loadingScreen.style.display = "none";
-          listContainer.style.display = "flex";
-          listContainer.innerHTML = `<div class="alert error" style="display:block;">${json.message || "تعذر جلب البيانات"}</div>`;
+    async function apiGet(params, timeoutMs = 30000, retries = 1) {
+      const qs = new URLSearchParams({ ...params, t: Date.now() }).toString();
+      for (let attempt = 0; ; attempt++) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+        try {
+          const res = await fetch(`${SCRIPT_URL}?${qs}`, { method: "GET", redirect: "follow", cache: "no-store", signal: ctrl.signal });
+          return await res.json();
+        } catch (err) {
+          if (attempt >= retries) throw err;
+          await new Promise(r => setTimeout(r, 700));
+        } finally {
+          clearTimeout(timer);
         }
-      } catch (err) {
-        loadingScreen.style.display = "none";
-        listContainer.style.display = "flex";
-        listContainer.innerHTML = `<div class="alert error" style="display:block;">تعذر الاتصال بقاعدة البيانات، يرجى المحاولة مرة أخرى.</div>`;
       }
     }
 
-    function refreshCurrentClassNow() {
-      if (selectedInitClass) {
-        syncedClassesSet.delete(selectedInitClass);
-        loadInitiativeWithLoadingScreen(selectedInitClass, true);
+    function readListCache() {
+      try {
+        const obj = JSON.parse(localStorage.getItem(LIST_CACHE_KEY) || "null");
+        return obj && Array.isArray(obj.students) && obj.students.length ? obj : null;
+      } catch (e) { return null; }
+    }
+
+    function saveListCache() {
+      try { localStorage.setItem(LIST_CACHE_KEY, JSON.stringify({ t: Date.now(), students: initiativeStudents })); } catch (e) {}
+    }
+
+    function firstClassName() {
+      const classes = [...new Set(initiativeStudents.map(s => s.className).filter(Boolean))];
+      return classes[0] || "";
+    }
+
+    function setBanner(text, done) {
+      const banner = document.getElementById("lastUpdatedBanner");
+      banner.style.display = "flex";
+      document.getElementById("lastUpdatedText").textContent = text;
+      banner.style.opacity = done ? "1" : "0.85";
+    }
+
+    function showInitiativeList() {
+      document.getElementById("initiativeLoadingScreen").style.display = "none";
+      document.getElementById("initiativeListContainer").style.display = "flex";
+      buildInitClassTabs();
+      renderInitiativeList();
+    }
+
+    // دمج طالب محدَّث في القائمة (مع حماية الرفع الذي تم للتو من هذا الجهاز)
+    function mergeStudent(updated) {
+      const idx = initiativeStudents.findIndex(s => s.rowIndex === updated.rowIndex);
+      if (idx === -1) { initiativeStudents.push(updated); return true; }
+      const cur = initiativeStudents[idx];
+      const recentLocal = localSubmissions[updated.rowIndex] && (Date.now() - localSubmissions[updated.rowIndex] < LOCAL_SUBMIT_GRACE_MS);
+      if (recentLocal && cur.submitted && !updated.submitted) return false;
+      const changed = JSON.stringify(cur) !== JSON.stringify(updated);
+      initiativeStudents[idx] = updated;
+      return changed;
+    }
+
+    // جلب سريع للقائمة من الجدول (بدون فحص Drive)
+    async function loadInitiativeList({ silent = false } = {}) {
+      if (listLoadInFlight) return listLoadInFlight;
+      const loadingScreen = document.getElementById("initiativeLoadingScreen");
+      const listContainer = document.getElementById("initiativeListContainer");
+
+      if (!silent) {
+        listContainer.style.display = "none";
+        loadingScreen.style.display = "block";
+        document.getElementById("loadingScreenTitle").textContent = "⏳ جاري تحميل قائمة الطلاب...";
       }
+
+      listLoadInFlight = (async () => {
+        try {
+          const json = await apiGet({ action: "getInitiativeList" });
+          if (json.status !== "success") throw new Error(json.message || "تعذر جلب البيانات");
+
+          const fresh = json.students || [];
+          if (!initiativeStudents.length) initiativeStudents = fresh;
+          else {
+            const freshRows = new Set(fresh.map(s => s.rowIndex));
+            initiativeStudents = initiativeStudents.filter(s => freshRows.has(s.rowIndex));
+            fresh.forEach(mergeStudent);
+          }
+          const classes = [...new Set(initiativeStudents.map(s => s.className).filter(Boolean))];
+          if (!selectedInitClass || !classes.includes(selectedInitClass)) selectedInitClass = classes[0] || "";
+
+          saveListCache();
+          showInitiativeList();
+          setBanner(`✅ آخر تحديث مؤكد لبيانات التسليم والدرجات: الساعة ${getFormattedTimeNow()}`, true);
+        } catch (err) {
+          if (!initiativeStudents.length) {
+            loadingScreen.style.display = "none";
+            listContainer.style.display = "flex";
+            listContainer.innerHTML = `<div class="alert error" style="display:block;">تعذر الاتصال بقاعدة البيانات، يرجى المحاولة مرة أخرى.</div>`;
+          } else {
+            setBanner("⚠️ تعذر التحديث الآن — يتم عرض آخر نسخة محفوظة", true);
+          }
+        } finally {
+          listLoadInFlight = null;
+        }
+      })();
+      return listLoadInFlight;
+    }
+
+    // فحص مجلدات صف في الخلفية — يُرجع فقط من تغيّرت حالتهم
+    async function backgroundSyncClass(cls, full = false) {
+      if (!cls || classSyncInFlight[cls]) return;
+      classSyncInFlight[cls] = true;
+      if (cls === selectedInitClass) setBanner(`🔄 جاري فحص مجلدات (${cls}) في الخلفية...`, false);
+      try {
+        const params = { action: "syncFolders", className: cls };
+        if (full) params.full = "1";
+        const json = await apiGet(params, 60000, 0);
+        if (json.status === "success") {
+          classSyncedAt[cls] = Date.now();
+          let changed = false;
+          (json.updated || []).forEach(u => { if (mergeStudent(u)) changed = true; });
+          if (changed) {
+            saveListCache();
+            buildInitClassTabs();
+            renderInitiativeList();
+          }
+        }
+        if (cls === selectedInitClass) setBanner(`✅ آخر تحديث مؤكد لبيانات التسليم والدرجات: الساعة ${getFormattedTimeNow()}`, true);
+      } catch (e) {
+        if (cls === selectedInitClass) setBanner("⚠️ تعذر فحص المجلدات الآن — سيُعاد المحاولة تلقائياً", true);
+      } finally {
+        classSyncInFlight[cls] = false;
+      }
+    }
+
+    function startInitiativeAutoRefresh() {
+      stopInitiativeAutoRefresh();
+      autoRefreshTimer = setInterval(() => {
+        if (document.hidden) return;
+        if (document.getElementById("initiativeView").style.display === "none") return;
+        if (document.getElementById("uploadModal").style.display === "flex") return;
+        loadInitiativeList({ silent: true }).then(() => {
+          if (Date.now() - (classSyncedAt[selectedInitClass] || 0) > CLASS_RESYNC_MS) backgroundSyncClass(selectedInitClass);
+        });
+      }, AUTO_REFRESH_MS);
+    }
+
+    function stopInitiativeAutoRefresh() {
+      if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+      autoRefreshTimer = null;
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && document.getElementById("initiativeView").style.display === "block") {
+        loadInitiativeList({ silent: true });
+      }
+    });
+
+    // للتوافق مع الاستدعاءات القديمة
+    function loadInitiativeWithLoadingScreen(targetClass, forceFolderSync) {
+      if (targetClass) selectedInitClass = targetClass;
+      return loadInitiativeList({ silent: initiativeStudents.length > 0 })
+        .then(() => backgroundSyncClass(selectedInitClass));
+    }
+
+    function refreshCurrentClassNow() {
+      loadInitiativeList({ silent: initiativeStudents.length > 0 })
+        .then(() => backgroundSyncClass(selectedInitClass));
     }
 
     function buildInitClassTabs() {
@@ -710,12 +850,9 @@
         btn.innerHTML = `${cls} <span style="font-size:0.8rem;opacity:0.85;">(${doneCount}/${clsList.length})</span>`;
         btn.onclick = () => {
           selectedInitClass = cls;
-          if (!syncedClassesSet.has(cls)) {
-            loadInitiativeWithLoadingScreen(cls, true);
-          } else {
-            buildInitClassTabs();
-            renderInitiativeList();
-          }
+          buildInitClassTabs();
+          renderInitiativeList();   // عرض فوري
+          if (Date.now() - (classSyncedAt[cls] || 0) > CLASS_RESYNC_MS) backgroundSyncClass(cls);
         };
         tabsBar.appendChild(btn);
       });
@@ -936,33 +1073,46 @@
         try {
           json = JSON.parse(textResponse);
         } catch (parseErr) {
-          json = { status: "success" };
+          json = res.ok ? { status: "success" } : { status: "error", message: "تعذر قراءة رد الخادم، حاول مرة أخرى." };
         }
 
         if (json.status === "success") {
-          // تحديث بيانات الطالب فوراً في الشاشة ورصد الـ 12 درجة
-          activeUploadStudent.submitted = true;
-          activeUploadStudent.statusText = "سلّم المبادرة";
-          activeUploadStudent.workQuality = 4;
-          activeUploadStudent.contentAccuracy = 4;
-          activeUploadStudent.presentation = 4;
-          activeUploadStudent.totalInitScore = 12;
-          if (payload.parentNote) {
-            activeUploadStudent.initNotes = (activeUploadStudent.initNotes ? activeUploadStudent.initNotes + " | " : "") + payload.parentNote;
-          }
-          if (json.folderUrl) activeUploadStudent.folderUrl = json.folderUrl;
-
+          // تحديث بيانات الطالب فوراً في القائمة وفي بطاقة الدرجات
+          const updated = json.student || {
+            ...activeUploadStudent,
+            submitted: true,
+            statusText: "سلّم المبادرة",
+            workQuality: json.workQuality ?? 4,
+            contentAccuracy: json.contentAccuracy ?? 4,
+            presentation: json.presentation ?? 4,
+            totalInitScore: json.totalInitScore ?? 12,
+            folderUrl: json.folderUrl || activeUploadStudent.folderUrl
+          };
+          localSubmissions[updated.rowIndex] = Date.now();
+          mergeStudent(updated);
+          activeUploadStudent = updated;
+          saveListCache();
           buildInitClassTabs();
           renderInitiativeList();
+          applyInitiativeToGradesCard(updated);
 
           progressBox.style.display = "none";
           alertEl.className = "alert success";
-          alertEl.textContent = "🎉 تم رفع المبادرة بنجاح ورُصدت الدرجة الكاملة (12 من 12) للطالب!";
+          alertEl.textContent = `🎉 ${json.message || "تم رفع المبادرة بنجاح ورُصدت الدرجة الكاملة (12 من 12) للطالب!"}`;
           alertEl.style.display = "block";
+
+          // تأكيد من الخادم في الخلفية (في حال كان الرد غير مقروء)
+          if (!json.student) setTimeout(() => backgroundSyncClass(updated.className), 1500);
 
           setTimeout(() => {
             closeUploadModal();
-          }, 1400);
+            if (returnToGradesAfterUpload) {
+              returnToGradesAfterUpload = false;
+              backToHomeView();
+              const card = document.getElementById("resultCard");
+              if (card.style.display === "block") card.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }, 1200);
         } else {
           progressBox.style.display = "none";
           alertEl.className = "alert error";
@@ -984,9 +1134,9 @@
     // ====================================================
     // الاستعلام عن درجات الطالب بالرقم الشخصي (مع عرض درجات المبادرة 4+4+4=12)
     // ====================================================
-    async function fetchStudentData() {
-      const id = toEnglishDigits(studentIdInput.value.trim());
-      studentIdInput.value = id;
+    async function fetchStudentData(silent = false) {
+      const id = silent ? currentStudentId : toEnglishDigits(studentIdInput.value.trim());
+      if (!silent) studentIdInput.value = id;
 
       const alertBox = document.getElementById("alertBox");
       const resultCard = document.getElementById("resultCard");
@@ -994,44 +1144,123 @@
       const btnText = document.getElementById("btnText");
       const spinner = document.getElementById("spinner");
 
-      alertBox.style.display = "none";
-      resultCard.style.display = "none";
-
-      if (!id) {
-        alertBox.textContent = "يرجى إدخال الرقم الشخصي للطالب بالأرقام الإنجليزية أولاً";
-        alertBox.style.display = "block";
-        return;
+      if (!silent) {
+        alertBox.style.display = "none";
+        if (!id) {
+          alertBox.textContent = "يرجى إدخال الرقم الشخصي للطالب بالأرقام الإنجليزية أولاً";
+          alertBox.style.display = "block";
+          return;
+        }
+        searchBtn.disabled = true;
+        btnText.textContent = "جاري تحميل البيانات...";
+        spinner.style.display = "inline-block";
       }
 
-      searchBtn.disabled = true;
-      btnText.textContent = "جاري تحميل البيانات...";
-      spinner.style.display = "inline-block";
-
       try {
-        const res = await fetch(`${SCRIPT_URL}?id=${encodeURIComponent(id)}&t=${Date.now()}`, {
-          method: "GET",
-          redirect: "follow",
-          cache: "no-store"
-        });
-        const json = await res.json();
+        const json = await apiGet({ id });
 
         if (json.status === "success") {
+          const sameStudent = currentStudentId === id && resultCard.style.display === "block";
           currentStudentId = id;
-          renderStudentGrades(json.data);
+          lastGradesData = json.data;
+          currentGradesRowIndex = json.initiative ? json.initiative.rowIndex : null;
+
+          // إن كان الطالب قد سلّم للتو من هذا الجهاز فنعرض درجاته حتى لو تأخر الخادم لحظات
+          const local = initiativeStudents.find(s => s.rowIndex === currentGradesRowIndex);
+          if (json.initiative) {
+            if (local && local.submitted && !json.initiative.submitted && localSubmissions[local.rowIndex]) patchGradesData(local);
+            else mergeStudent(json.initiative);
+          }
+
+          renderStudentGrades(lastGradesData);
           resultCard.style.display = "block";
-          resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else {
+          if (!silent || !sameStudent) resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+          startGradesPolling();
+        } else if (!silent) {
+          resultCard.style.display = "none";
           alertBox.textContent = json.message || "لم يتم العثور على طالب بهذا الرقم الشخصي";
           alertBox.style.display = "block";
         }
       } catch (e) {
-        alertBox.textContent = "تعذر الاتصال بقاعدة البيانات، يرجى المحاولة مرة أخرى";
-        alertBox.style.display = "block";
+        if (!silent) {
+          alertBox.textContent = "تعذر الاتصال بقاعدة البيانات، يرجى المحاولة مرة أخرى";
+          alertBox.style.display = "block";
+        }
       } finally {
-        searchBtn.disabled = false;
-        btnText.textContent = "عرض النتيجة";
-        spinner.style.display = "none";
+        if (!silent) {
+          searchBtn.disabled = false;
+          btnText.textContent = "عرض النتيجة";
+          spinner.style.display = "none";
+        }
       }
+    }
+
+    // ====================================================
+    // تحديث بطاقة الدرجات لحظياً بعد رفع المبادرة
+    // ====================================================
+    function isGradesSubmitted() {
+      if (!lastGradesData) return false;
+      const key = Object.keys(lastGradesData).find(k => k.includes("حالة المبادرة"));
+      const st = key ? String(lastGradesData[key] || "") : "";
+      return isSubmittedText(st);
+    }
+
+    // كلمة "المبادرة" تحتوي على "لم"، لذا نفحص "لم يسل" تحديداً
+    function isSubmittedText(text) {
+      const s = String(text || "").trim();
+      if (!s || /^لم\s|لم\s*يسل/.test(s)) return false;
+      return s.includes("سلّم") || s.includes("سلم");
+    }
+
+    function patchGradesData(item) {
+      if (!lastGradesData) return;
+      for (const key of Object.keys(lastGradesData)) {
+        if (key.includes("حالة المبادرة")) lastGradesData[key] = item.statusText;
+        else if (key.includes("رابط مجلد المبادرة") && item.folderUrl) lastGradesData[key] = item.folderUrl;
+        else if (key.includes("ملاحظات ولي الأمر عن المبادرة") && item.initNotes) lastGradesData[key] = item.initNotes;
+        else if (key.includes("جودة العمل")) lastGradesData[key] = item.workQuality;
+        else if (key.includes("سلامة المادة")) lastGradesData[key] = item.contentAccuracy;
+        else if (key.includes("العرض")) lastGradesData[key] = item.presentation;
+        else if (key.includes("مجموع المبادرة")) lastGradesData[key] = item.totalInitScore;
+      }
+    }
+
+    function applyInitiativeToGradesCard(item) {
+      if (!lastGradesData || currentGradesRowIndex !== item.rowIndex) return;
+      patchGradesData(item);
+      renderStudentGrades(lastGradesData);
+      const panel = document.getElementById("studentInitiativeScoresPanel");
+      panel.animate([{ transform: "scale(1)" }, { transform: "scale(1.03)" }, { transform: "scale(1)" }], { duration: 600 });
+    }
+
+    // إذا كانت بطاقة الطالب مفتوحة ولم يسلّم بعد، نتحقق كل 30 ثانية لتظهر الدرجات تلقائياً فور التسليم
+    function startGradesPolling() {
+      if (gradesPollTimer) clearInterval(gradesPollTimer);
+      gradesPollTimer = null;
+      if (isGradesSubmitted()) return;
+      const startedAt = Date.now();
+      gradesPollTimer = setInterval(() => {
+        const visible = document.getElementById("resultCard").style.display === "block";
+        if (!visible || isGradesSubmitted() || Date.now() - startedAt > 15 * 60 * 1000) {
+          clearInterval(gradesPollTimer); gradesPollTimer = null; return;
+        }
+        if (!document.hidden) fetchStudentData(true);
+      }, 30000);
+    }
+
+    // زر "ارفع المبادرة الآن" داخل بطاقة الدرجات: يفتح نافذة الرفع لهذا الطالب مباشرة
+    async function openUploadForCurrentStudent() {
+      if (!initiativeStudents.length) {
+        const cached = readListCache();
+        if (cached) initiativeStudents = cached.students;
+        else await loadInitiativeList({ silent: true });
+      }
+      const st = initiativeStudents.find(s => s.rowIndex === currentGradesRowIndex);
+      if (!st) { openInitiativeView(); return; }
+      selectedInitClass = st.className;
+      openInitiativeView();
+      returnToGradesAfterUpload = true;
+      openUploadModal(st.rowIndex);
     }
 
     function renderStudentGrades(data) {
@@ -1071,7 +1300,7 @@
       }
 
       // عرض لوحة درجات المبادرة (جودة العمل 4 + سلامة المادة 4 + العرض 4 = المجموع 12)
-      const isInitSubmitted = (initStatus.includes("سلّم") || initStatus.includes("سلم")) && !initStatus.includes("لم");
+      const isInitSubmitted = isSubmittedText(initStatus);
       initPanel.style.display = "block";
 
       if (isInitSubmitted) {
@@ -1110,7 +1339,7 @@
         initPanel.innerHTML = `
           <div class="init-panel-title">
             <span>⚠️ درجات مهمة العلوم (المبادرة العلمية — 12 درجة)</span>
-            <button type="button" onclick="openInitiativeView()" style="padding:0.45rem 0.9rem;font-size:0.85rem;background:#dc2626;">📤 اضغط هنا لرفع المبادرة الآن</button>
+            <button type="button" onclick="openUploadForCurrentStudent()" style="padding:0.45rem 0.9rem;font-size:0.85rem;background:#dc2626;">📤 اضغط هنا لرفع المبادرة الآن</button>
           </div>
           <div class="init-criteria-grid">
             <div class="criteria-box"><span>جودة العمل (4)</span><strong style="color:#dc2626;">لم يسلّم</strong></div>
