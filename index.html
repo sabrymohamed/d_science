@@ -9,10 +9,6 @@
     :root {
       --primary: #1e3a8a;
       --primary-light: #2563eb;
-      --primary-soft: #eff6ff;
-      --gold: #b45309;
-      --gold-bg: #fffbeb;
-      --gold-border: #fde68a;
       --bg: #f1f5f9;
       --card-bg: #ffffff;
       --text: #1e293b;
@@ -20,20 +16,10 @@
       --border: #e2e8f0;
       --success: #059669;
       --success-bg: #ecfdf5;
-      --success-border: #6ee7b7;
       --danger: #dc2626;
-      --danger-dark: #881313;
-      --danger-bg: #fef2f2;
-      --danger-border: #fca5a5;
-      --warning: #d97706;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Tajawal', sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
 
     body {
       background: linear-gradient(180deg, #e2e8f0 0%, #f8fafc 40%, #f1f5f9 100%);
@@ -45,1214 +31,256 @@
       padding: 1.5rem 1rem 3.5rem;
     }
 
-    .container {
-      width: 100%;
-      max-width: 860px;
-    }
+    .container { width: 100%; max-width: 860px; }
 
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes popIn { 0% { opacity: 0; transform: scale(0.85); } 70% { transform: scale(1.03); } 100% { opacity: 1; transform: scale(1); } }
+    @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.45); } 50% { box-shadow: 0 0 0 10px rgba(5, 150, 105, 0); } }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .school-banner { width: 100%; background: var(--card-bg); border-radius: 20px; padding: 0.7rem; box-shadow: 0 8px 20px rgba(0,0,0,0.06); margin-bottom: 1.2rem; text-align: center; border: 2px solid #e2e8f0; }
+    .school-banner img { max-width: 100%; height: auto; border-radius: 14px; display: block; margin: 0 auto; }
 
-    @keyframes popIn {
-      0% { opacity: 0; transform: scale(0.85); }
-      70% { transform: scale(1.03); }
-      100% { opacity: 1; transform: scale(1); }
-    }
+    .header-card { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%); color: white; text-align: center; padding: 1.9rem 1.5rem; border-radius: 22px; box-shadow: 0 12px 30px -5px rgba(30,58,138,0.35); margin-bottom: 1.3rem; position: relative; }
+    .header-card h1 { font-size: 1.6rem; margin-bottom: 0.6rem; font-weight: 900; }
+    .header-card .teacher-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.16); padding: 0.45rem 1.4rem; border-radius: 999px; font-size: 1.02rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.35); }
 
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.45); }
-      50% { box-shadow: 0 0 0 10px rgba(5, 150, 105, 0); }
-    }
+    .initiative-launch-card { background: linear-gradient(135deg, #065f46 0%, #059669 55%, #10b981 100%); color: white; border-radius: 22px; padding: 1.5rem 1.6rem; margin-bottom: 1.4rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; box-shadow: 0 12px 28px -5px rgba(5,150,105,0.38); border: 2px solid #6ee7b7; animation: pulseGlow 2.5s infinite; }
+    .initiative-launch-info h2 { font-size: 1.35rem; font-weight: 900; margin-bottom: 0.35rem; }
+    .initiative-launch-info p { font-size: 0.96rem; opacity: 0.95; font-weight: 600; line-height: 1.5; }
+    .launch-initiative-btn { background: #ffffff; color: #065f46; border: none; padding: 0.95rem 1.6rem; border-radius: 14px; font-size: 1.05rem; font-weight: 900; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 6px 15px rgba(0,0,0,0.15); transition: all 0.2s; white-space: nowrap; }
+    .launch-initiative-btn:hover { transform: translateY(-2px) scale(1.02); background: #ecfdf5; }
 
-    /* ترويسة المدرسة */
-    .school-banner {
-      width: 100%;
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 0.7rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-      margin-bottom: 1.2rem;
-      text-align: center;
-      border: 2px solid #e2e8f0;
-      animation: slideDown 0.6s ease-out;
-    }
+    .instructions-card { background: linear-gradient(145deg, #fffbeb, #fef3c7); border: 2px solid #fcd34d; border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .instructions-card h3 { color: #92400e; font-size: 1.2rem; font-weight: 900; margin-bottom: 0.9rem; }
+    .instructions-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    .instructions-list li { position: relative; padding-right: 1.6rem; font-size: 0.98rem; line-height: 1.65; color: #78350f; font-weight: 600; background: rgba(255,255,255,0.65); padding: 0.75rem 1.8rem 0.75rem 0.9rem; border-radius: 12px; border-right: 4px solid #f59e0b; }
+    .instructions-list li::before { content: "✦"; position: absolute; right: 0.5rem; top: 0.75rem; color: #d97706; font-weight: 900; }
+    .highlight-red { color: #dc2626; font-weight: 800; background: #fee2e2; padding: 0.1rem 0.45rem; border-radius: 6px; }
+    .highlight-blue { color: #1e3a8a; font-weight: 800; background: #dbeafe; padding: 0.1rem 0.45rem; border-radius: 6px; }
 
-    .school-banner img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 14px;
-      display: block;
-      margin: 0 auto;
-    }
+    .search-box { background: var(--card-bg); padding: 1.7rem; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); border: 2px solid var(--border); margin-bottom: 1.5rem; }
+    .search-box.highlight-prompt { border-color: var(--primary-light); box-shadow: 0 0 0 6px rgba(37,99,235,0.18); }
+    .selected-student-prompt { background: #eff6ff; border: 1.5px solid #93c5fd; color: var(--primary); padding: 0.75rem 1rem; border-radius: 12px; margin-bottom: 0.9rem; font-weight: 800; font-size: 0.96rem; display: none; }
+    .form-group { display: flex; flex-direction: column; gap: 0.55rem; }
+    label { font-weight: 800; color: var(--text); font-size: 1.05rem; }
+    .english-note { font-size: 0.9rem; color: var(--primary-light); font-weight: 700; }
+    .input-wrapper { display: flex; gap: 0.7rem; margin-top: 0.35rem; }
+    input[type="text"], input[type="url"], textarea { flex: 1; padding: 0.95rem 1.2rem; border: 2px solid #cbd5e1; border-radius: 14px; font-size: 1.12rem; font-weight: 800; outline: none; background: #f8fafc; color: var(--primary); }
+    input[type="text"]:focus, input[type="url"]:focus, textarea:focus { background: #ffffff; border-color: var(--primary-light); box-shadow: 0 0 0 4px rgba(37,99,235,0.15); }
 
-    /* بطاقة العنوان والمعلم */
-    .header-card {
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
-      color: white;
-      text-align: center;
-      padding: 1.9rem 1.5rem;
-      border-radius: 22px;
-      box-shadow: 0 12px 30px -5px rgba(30, 58, 138, 0.35);
-      margin-bottom: 1.3rem;
-      position: relative;
-      overflow: hidden;
-      animation: slideDown 0.7s ease-out;
-    }
+    button { background: linear-gradient(135deg, #2563eb, #1e3a8a); color: white; border: none; border-radius: 14px; padding: 0.95rem 1.6rem; font-size: 1rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+    button:hover { transform: translateY(-2px); }
 
-    .header-card::after {
-      content: "🔬";
-      position: absolute;
-      left: -10px;
-      bottom: -15px;
-      font-size: 5.5rem;
-      opacity: 0.1;
-      transform: rotate(-15deg);
-      pointer-events: none;
-    }
+    /* واجهة المبادرة */
+    #initiativeView { display: none; animation: fadeInUp 0.4s ease-out; }
+    .init-nav-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.2rem; }
+    .btn-back-home { background: white; color: var(--primary); border: 2px solid #bfdbfe; }
+    .btn-go-grades { background: linear-gradient(135deg, #1e3a8a, #2563eb); }
 
-    .header-card h1 {
-      font-size: 1.6rem;
-      margin-bottom: 0.6rem;
-      font-weight: 900;
-    }
-
-    .header-card .teacher-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(255, 255, 255, 0.16);
-      backdrop-filter: blur(6px);
-      padding: 0.45rem 1.4rem;
-      border-radius: 999px;
-      font-size: 1.02rem;
-      font-weight: 700;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-    }
-
-    /* بطاقة زر مهمة العلوم (المبادرة) البارزة قبل تسجيل الدخول */
-    .initiative-launch-card {
-      background: linear-gradient(135deg, #065f46 0%, #059669 55%, #10b981 100%);
-      color: white;
-      border-radius: 22px;
-      padding: 1.5rem 1.6rem;
-      margin-bottom: 1.4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      box-shadow: 0 12px 28px -5px rgba(5, 150, 105, 0.38);
-      animation: fadeInUp 0.7s ease-out, pulseGlow 2.5s infinite;
-      border: 2px solid #6ee7b7;
-    }
-
-    .initiative-launch-info h2 {
-      font-size: 1.35rem;
-      font-weight: 900;
-      margin-bottom: 0.35rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .initiative-launch-info p {
-      font-size: 0.96rem;
-      opacity: 0.95;
-      font-weight: 600;
-      line-height: 1.5;
-    }
-
-    .launch-initiative-btn {
-      background: #ffffff;
-      color: #065f46;
-      border: none;
-      padding: 0.95rem 1.6rem;
-      border-radius: 14px;
-      font-size: 1.05rem;
-      font-weight: 900;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-
-    .launch-initiative-btn:hover {
-      transform: translateY(-2px) scale(1.02);
-      background: #ecfdf5;
-    }
-
-    /* لوحة التوجيهات الهامة لولي الأمر */
-    .instructions-card {
-      background: linear-gradient(145deg, #fffbeb, #fef3c7);
-      border: 2px solid #fcd34d;
-      border-radius: 20px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 6px 18px rgba(180, 83, 9, 0.08);
-      animation: fadeInUp 0.75s ease-out;
-    }
-
-    .instructions-card h3 {
-      color: #92400e;
-      font-size: 1.2rem;
-      font-weight: 900;
-      margin-bottom: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .instructions-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .instructions-list li {
-      position: relative;
-      padding-right: 1.6rem;
-      font-size: 0.98rem;
-      line-height: 1.65;
-      color: #78350f;
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.65);
-      padding: 0.75rem 1.8rem 0.75rem 0.9rem;
-      border-radius: 12px;
-      border-right: 4px solid #f59e0b;
-    }
-
-    .instructions-list li::before {
-      content: "✦";
-      position: absolute;
-      right: 0.5rem;
-      top: 0.75rem;
-      color: #d97706;
-      font-size: 1rem;
-      font-weight: 900;
-    }
-
-    .highlight-red {
-      color: #dc2626;
-      font-weight: 800;
-      background: #fee2e2;
-      padding: 0.1rem 0.45rem;
-      border-radius: 6px;
-    }
-
-    .highlight-blue {
-      color: #1e3a8a;
-      font-weight: 800;
-      background: #dbeafe;
-      padding: 0.1rem 0.45rem;
-      border-radius: 6px;
-    }
-
-    /* صندوق البحث بالرقم الشخصي */
-    .search-box {
-      background: var(--card-bg);
-      padding: 1.7rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-      border: 2px solid var(--border);
-      margin-bottom: 1.5rem;
-      animation: fadeInUp 0.85s ease-out;
-      transition: all 0.3s;
-    }
-
-    .search-box.highlight-prompt {
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.18);
-    }
-
-    .selected-student-prompt {
-      background: #eff6ff;
-      border: 1.5px solid #93c5fd;
-      color: var(--primary);
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
-      margin-bottom: 0.9rem;
-      font-weight: 800;
-      font-size: 0.96rem;
-      display: none;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.55rem;
-    }
-
-    label {
-      font-weight: 800;
-      color: var(--text);
-      font-size: 1.05rem;
-    }
-
-    .english-note {
-      font-size: 0.9rem;
-      color: var(--primary-light);
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .input-wrapper {
-      display: flex;
-      gap: 0.7rem;
-      margin-top: 0.35rem;
-    }
-
-    input[type="text"], input[type="url"] {
-      flex: 1;
-      padding: 0.95rem 1.2rem;
-      border: 2px solid #cbd5e1;
-      border-radius: 14px;
-      font-size: 1.15rem;
-      font-weight: 800;
-      outline: none;
-      transition: all 0.25s ease;
-      direction: ltr;
-      text-align: center;
-      letter-spacing: 1px;
-      color: var(--primary);
-      background: #f8fafc;
-    }
-
-    input[type="text"]::placeholder, input[type="url"]::placeholder {
-      direction: rtl;
-      letter-spacing: 0;
-      font-weight: 500;
-      font-size: 0.95rem;
-      color: #94a3b8;
-    }
-
-    input[type="text"]:focus, input[type="url"]:focus {
-      background: #ffffff;
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
-    }
-
-    button {
-      background: linear-gradient(135deg, #2563eb, #1e3a8a);
-      color: white;
-      border: none;
-      border-radius: 14px;
-      padding: 0.95rem 1.6rem;
-      font-size: 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-    }
-
-    button:disabled {
-      background: #94a3b8;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    /* ====================================================
-       واجهة مهمة العلوم (المبادرة)
-       ==================================================== */
-    #initiativeView {
-      display: none;
-      animation: fadeInUp 0.4s ease-out;
-    }
-
-    .init-nav-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .btn-back-home {
-      background: white;
-      color: var(--primary);
-      border: 2px solid #bfdbfe;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    }
-
-    .btn-back-home:hover {
-      background: #eff6ff;
-    }
-
-    .btn-go-grades {
-      background: linear-gradient(135deg, #1e3a8a, #2563eb);
-    }
-
-    .init-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.9rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .init-stat-card {
-      background: white;
-      border-radius: 16px;
-      padding: 1rem 1.1rem;
-      border: 2px solid var(--border);
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    }
-
+    .init-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-bottom: 1.2rem; }
+    .init-stat-card { background: white; border-radius: 16px; padding: 1rem; border: 2px solid var(--border); text-align: center; }
     .init-stat-card.stat-total { border-top: 5px solid var(--primary-light); }
     .init-stat-card.stat-done { border-top: 5px solid #16a34a; background: #dcfce7; }
     .init-stat-card.stat-pending { border-top: 5px solid #7f1d1d; background: #991b1b; color: white; }
-
-    .init-stat-card span {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: #475569;
-      margin-bottom: 0.25rem;
-    }
-
-    .init-stat-card.stat-pending span {
-      color: #fecaca;
-    }
-
-    .init-stat-card strong {
-      font-size: 1.65rem;
-      font-weight: 900;
-    }
-
-    /* فلاتر الصفوف والحالة في واجهة المبادرة */
-    .init-controls-card {
-      background: white;
-      border-radius: 18px;
-      padding: 1.25rem;
-      border: 1px solid var(--border);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-      margin-bottom: 1.2rem;
-    }
-
-    .class-tabs-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .class-tab-btn {
-      background: #f8fafc;
-      color: var(--text);
-      border: 2px solid var(--border);
-      padding: 0.55rem 1rem;
-      border-radius: 12px;
-      font-size: 0.92rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: none;
-    }
-
-    .class-tab-btn.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-
-    .filter-search-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.65rem;
-      align-items: center;
-    }
-
-    .filter-search-row input {
-      flex: 1;
-      min-width: 200px;
-      direction: rtl;
-      text-align: right;
-      letter-spacing: 0;
-      font-size: 0.98rem;
-      padding: 0.75rem 1rem;
-    }
-
-    .status-filter-pills {
-      display: flex;
-      gap: 0.45rem;
-      flex-wrap: wrap;
-    }
-
-    .status-pill-btn {
-      background: #f1f5f9;
-      color: #334155;
-      border: 1.5px solid #cbd5e1;
-      padding: 0.6rem 0.95rem;
-      border-radius: 10px;
-      font-size: 0.88rem;
-      font-weight: 800;
-      box-shadow: none;
-    }
-
-    .status-pill-btn.active-pill {
-      background: #0f172a;
-      color: white;
-      border-color: #0f172a;
-    }
-
-    /* ==============================================================
-       كشف أسماء طلاب المبادرة (أخضر فاتح لمن سلّم / أحمر غامق لمن لم يسلّم)
-       ============================================================== */
-    .initiative-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .init-student-row {
-      border-radius: 16px;
-      padding: 1.05rem 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.9rem;
-      transition: all 0.2s;
-    }
-
-    /* 1) الطالب الذي سلّم المبادرة: أخضر فاتح واضح ومميز */
-    .init-student-row.row-submitted {
-      background: linear-gradient(135deg, #bbf7d0 0%, #dcfce7 65%, #f0fdf4 100%);
-      border: 2.5px solid #22c55e;
-      border-right: 10px solid #15803d;
-      box-shadow: 0 6px 16px rgba(22, 163, 74, 0.15);
-    }
-
-    /* 2) الطالب الذي لم يسلّم المبادرة: أحمر غامق قوي يوضح الفرق فوراً */
-    .init-student-row.row-not-submitted {
-      background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 60%, #b91c1c 100%);
-      border: 2.5px solid #450a0a;
-      border-right: 10px solid #450a0a;
-      color: #ffffff;
-      box-shadow: 0 6px 16px rgba(127, 29, 29, 0.25);
-    }
-
-    .init-student-info {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      flex-wrap: wrap;
-      cursor: pointer;
-    }
-
-    .init-num-badge {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 0.98rem;
-    }
-
-    .row-submitted .init-num-badge {
-      background: #15803d;
-      color: #ffffff;
-      border: 1.5px solid #166534;
-    }
-
-    .row-not-submitted .init-num-badge {
-      background: rgba(255, 255, 255, 0.18);
-      color: #ffffff;
-      border: 1.5px solid rgba(255, 255, 255, 0.4);
-    }
-
-    .init-student-name {
-      font-size: 1.18rem;
-      font-weight: 900;
-      text-decoration: none;
-    }
-
-    .row-submitted .init-student-name {
-      color: #064e3b;
-    }
-
-    .row-not-submitted .init-student-name {
-      color: #ffffff;
-    }
-
-    .init-sub-text {
-      font-size: 0.84rem;
-      font-weight: 700;
-      margin-top: 0.15rem;
-    }
-
-    .row-submitted .init-sub-text {
-      color: #166534;
-    }
-
-    .row-not-submitted .init-sub-text {
-      color: #fecaca;
-    }
-
-    .init-status-badge {
-      padding: 0.35rem 0.95rem;
-      border-radius: 999px;
-      font-size: 0.88rem;
-      font-weight: 900;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .badge-submitted {
-      background: #15803d;
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(21, 128, 61, 0.3);
-    }
-
-    .badge-not-submitted {
-      background: #450a0a;
-      color: #fecaca;
-      border: 1px solid #f87171;
-    }
-
-    .init-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .act-btn {
-      padding: 0.58rem 1rem;
-      border-radius: 10px;
-      font-size: 0.86rem;
-      font-weight: 800;
-      cursor: pointer;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      text-decoration: none;
-      box-shadow: none;
-    }
-
-    .act-view-folder {
-      background: #15803d;
-      color: white;
-    }
-
-    .act-open-empty {
-      background: rgba(255, 255, 255, 0.18);
-      color: #ffffff;
-      border: 1.5px solid rgba(255, 255, 255, 0.45);
-    }
-
-    .act-open-empty:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .act-upload {
-      background: #ffffff;
-      color: #1e3a8a;
-      border: 1.5px solid #bfdbfe;
-      font-weight: 900;
-    }
-
-    .row-submitted .act-upload {
-      background: #2563eb;
-      color: #ffffff;
-      border: none;
-    }
-
-    .act-grades {
-      background: #fef3c7;
-      color: #92400e;
-      border: 1.5px solid #fde68a;
-    }
-
-    /* بطاقة عرض النتيجة في الصفحة الرئيسية */
-    .result-card {
-      background: var(--card-bg);
-      border-radius: 22px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      display: none;
-      animation: fadeInUp 0.45s ease-out;
-    }
-
-    .result-header {
-      background: linear-gradient(90deg, #eff6ff, #dbeafe);
-      border-bottom: 2px solid #bfdbfe;
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-    }
-
-    .result-header h2 {
-      font-size: 1.25rem;
-      color: var(--primary);
-      font-weight: 900;
-    }
-
-    .print-btn {
-      background: white;
-      color: var(--primary);
-      border: 1.5px solid #93c5fd;
-      padding: 0.5rem 1rem;
-      font-size: 0.9rem;
-      border-radius: 10px;
-      box-shadow: none;
-    }
-
-    .result-body {
-      padding: 1.5rem;
-    }
-
-    .student-hero {
-      background: linear-gradient(135deg, #f8fafc, #eff6ff);
-      border: 1px solid #bfdbfe;
-      border-radius: 16px;
-      padding: 1.2rem;
-      margin-bottom: 1.3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .student-hero .name-box h3 {
-      font-size: 1.3rem;
-      color: var(--primary);
-      font-weight: 900;
-      margin-bottom: 0.25rem;
-    }
-
-    .class-badge {
-      background: var(--primary);
-      color: white;
-      padding: 0.45rem 1rem;
-      border-radius: 10px;
-      font-weight: 800;
-      font-size: 0.95rem;
-    }
-
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .data-table tr {
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .data-table td {
-      padding: 1rem 0.7rem;
-      font-size: 1.02rem;
-      vertical-align: middle;
-    }
-
-    .data-table td.label-cell {
-      font-weight: 800;
-      color: #475569;
-      width: 42%;
-    }
-
-    .data-table td.value-cell {
-      font-weight: 800;
-      color: var(--text);
-      text-align: left;
-    }
-
-    .behavior-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-      align-items: flex-end;
-      text-align: right;
-      direction: rtl;
-    }
-
-    .behavior-item-pos {
-      background: #ecfdf5;
-      color: #065f46;
-      border: 1px solid #6ee7b7;
-      border-right: 4px solid #059669;
-      padding: 0.5rem 0.8rem;
-      border-radius: 10px;
-      font-size: 0.92rem;
-      font-weight: 800;
-      width: 100%;
-    }
-
-    .behavior-item-neg {
-      background: #fef2f2;
-      color: #991b1b;
-      border: 1px solid #fca5a5;
-      border-right: 4px solid #dc2626;
-      padding: 0.5rem 0.8rem;
-      border-radius: 10px;
-      font-size: 0.92rem;
-      font-weight: 800;
-      width: 100%;
-    }
-
-    .behavior-item-reply {
-      background: #eff6ff;
-      color: #1e3a8a;
-      border: 1px solid #bfdbfe;
-      border-right: 4px solid #2563eb;
-      padding: 0.55rem 0.85rem;
-      border-radius: 10px;
-      font-size: 0.93rem;
-      font-weight: 800;
-      width: 100%;
-    }
-
-    .score-container {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.35rem;
-    }
-
-    .progress-bar-bg {
-      width: 140px;
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 99px;
-      overflow: hidden;
-      direction: ltr;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      border-radius: 99px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 800;
-    }
-
-    .badge-excellent { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-    .badge-vgood { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
-    .badge-good { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
-    .badge-low { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
-    .badge-note { background: #ecfdf5; color: #047857; border: 1px solid #6ee7b7; padding: 0.45rem 0.85rem; border-radius: 10px; display: inline-block; }
-
-    /* قسم رد ولي الأمر */
-    .reply-section {
-      margin-top: 1.8rem;
-      padding: 1.4rem;
-      background: #f8fafc;
-      border-radius: 18px;
-      border: 2px solid #e2e8f0;
-    }
-
-    .previous-replies-box {
-      background: white;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 14px;
-      padding: 1rem;
-      margin-bottom: 1.1rem;
-      display: none;
-    }
-
-    .mode-switcher {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.65rem;
-      margin-top: 0.9rem;
-    }
-
-    .mode-btn {
-      background: #f1f5f9;
-      color: #475569;
-      border: 2px solid #cbd5e1;
-      padding: 0.7rem 0.8rem;
-      border-radius: 12px;
-      font-size: 0.92rem;
-      font-weight: 800;
-      box-shadow: none;
-    }
-
-    .mode-btn.active-mode {
-      background: #eff6ff;
-      color: var(--primary-light);
-      border-color: var(--primary-light);
-    }
-
-    .mode-hint {
-      font-size: 0.88rem;
-      color: var(--success);
-      font-weight: 800;
-      margin-bottom: 0.7rem;
-      display: block;
-    }
-
-    .quick-replies {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 0.85rem;
-    }
-
-    .chip-btn {
-      background: white;
-      color: #334155;
-      border: 1px solid #cbd5e1;
-      border-radius: 999px;
-      padding: 0.4rem 0.9rem;
-      font-size: 0.85rem;
-      font-weight: 700;
-      box-shadow: none;
-    }
-
-    .reply-section textarea {
-      width: 100%;
-      padding: 0.9rem 1rem;
-      border: 2px solid #cbd5e1;
-      border-radius: 14px;
-      font-size: 1rem;
-      font-weight: 600;
-      min-height: 95px;
-      margin-bottom: 0.9rem;
-      outline: none;
-    }
-
-    .alert {
-      padding: 1rem;
-      border-radius: 14px;
-      margin-top: 1rem;
-      font-weight: 800;
-      display: none;
-      text-align: center;
-    }
-
-    .alert.error { background-color: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
-    .alert.success { background-color: var(--success-bg); color: var(--success); border: 1px solid #a7f3d0; }
-
-    .spinner {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 0.8s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* النوافذ المنبثقة (Modal) */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(5px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 1rem;
-    }
-
-    .modal-box {
-      background: white;
-      max-width: 520px;
-      width: 100%;
-      border-radius: 24px;
-      padding: 1.8rem 1.5rem;
-      text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      animation: popIn 0.35s ease-out;
-      border-top: 6px solid var(--success);
-    }
-
-    .upload-drop-area {
-      border: 2.5px dashed #93c5fd;
-      background: #eff6ff;
-      border-radius: 16px;
-      padding: 1.4rem 1rem;
-      margin: 1rem 0;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .upload-drop-area:hover {
-      background: #dbeafe;
-      border-color: var(--primary-light);
-    }
-
-    footer {
-      margin-top: 2rem;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-
-    @media (max-width: 600px) {
-      .init-stats-grid { grid-template-columns: 1fr; }
-      .input-wrapper, .mode-switcher { flex-direction: column; grid-template-columns: 1fr; }
-      .init-student-row { flex-direction: column; align-items: flex-start; }
-      .init-actions { width: 100%; }
-      .act-btn { flex: 1; justify-content: center; }
-    }
+    .init-stat-card span { display: block; font-size: 0.88rem; font-weight: 800; color: #475569; margin-bottom: 0.25rem; }
+    .init-stat-card.stat-pending span { color: #fecaca; }
+    .init-stat-card strong { font-size: 1.65rem; font-weight: 900; }
+
+    .init-controls-card { background: white; border-radius: 18px; padding: 1.25rem; border: 1px solid var(--border); margin-bottom: 1.2rem; }
+    .class-tabs-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .class-tab-btn { background: #f8fafc; color: var(--text); border: 2px solid var(--border); padding: 0.55rem 1rem; border-radius: 12px; font-size: 0.92rem; font-weight: 800; cursor: pointer; }
+    .class-tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+    .filter-search-row { display: flex; flex-wrap: wrap; gap: 0.65rem; align-items: center; }
+    .filter-search-row input { flex: 1; min-width: 200px; text-align: right; }
+    .status-filter-pills { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+    .status-pill-btn { background: #f1f5f9; color: #334155; border: 1.5px solid #cbd5e1; padding: 0.6rem 0.95rem; border-radius: 10px; font-size: 0.88rem; font-weight: 800; }
+    .status-pill-btn.active-pill { background: #0f172a; color: white; border-color: #0f172a; }
+
+    .initiative-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .init-student-row { border-radius: 16px; padding: 1.05rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.9rem; }
+    .init-student-row.row-submitted { background: linear-gradient(135deg, #bbf7d0 0%, #dcfce7 65%, #f0fdf4 100%); border: 2.5px solid #22c55e; border-right: 10px solid #15803d; }
+    .init-student-row.row-not-submitted { background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 60%, #b91c1c 100%); border: 2.5px solid #450a0a; border-right: 10px solid #450a0a; color: #ffffff; }
+
+    .init-student-info { display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap; cursor: pointer; }
+    .init-num-badge { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.98rem; }
+    .row-submitted .init-num-badge { background: #15803d; color: #ffffff; }
+    .row-not-submitted .init-num-badge { background: rgba(255,255,255,0.18); color: #ffffff; }
+
+    .init-student-name { font-size: 1.18rem; font-weight: 900; }
+    .row-submitted .init-student-name { color: #064e3b; }
+    .row-not-submitted .init-student-name { color: #ffffff; }
+    .init-sub-text { font-size: 0.84rem; font-weight: 700; margin-top: 0.15rem; }
+    .row-submitted .init-sub-text { color: #166534; }
+    .row-not-submitted .init-sub-text { color: #fecaca; }
+
+    .init-status-badge { padding: 0.35rem 0.95rem; border-radius: 999px; font-size: 0.88rem; font-weight: 900; display: inline-flex; align-items: center; gap: 0.35rem; }
+    .badge-submitted { background: #15803d; color: #ffffff; }
+    .badge-not-submitted { background: #450a0a; color: #fecaca; border: 1px solid #f87171; }
+
+    .init-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .act-btn { padding: 0.58rem 1rem; border-radius: 10px; font-size: 0.86rem; font-weight: 800; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; }
+    .act-view-folder { background: #15803d; color: white; }
+    .act-open-empty { background: rgba(255,255,255,0.18); color: #ffffff; border: 1.5px solid rgba(255,255,255,0.45); }
+    .act-upload { background: #ffffff; color: #1e3a8a; border: 1.5px solid #bfdbfe; font-weight: 900; }
+    .row-submitted .act-upload { background: #2563eb; color: #ffffff; border: none; }
+    .act-grades { background: #fef3c7; color: #92400e; border: 1.5px solid #fde68a; }
+
+    /* بطاقة النتيجة والردود */
+    .result-card { background: var(--card-bg); border-radius: 22px; box-shadow: 0 12px 30px rgba(0,0,0,0.08); border: 1px solid var(--border); overflow: hidden; display: none; }
+    .result-header { background: linear-gradient(90deg, #eff6ff, #dbeafe); border-bottom: 2px solid #bfdbfe; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .result-body { padding: 1.5rem; }
+    .student-hero { background: linear-gradient(135deg, #f8fafc, #eff6ff); border: 1px solid #bfdbfe; border-radius: 16px; padding: 1.2rem; margin-bottom: 1.3rem; display: flex; justify-content: space-between; align-items: center; }
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table td { padding: 1rem 0.7rem; font-size: 1.02rem; }
+    .label-cell { font-weight: 800; color: #475569; width: 42%; }
+    .value-cell { font-weight: 800; color: var(--text); text-align: left; }
+    .behavior-list { display: flex; flex-direction: column; gap: 0.45rem; align-items: flex-end; text-align: right; }
+    .behavior-item-pos { background: #ecfdf5; color: #065f46; border-right: 4px solid #059669; padding: 0.5rem 0.8rem; border-radius: 10px; width: 100%; font-size: 0.92rem; }
+    .behavior-item-neg { background: #fef2f2; color: #991b1b; border-right: 4px solid #dc2626; padding: 0.5rem 0.8rem; border-radius: 10px; width: 100%; font-size: 0.92rem; }
+    .behavior-item-reply { background: #eff6ff; color: #1e3a8a; border-right: 4px solid #2563eb; padding: 0.55rem 0.85rem; border-radius: 10px; width: 100%; font-size: 0.93rem; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.65); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }
+    .modal-box { background: white; max-width: 520px; width: 100%; border-radius: 24px; padding: 1.8rem 1.5rem; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border-top: 6px solid var(--success); }
+    .upload-drop-area { border: 2.5px dashed #93c5fd; background: #eff6ff; border-radius: 16px; padding: 1.4rem 1rem; margin: 1rem 0; cursor: pointer; }
+
+    footer { margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem; font-weight: 700; }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- ترويسة المدرسة -->
     <div class="school-banner">
       <img src="https://i.postimg.cc/K88X7RLb/trwysyh-dhhbyt.png" alt="ترويسة المدرسة">
     </div>
 
-    <!-- عنوان البوابة -->
     <div class="header-card">
       <h1>بوابة متابعة درجات وتقييمات مادة العلوم</h1>
       <div class="teacher-badge">👨‍🏫 إشراف الأستاذ: صبري محمد حمد</div>
     </div>
 
-    <!-- ====================================================
-         القسم الأول: الواجهة الرئيسية (قبل وبعد تسجيل الدخول)
-         ==================================================== -->
+    <!-- الواجهة الرئيسية -->
     <div id="homeView">
-
-      <!-- زر فتح واجهة مهمة العلوم (المبادرة) قبل تسجيل الدخول -->
       <div class="initiative-launch-card">
         <div class="initiative-launch-info">
           <h2>🚀 مهمة العلوم (المبادرة العلمية)</h2>
-          <p>اضغط هنا للاطلاع على كشوف الطلاب الذين سلّموا المبادرة (بالأخضر الفاتح) أو رفع أعمال الطالب (صور، فيديو، PDF) مباشرة في مجلده الخاص.</p>
+          <p>اضغط هنا للاطلاع على كشوف الطلاب الذين سلّموا المبادرة (بالأخضر الفاتح) أو رفع أعمال الطالب (صور، فيديو، PDF) مباشرة مع إمكانية كتابة ملاحظات.</p>
         </div>
         <button type="button" class="launch-initiative-btn" onclick="openInitiativeView()">
           📂 فتح مهمة العلوم (المبادرة) ⬅️
         </button>
       </div>
 
-      <!-- توجيهات هامة لولي الأمر -->
       <div class="instructions-card">
         <h3>📌 توجيهات وملاحظات هامة لولي الأمر:</h3>
         <ul class="instructions-list">
-          <li>هذه البوابة مخصصة <strong>فقط لمادة العلوم</strong> لطلاب الأستاذ <strong>صبري محمد حمد</strong> في <span class="highlight-blue">الصف السادس الابتدائي فرقة 1</span> و<span class="highlight-blue">صفوف الثاني الإعدادي</span> فقط.</li>
-          <li><strong>درجة الاختبار التشخيصي:</strong> هي لقياس المستوى القبلي فقط <span class="highlight-red">ولن تُضاف</span> إلى درجات الطالب.</li>
-          <li><strong>درجات الوقفة التقويمية الأولى:</strong> <span class="highlight-red">هامة جداً</span> وستُضاف مباشرة إلى درجات الطالب وأعمال السنة.</li>
-          <li><strong>ملزمة العلوم:</strong> نرجو من ولي الأمر الكريم حث الطالب على الاهتمام بملزمة العلوم وتكملة الصفحات الناقصة حتى لا تضيع منه درجات الملزمة، وإن شاء الله سوف يتم إضافة درجات الملزمة <strong>بعد أول شهر نوفمبر 2026</strong>.</li>
+          <li>هذه البوابة مخصصة <strong>فقط لمادة العلوم</strong> لطلاب الأستاذ <strong>صبري محمد حمد</strong> في الصفوف المذكورة.</li>
+          <li><strong>درجة الاختبار التشخيصي:</strong> لقياس المستوى القبلي فقط <span class="highlight-red">ولن تُضاف</span> للدرجات.</li>
+          <li><strong>درجات الوقفة التقويمية الأولى:</strong> <span class="highlight-red">هامة جداً</span> وستُضاف لأعمال السنة.</li>
         </ul>
       </div>
 
-      <!-- صندوق البحث بالرقم الشخصي لعرض الدرجات -->
       <div class="search-box" id="gradesSearchBox">
         <div id="selectedStudentPrompt" class="selected-student-prompt"></div>
         <div class="form-group">
           <label for="studentId">🔍 الاستعلام عن درجات الطالب بالرقم الشخصي:</label>
-          <div class="english-note">⚠️ يرجى كتابة الرقم الشخصي بالأرقام الإنجليزية (يتم التحويل تلقائياً)</div>
+          <div class="english-note">⚠️ يرجى كتابة الرقم الشخصي بالأرقام الإنجليزية</div>
           <div class="input-wrapper">
-            <input type="text" id="studentId" inputmode="numeric" placeholder="أدخل الرقم الشخصي بالإنجليزية هنا (مثال: 150413912)..." autocomplete="off">
+            <input type="text" id="studentId" inputmode="numeric" placeholder="أدخل الرقم الشخصي هنا..." autocomplete="off">
             <button id="searchBtn" onclick="fetchStudentData()">
               <span id="btnText">عرض النتيجة</span>
               <span id="spinner" class="spinner" style="display: none;"></span>
             </button>
           </div>
         </div>
-        <div id="alertBox" class="alert error"></div>
+        <div id="alertBox" class="alert error" style="display:none;"></div>
       </div>
 
-      <!-- بطاقة عرض درجات الطالب -->
       <div id="resultCard" class="result-card">
         <div class="result-header">
           <h2>📊 بطاقة أداء الطالب في مادة العلوم</h2>
-          <button class="print-btn" onclick="window.print()">🖨️ طباعة البطاقة</button>
+          <button class="print-btn" onclick="window.print()">🖨️ طباعة</button>
         </div>
         <div class="result-body">
           <div id="studentHero" class="student-hero" style="display: none;">
-            <div class="name-box">
-              <h3 id="heroStudentName">-</h3>
-              <span id="heroStudentId">-</span>
-            </div>
+            <div class="name-box"><h3 id="heroStudentName">-</h3><span id="heroStudentId">-</span></div>
             <div class="class-badge" id="heroStudentClass">-</div>
           </div>
-
           <table class="data-table" id="dataTable"></table>
-
-          <!-- قسم إرسال أو تعديل رد ولي الأمر -->
-          <div class="reply-section">
-            <label for="parentReply">✉️ تواصل وملاحظات ولي الأمر للمعلم:</label>
-
-            <div id="previousRepliesBox" class="previous-replies-box">
-              <h4 style="margin-bottom:0.5rem;">📋 ملاحظاتك المسجلة سابقاً:</h4>
-              <div id="previousRepliesList" class="behavior-list"></div>
-              <div class="mode-switcher">
-                <button type="button" id="btnModeAdd" class="mode-btn active-mode" onclick="setReplyMode('add')">
-                  ➕ إضافة ملاحظة جديدة (مع الاحتفاظ بالسابق)
-                </button>
-                <button type="button" id="btnModeEdit" class="mode-btn" onclick="setReplyMode('edit')">
-                  ✏️ تعديل الملاحظة الأخيرة
-                </button>
-              </div>
-            </div>
-
-            <span id="modeHintText" class="mode-hint">📌 سيتم حفظ الملاحظة مع تسجيل اليوم والتاريخ تلقائياً.</span>
-            
-            <div class="quick-replies">
-              <button type="button" class="chip-btn" onclick="setQuickReply('تم الاطلاع على النتيجة، جزاكم الله خيراً أستاذ صبري على جهودكم.')">👍 تم الاطلاع وشكراً لجهودكم</button>
-              <button type="button" class="chip-btn" onclick="setQuickReply('تم الاطلاع، وإن شاء الله سنتابع الطالب لتكملة صفحات الملزمة الناقصة.')">📘 سنتابع تكملة الملزمة</button>
-              <button type="button" class="chip-btn" onclick="setQuickReply('شكراً جزيلاً لكم، وسنحرص على رفع مستوى الطالب في التقييمات القادمة.')">📈 سنحرص على تطوير مستواه</button>
-            </div>
-
-            <textarea id="parentReply" placeholder="اكتب ردك أو ملاحظتك الجديدة هنا ليصل مباشرة إلى الأستاذ صبري محمد حمد..."></textarea>
-            <button id="replyBtn" onclick="sendParentReply()">
-              <span id="replyBtnText">🚀 إرسال وحفظ الملاحظة</span>
-              <span id="replySpinner" class="spinner" style="display: none;"></span>
-            </button>
-            <div id="replyAlert" class="alert"></div>
-          </div>
         </div>
       </div>
-
     </div>
 
-    <!-- ====================================================
-         القسم الثاني: واجهة مهمة العلوم (المبادرة)
-         ==================================================== -->
+    <!-- واجهة المبادرة -->
     <div id="initiativeView">
       <div class="init-nav-bar">
-        <button type="button" class="btn-back-home" onclick="backToHomeView()">
-          🏠 الرجوع للصفحة الرئيسية
-        </button>
-        <button type="button" class="btn-go-grades" onclick="goToGradesWithPrompt('')">
-          📊 الاطلاع على درجات الطالب (بالرقم الشخصي)
-        </button>
+        <button type="button" class="btn-back-home" onclick="backToHomeView()">🏠 الرجوع للصفحة الرئيسية</button>
+        <button type="button" class="btn-go-grades" onclick="goToGradesWithPrompt('')">📊 درجات الطالب</button>
       </div>
 
-      <!-- عدادات تسليم المبادرة -->
       <div class="init-stats-grid">
-        <div class="init-stat-card stat-total">
-          <span>👥 إجمالي طلاب الصف</span>
-          <strong id="initTotalCount" style="color:var(--primary);">0</strong>
-        </div>
-        <div class="init-stat-card stat-done">
-          <span>✅ سلّم المبادرة (بالأخضر الفاتح)</span>
-          <strong id="initDoneCount" style="color:#15803d;">0</strong>
-        </div>
-        <div class="init-stat-card stat-pending">
-          <span>❌ لم يسلّم المبادرة (بالأحمر الغامق)</span>
-          <strong id="initPendingCount" style="color:#ffffff;">0</strong>
-        </div>
+        <div class="init-stat-card stat-total"><span>👥 إجمالي الطلاب</span><strong id="initTotalCount" style="color:var(--primary);">0</strong></div>
+        <div class="init-stat-card stat-done"><span>✅ سلّم (أخضر فاتح)</span><strong id="initDoneCount" style="color:#15803d;">0</strong></div>
+        <div class="init-stat-card stat-pending"><span>❌ لم يسلم (أحمر غامق)</span><strong id="initPendingCount">0</strong></div>
       </div>
 
-      <!-- فلاتر الصفوف والبحث -->
       <div class="init-controls-card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
-          <strong style="color:var(--primary); font-size:1.05rem;">🏫 اختر الصف لعرض كشف المبادرة:</strong>
-          <div style="display:flex; align-items:center; gap:0.5rem;">
-            <span id="syncStatusBadge" style="font-size:0.82rem; font-weight:800; color:#059669;"></span>
-            <button type="button" class="chip-btn" onclick="syncCurrentClassFolders(true)">🔄 تحديث وفحص المجلدات الآن</button>
-          </div>
+          <strong style="color:var(--primary); font-size:1.05rem;">🏫 اختر الصف:</strong>
+          <span id="syncStatusBadge" style="font-size:0.82rem; font-weight:800; color:#059669;"></span>
         </div>
-
         <div class="class-tabs-bar" id="initClassTabs"></div>
-
         <div class="filter-search-row">
-          <input type="text" id="initSearchInput" placeholder="🔍 ابحث باسم الطالب في الكشف..." oninput="renderInitiativeList()">
+          <input type="text" id="initSearchInput" placeholder="🔍 ابحث باسم الطالب..." oninput="renderInitiativeList()">
           <div class="status-filter-pills">
             <button type="button" id="pillAll" class="status-pill-btn active-pill" onclick="setInitStatusFilter('all')">الكل</button>
-            <button type="button" id="pillDone" class="status-pill-btn" onclick="setInitStatusFilter('done')">✅ سلّم المبادرة</button>
-            <button type="button" id="pillPending" class="status-pill-btn" onclick="setInitStatusFilter('pending')">❌ لم يسلّم بعد</button>
+            <button type="button" id="pillDone" class="status-pill-btn" onclick="setInitStatusFilter('done')">✅ سلّم</button>
+            <button type="button" id="pillPending" class="status-pill-btn" onclick="setInitStatusFilter('pending')">❌ لم يسلم</button>
           </div>
         </div>
       </div>
 
-      <!-- قائمة كشف الطلاب -->
       <div id="initiativeListContainer" class="initiative-list"></div>
     </div>
 
-    <footer>
-      إعداد وتصميم الأستاذ: صبري محمد حمد — جميع الحقوق محفوظة © 2026
-    </footer>
+    <footer>إعداد وتنفيذ الأستاذ: صبري محمد حمد — 2026</footer>
   </div>
 
-  <!-- نافذة رفع ملف المبادرة للطالب (بدون الحاجة لحساب جوجل) -->
+  <!-- نافذة رفع المبادرة مع خانة الملاحظات -->
   <div id="uploadModal" class="modal-overlay" onclick="if(event.target===this) closeUploadModal()">
     <div class="modal-box" style="text-align:right;">
-      <h3 style="color:var(--primary); font-size:1.25rem; font-weight:900; margin-bottom:0.4rem;">📤 تسليم ورفع مهمة العلوم (المبادرة)</h3>
-      <p id="uploadStudentBanner" style="color:#475569; font-weight:800; font-size:0.96rem; margin-bottom:1rem;"></p>
+      <h3 style="color:var(--primary); font-size:1.2rem; font-weight:900; margin-bottom:0.4rem;">📤 تسليم ورفع مهمة العلوم (المبادرة)</h3>
+      <p id="uploadStudentBanner" style="color:#475569; font-weight:800; font-size:0.92rem; margin-bottom:0.8rem;"></p>
 
-      <div class="mode-switcher" style="margin-top:0; margin-bottom:1rem;">
-        <button type="button" id="tabUploadFile" class="mode-btn active-mode" onclick="switchUploadTab('file')">📁 رفع ملف (صورة / PDF / فيديو)</button>
-        <button type="button" id="tabUploadLink" class="mode-btn" onclick="switchUploadTab('link')">🔗 إرسال رابط عمل أو فيديو</button>
+      <div style="display:flex; gap:0.5rem; margin-bottom:0.8rem;">
+        <button type="button" id="tabUploadFile" class="mode-btn active-mode" style="flex:1; padding:0.5rem;" onclick="switchUploadTab('file')">📁 رفع ملف</button>
+        <button type="button" id="tabUploadLink" class="mode-btn" style="flex:1; padding:0.5rem;" onclick="switchUploadTab('link')">🔗 إرسال رابط</button>
       </div>
 
-      <!-- خيار رفع ملف مباشر من الهاتف أو الكمبيوتر -->
       <div id="fileUploadSection">
-        <div class="upload-drop-area" onclick="document.getElementById('initiativeFileInput').click()">
-          <div style="font-size:2.2rem; margin-bottom:0.4rem;">📲</div>
-          <strong id="selectedFileLabel" style="color:var(--primary); display:block;">اضغط هنا لاختيار ملف المبادرة من جهازك</strong>
-          <span style="font-size:0.82rem; color:#64748b; font-weight:700;">يدعم الصور، ملفات PDF، العروض، ومقاطع الفيديو القصيرة</span>
+        <div class="upload-drop-area" onclick="document.getElementById('initiativeFileInput').click()" style="padding:1rem;">
+          <strong id="selectedFileLabel" style="color:var(--primary); font-size:0.9rem;">اضغط لاختيار الملف (صور، فيديو، PDF)...</strong>
           <input type="file" id="initiativeFileInput" style="display:none;" onchange="handleFileSelection(this)">
         </div>
       </div>
 
-      <!-- خيار إرسال رابط -->
-      <div id="linkUploadSection" style="display:none; margin-bottom:1rem;">
-        <label style="font-size:0.92rem; display:block; margin-bottom:0.4rem;">ضع رابط الفيديو أو العمل:</label>
-        <input type="url" id="initiativeLinkInput" placeholder="https://..." style="width:100%; margin-bottom:0.7rem;">
-        <label style="font-size:0.92rem; display:block; margin-bottom:0.4rem;">عنوان أو وصف قصير للمبادرة:</label>
-        <input type="text" id="initiativeLinkNote" placeholder="مثال: فيديو تجربة علمية عن الكثافة..." style="width:100%; direction:rtl; text-align:right;">
+      <div id="linkUploadSection" style="display:none; margin-bottom:0.8rem;">
+        <label style="font-size:0.88rem; display:block; margin-bottom:0.3rem;">رابط العمل:</label>
+        <input type="url" id="initiativeLinkInput" placeholder="https://..." style="width:100%; margin-bottom:0.5rem;">
       </div>
 
-      <div id="uploadDirectDriveWrap" style="margin-bottom:1rem; padding:0.7rem; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0; font-size:0.86rem; font-weight:700; color:#475569;">
-        💡 يمكنك أيضاً <a id="directDriveFolderLink" href="#" target="_blank" style="color:var(--primary-light); font-weight:900;">فتح مجلد الطالب في Google Drive مباشرة</a> لمشاهدة المحتويات.
-      </div>
+      <label style="font-size:0.88rem; display:block; margin-bottom:0.3rem;">💬 ملاحظات ولي الأمر عن المبادرة (اختياري):</label>
+      <textarea id="parentInitiativeNote" placeholder="اكتب أي ملاحظة تخص هذا العمل ليسجلها المعلم..." style="width:100%; min-height:70px; margin-bottom:0.8rem; padding:0.6rem; border:2px solid #cbd5e1; border-radius:10px; font-size:0.9rem; font-weight:600;"></textarea>
 
-      <div style="display:flex; gap:0.6rem;">
-        <button type="button" id="confirmUploadBtn" onclick="submitInitiativeUpload()" style="flex:1; background:linear-gradient(135deg,#059669,#047857);">
-          <span id="uploadBtnText">✅ رفع وحفظ المبادرة الآن</span>
+      <div style="display:flex; gap:0.5rem;">
+        <button type="button" id="confirmUploadBtn" onclick="submitInitiativeUpload()" style="flex:1; background:var(--success);">
+          <span id="uploadBtnText">✅ رفع وحفظ المبادرة</span>
           <span id="uploadSpinner" class="spinner" style="display:none;"></span>
         </button>
         <button type="button" onclick="closeUploadModal()" style="background:#e2e8f0; color:#334155; box-shadow:none;">إلغاء</button>
       </div>
-
-      <div id="uploadAlert" class="alert"></div>
-    </div>
-  </div>
-
-  <!-- نافذة رسالة الشكر المنبثقة -->
-  <div id="thankYouModal" class="modal-overlay">
-    <div class="modal-box">
-      <div style="width:70px;height:70px;background:#dcfce7;color:#059669;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 1rem;">✓</div>
-      <h3 style="color:#065f46;font-weight:900;margin-bottom:0.6rem;">شكراً لتعاونكم وتواصلكم الكريم!</h3>
-      <p id="modalMessage" style="color:#334155;font-weight:600;line-height:1.6;margin-bottom:1.4rem;"></p>
-      <button onclick="closeThankYouModal()" style="width:100%;background:#059669;">حسناً، إغلاق</button>
+      <div id="uploadAlert" class="alert" style="margin-top:0.6rem;"></div>
     </div>
   </div>
 
@@ -1260,32 +288,12 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTqBIBEU69gXEJqNbTE6334vK5Ub4IU2txITzsG3XOUnAmg9VtBL5Tr88vveXcCGnsjg/exec";
 
     let currentStudentId = "";
-    let currentStudentName = "";
-    let existingRawReplies = "";
-    let replyMode = "add";
-
-    // متغيرات واجهة المبادرة
     let initiativeStudents = [];
     let selectedInitClass = "";
     let selectedInitStatus = "all";
     let activeUploadStudent = null;
     let currentUploadMode = "file";
     let syncedClassesInSession = new Set();
-
-    // حفظ محلي إضافي لمن قام بالرفع من المتصفح لضمان ظهوره بالأخضر فوراً
-    function getLocalSubmittedRows() {
-      try {
-        return JSON.parse(localStorage.getItem("sabry_init_submitted_v1") || "{}");
-      } catch (e) {
-        return {};
-      }
-    }
-
-    function markRowSubmittedLocally(rowIndex) {
-      const map = getLocalSubmittedRows();
-      map[rowIndex] = true;
-      localStorage.setItem("sabry_init_submitted_v1", JSON.stringify(map));
-    }
 
     function toEnglishDigits(str) {
       return str.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
@@ -1300,13 +308,8 @@
     }
 
     const studentIdInput = document.getElementById("studentId");
-    studentIdInput.addEventListener("input", function() {
-      this.value = toEnglishDigits(this.value);
-    });
+    studentIdInput.addEventListener("input", function() { this.value = toEnglishDigits(this.value); });
 
-    // ====================================================
-    // التنقل بين الواجهة الرئيسية وواجهة المبادرة
-    // ====================================================
     function openInitiativeView() {
       document.getElementById("homeView").style.display = "none";
       document.getElementById("initiativeView").style.display = "block";
@@ -1325,124 +328,61 @@
     function goToGradesWithPrompt(studentName) {
       document.getElementById("initiativeView").style.display = "none";
       document.getElementById("homeView").style.display = "block";
-
       const promptBox = document.getElementById("selectedStudentPrompt");
       const searchBox = document.getElementById("gradesSearchBox");
-
-      if (studentName) {
-        promptBox.innerHTML = `🔒 للاطلاع على درجات وبطاقة أداء الطالب <strong>(${studentName})</strong>، يرجى كتابة <strong>الرقم الشخصي للطالب</strong> بالأرقام الإنجليزية أدناه:`;
-      } else {
-        promptBox.innerHTML = `🔒 للاطلاع على درجات الطالب، يرجى إدخال <strong>الرقم الشخصي للطالب</strong> بالأرقام الإنجليزية في الخانة أدناه:`;
-      }
-
+      promptBox.innerHTML = studentName ? `🔒 للاطلاع على درجات الطالب <strong>(${studentName})</strong>، أخل الرقم الشخصي:` : `🔒 أدخل الرقم الشخصي لعرض الدرجات:`;
       promptBox.style.display = "block";
       searchBox.classList.add("highlight-prompt");
       searchBox.scrollIntoView({ behavior: "smooth", block: "center" });
       setTimeout(() => studentIdInput.focus(), 400);
     }
 
-    // ====================================================
-    // جلب بيانات المبادرة + فحص تلقائي لمجلدات الصف المفتوح
-    // ====================================================
     async function loadInitiativeData() {
       const container = document.getElementById("initiativeListContainer");
-      container.innerHTML = `<div style="background:white;padding:2.5rem;border-radius:16px;text-align:center;font-weight:800;color:#475569;">⏳ جاري تحميل كشوف المبادرة...</div>`;
-
+      container.innerHTML = `<div style="background:white;padding:2.5rem;border-radius:16px;text-align:center;font-weight:800;color:#475569;">⏳ جاري التحميل...</div>`;
       try {
-        // نضيف t=Date.now() لمنع المتصفح من قراءة نسخة قديمة مخزنة
         const res = await fetch(`${SCRIPT_URL}?action=getInitiativeList&t=${Date.now()}`, { cache: "no-store" });
         const json = await res.json();
-
         if (json.status === "success") {
-          const localMap = getLocalSubmittedRows();
-          initiativeStudents = (json.students || []).map(st => {
-            if (localMap[st.rowIndex]) {
-              st.submitted = true;
-              st.statusText = "سلّم المبادرة";
-            }
-            return st;
-          });
-
+          initiativeStudents = json.students || [];
           buildInitClassTabs();
           renderInitiativeList();
-
-          // فحص تلقائي لمجلدات الصف المفتوح في Google Drive لاكتشاف أي فيديو أو ملف وُضع في المجلد
-          if (selectedInitClass && !syncedClassesInSession.has(selectedInitClass)) {
-            syncCurrentClassFolders(false);
-          }
-        } else {
-          container.innerHTML = `<div class="alert error" style="display:block;">${json.message || "تعذر تحميل كشف المبادرة"}</div>`;
+          if (selectedInitClass && !syncedClassesInSession.has(selectedInitClass)) syncCurrentClassFolders();
         }
-      } catch (e) {
-        container.innerHTML = `<div class="alert error" style="display:block;">تعذر الاتصال بقاعدة البيانات، يرجى التأكد من تحديث كود Apps Script.</div>`;
-      }
+      } catch (e) { container.innerHTML = `<div class="alert error" style="display:block;">خطأ في الاتصال</div>`; }
     }
 
-    // فحص مجلدات طلاب الصف المفتوح في Google Drive وتحديث حالتهم فوراً
-    async function syncCurrentClassFolders(showManualAlert) {
+    async function syncCurrentClassFolders() {
       if (!selectedInitClass) return;
-      const badge = document.getElementById("syncStatusBadge");
-      badge.textContent = "⏳ جاري فحص مجلدات الصف في Drive...";
-
       try {
         const res = await fetch(`${SCRIPT_URL}?action=syncFolders&className=${encodeURIComponent(selectedInitClass)}&t=${Date.now()}`, { cache: "no-store" });
         const json = await res.json();
-
         if (json.status === "success" && Array.isArray(json.updated)) {
           syncedClassesInSession.add(selectedInitClass);
           json.updated.forEach(u => {
             const st = initiativeStudents.find(x => x.rowIndex === u.rowIndex);
-            if (st) {
-              st.submitted = u.submitted;
-              st.statusText = u.statusText;
-            }
+            if (st) { st.submitted = u.submitted; st.statusText = u.statusText; }
           });
           buildInitClassTabs();
           renderInitiativeList();
-          badge.textContent = "✅ تم فحص وتحديث المجلدات";
-          setTimeout(() => { badge.textContent = ""; }, 4000);
-        } else {
-          // إعادة تحميل القائمة كاملة كبديل
-          const res2 = await fetch(`${SCRIPT_URL}?action=getInitiativeList&t=${Date.now()}`, { cache: "no-store" });
-          const json2 = await res2.json();
-          if (json2.status === "success") {
-            initiativeStudents = json2.students || [];
-            buildInitClassTabs();
-            renderInitiativeList();
-          }
-          badge.textContent = "✅ تم التحديث";
-          setTimeout(() => { badge.textContent = ""; }, 3000);
         }
-      } catch (e) {
-        badge.textContent = "";
-      }
+      } catch (e) {}
     }
 
     function buildInitClassTabs() {
       const tabsBar = document.getElementById("initClassTabs");
       const classes = [...new Set(initiativeStudents.map(s => s.className).filter(Boolean))];
-
-      if (classes.length > 0 && !selectedInitClass) {
-        selectedInitClass = classes[0];
-      }
+      if (classes.length > 0 && !selectedInitClass) selectedInitClass = classes[0];
 
       tabsBar.innerHTML = "";
       classes.forEach(cls => {
         const clsList = initiativeStudents.filter(s => s.className === cls);
         const doneCount = clsList.filter(s => s.submitted).length;
-
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = `class-tab-btn ${selectedInitClass === cls ? "active" : ""}`;
-        btn.innerHTML = `${cls} <span style="font-size:0.8rem;opacity:0.85;">(${doneCount}/${clsList.length})</span>`;
-        btn.onclick = () => {
-          selectedInitClass = cls;
-          buildInitClassTabs();
-          renderInitiativeList();
-          if (!syncedClassesInSession.has(cls)) {
-            syncCurrentClassFolders(false);
-          }
-        };
+        btn.innerHTML = `${cls} (${doneCount}/${clsList.length})`;
+        btn.onclick = () => { selectedInitClass = cls; buildInitClassTabs(); renderInitiativeList(); };
         tabsBar.appendChild(btn);
       });
     }
@@ -1458,112 +398,60 @@
     function renderInitiativeList() {
       const container = document.getElementById("initiativeListContainer");
       const searchQ = document.getElementById("initSearchInput").value.trim().toLowerCase();
-
       const classList = initiativeStudents.filter(s => !selectedInitClass || s.className === selectedInitClass);
 
-      const totalCls = classList.length;
-      const doneCls = classList.filter(s => s.submitted).length;
-      const pendingCls = totalCls - doneCls;
-
-      document.getElementById("initTotalCount").textContent = totalCls;
-      document.getElementById("initDoneCount").textContent = doneCls;
-      document.getElementById("initPendingCount").textContent = pendingCls;
+      document.getElementById("initTotalCount").textContent = classList.length;
+      document.getElementById("initDoneCount").textContent = classList.filter(s => s.submitted).length;
+      document.getElementById("initPendingCount").textContent = classList.filter(s => !s.submitted).length;
 
       const filtered = classList.filter(s => {
-        const matchName = !searchQ || s.name.toLowerCase().includes(searchQ) || String(s.listNum).includes(searchQ);
-        const matchStatus = selectedInitStatus === "all" ||
-          (selectedInitStatus === "done" && s.submitted) ||
-          (selectedInitStatus === "pending" && !s.submitted);
+        const matchName = !searchQ || s.name.toLowerCase().includes(searchQ);
+        const matchStatus = selectedInitStatus === "all" || (selectedInitStatus === "done" && s.submitted) || (selectedInitStatus === "pending" && !s.submitted);
         return matchName && matchStatus;
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = `<div style="background:white;padding:2rem;border-radius:16px;text-align:center;font-weight:800;color:#64748b;">لا يوجد طلاب مطابقون للفلتر المحدد في هذا الصف.</div>`;
+        container.innerHTML = `<div style="background:white;padding:2rem;text-align:center;font-weight:800;color:#64748b;">لا توجد نتائج مطابقة</div>`;
         return;
       }
 
       container.innerHTML = "";
-
       filtered.forEach(st => {
         const row = document.createElement("div");
         row.className = `init-student-row ${st.submitted ? "row-submitted" : "row-not-submitted"}`;
-
-        const safeFolderUrl = st.folderUrl || "#";
-
         row.innerHTML = `
-          <div class="init-student-info" onclick="handleStudentRowClick(${st.rowIndex})">
+          <div class="init-student-info" onclick="if('${st.folderUrl}') window.open('${st.folderUrl}', '_blank')">
             <div class="init-num-badge">${st.listNum || "-"}</div>
             <div>
               <div class="init-student-name">${st.name}</div>
-              <div class="init-sub-text">
-                ${st.className} — ${st.submitted ? "🌟 تم تسليم المبادرة بنجاح (اضغط لمشاهدة العمل)" : "⚠️ المجلد فارغ حالياً — اضغط لرفع المبادرة"}
-              </div>
+              <div class="init-sub-text">${st.className} — ${st.submitted ? "🌟 تم تسليم المبادرة" : "⚠️ لم يتم التسليم بعد"}</div>
+              ${st.initNotes ? `<div style="font-size:0.78rem; font-weight:700; margin-top:0.2rem; opacity:0.9;">💬 ملاحظة: ${st.initNotes}</div>` : ""}
             </div>
-            <span class="init-status-badge ${st.submitted ? "badge-submitted" : "badge-not-submitted"}">
-              ${st.submitted ? "✅ سلّم المبادرة" : "❌ لم يسلّم المبادرة"}
-            </span>
+            <span class="init-status-badge ${st.submitted ? "badge-submitted" : "badge-not-submitted"}">${st.submitted ? "✅ سلّم المبادرة" : "❌ لم يسلّم"}</span>
           </div>
-
           <div class="init-actions">
-            ${st.folderUrl ? `
-              <a href="${safeFolderUrl}" target="_blank" class="act-btn ${st.submitted ? "act-view-folder" : "act-open-empty"}">
-                ${st.submitted ? "👁️ مشاهدة المبادرة" : "📂 فتح المجلد"}
-              </a>
-            ` : ``}
-            <button type="button" class="act-btn act-upload" onclick="openUploadModal(${st.rowIndex})">
-              📤 ${st.submitted ? "إضافة عمل آخر" : "رفع المبادرة"}
-            </button>
-            <button type="button" class="act-btn act-grades" onclick="goToGradesWithPrompt('${st.name.replace(/'/g, "\\'")}')">
-              📊 درجات الطالب
-            </button>
+            ${st.folderUrl ? `<a href="${st.folderUrl}" target="_blank" class="act-btn ${st.submitted ? "act-view-folder" : "act-open-empty"}">👁️ مشاهدة العمل</a>` : ""}
+            <button type="button" class="act-btn act-upload" onclick="openUploadModal(${st.rowIndex})">📤 رفع عمل</button>
+            <button type="button" class="act-btn act-grades" onclick="goToGradesWithPrompt('${st.name.replace(/'/g, "\\'")}')">📊 درجات</button>
           </div>
         `;
-
         container.appendChild(row);
       });
     }
 
-    function handleStudentRowClick(rowIndex) {
-      const st = initiativeStudents.find(x => x.rowIndex === rowIndex);
-      if (!st) return;
-      if (st.submitted && st.folderUrl) {
-        window.open(st.folderUrl, "_blank");
-      } else {
-        openUploadModal(rowIndex);
-      }
-    }
-
-    // ====================================================
-    // نافذة رفع ملف المبادرة مباشرة لمجلد الطالب
-    // ====================================================
     function openUploadModal(rowIndex) {
       activeUploadStudent = initiativeStudents.find(x => x.rowIndex === rowIndex);
       if (!activeUploadStudent) return;
-
-      document.getElementById("uploadStudentBanner").textContent =
-        `الطالب: ${activeUploadStudent.name} (${activeUploadStudent.className})`;
+      document.getElementById("uploadStudentBanner").textContent = `الطالب: ${activeUploadStudent.name} (${activeUploadStudent.className})`;
       document.getElementById("initiativeFileInput").value = "";
-      document.getElementById("selectedFileLabel").textContent = "اضغط هنا لاختيار ملف المبادرة من جهازك";
-      document.getElementById("initiativeLinkInput").value = "";
-      document.getElementById("initiativeLinkNote").value = "";
+      document.getElementById("selectedFileLabel").textContent = "اختر الملف من جهازك...";
+      document.getElementById("parentInitiativeNote").value = "";
       document.getElementById("uploadAlert").style.display = "none";
-
-      const directWrap = document.getElementById("uploadDirectDriveWrap");
-      const directLink = document.getElementById("directDriveFolderLink");
-      if (activeUploadStudent.folderUrl) {
-        directWrap.style.display = "block";
-        directLink.href = activeUploadStudent.folderUrl;
-      } else {
-        directWrap.style.display = "none";
-      }
-
       switchUploadTab("file");
       document.getElementById("uploadModal").style.display = "flex";
     }
 
-    function closeUploadModal() {
-      document.getElementById("uploadModal").style.display = "none";
-    }
+    function closeUploadModal() { document.getElementById("uploadModal").style.display = "none"; }
 
     function switchUploadTab(mode) {
       currentUploadMode = mode;
@@ -1574,23 +462,13 @@
     }
 
     function handleFileSelection(input) {
-      const label = document.getElementById("selectedFileLabel");
-      if (input.files && input.files[0]) {
-        const f = input.files[0];
-        const sizeMB = (f.size / (1024 * 1024)).toFixed(2);
-        label.textContent = `✅ الملف المختار: ${f.name} (${sizeMB} MB)`;
-      } else {
-        label.textContent = "اضغط هنا لاختيار ملف المبادرة من جهازك";
-      }
+      if (input.files && input.files[0]) document.getElementById("selectedFileLabel").textContent = `✅ ${input.files[0].name}`;
     }
 
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => {
-          const base64 = reader.result.split(",")[1];
-          resolve(base64);
-        };
+        reader.onload = () => resolve(reader.result.split(",")[1]);
         reader.onerror = err => reject(err);
         reader.readAsDataURL(file);
       });
@@ -1598,12 +476,8 @@
 
     async function submitInitiativeUpload() {
       if (!activeUploadStudent) return;
-
       const alertEl = document.getElementById("uploadAlert");
       const btn = document.getElementById("confirmUploadBtn");
-      const btnText = document.getElementById("uploadBtnText");
-      const spinner = document.getElementById("uploadSpinner");
-
       alertEl.style.display = "none";
 
       let payload = {
@@ -1612,329 +486,62 @@
         studentName: activeUploadStudent.name,
         className: activeUploadStudent.className,
         uploadType: currentUploadMode,
-        dateStr: getFormattedArabicDate()
+        dateStr: getFormattedArabicDate(),
+        parentNote: document.getElementById("parentInitiativeNote").value.trim()
       };
 
       if (currentUploadMode === "file") {
         const fileInput = document.getElementById("initiativeFileInput");
         if (!fileInput.files || !fileInput.files[0]) {
-          alertEl.className = "alert error";
-          alertEl.textContent = "⚠️ يرجى اختيار ملف (صورة أو PDF أو فيديو) من جهازك أولاً.";
-          alertEl.style.display = "block";
-          return;
+          alertEl.className = "alert error"; alertEl.textContent = "اختر ملفاً أولاً"; alertEl.style.display = "block"; return;
         }
         const file = fileInput.files[0];
-        if (file.size > 35 * 1024 * 1024) {
-          alertEl.className = "alert error";
-          alertEl.textContent = "⚠️ حجم الملف كبير جداً؛ يرجى اختيار ملف أقل من 35 ميجابايت أو استخدام خيار (إرسال رابط).";
-          alertEl.style.display = "block";
-          return;
-        }
-
-        btn.disabled = true;
-        btnText.textContent = "⏳ جاري رفع الملف إلى مجلد الطالب...";
-        spinner.style.display = "inline-block";
-
         payload.fileName = file.name;
         payload.mimeType = file.type || "application/octet-stream";
         payload.base64Data = await fileToBase64(file);
       } else {
-        const linkUrl = document.getElementById("initiativeLinkInput").value.trim();
-        const linkNote = document.getElementById("initiativeLinkNote").value.trim();
-        if (!linkUrl) {
-          alertEl.className = "alert error";
-          alertEl.textContent = "⚠️ يرجى لصق الرابط أولاً.";
-          alertEl.style.display = "block";
-          return;
-        }
-        btn.disabled = true;
-        btnText.textContent = "⏳ جاري حفظ الرابط في مجلد الطالب...";
-        spinner.style.display = "inline-block";
-
-        payload.linkUrl = linkUrl;
-        payload.linkNote = linkNote;
+        const link = document.getElementById("initiativeLinkInput").value.trim();
+        if (!link) { alertEl.className = "alert error"; alertEl.textContent = "أدخل الرابط"; alertEl.style.display = "block"; return; }
+        payload.linkUrl = link;
       }
 
+      btn.disabled = true;
       try {
-        const res = await fetch(SCRIPT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
+        const res = await fetch(SCRIPT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
         const json = await res.json();
-
         if (json.status === "success") {
-          activeUploadStudent.submitted = true;
-          activeUploadStudent.statusText = "سلّم المبادرة";
-          if (json.folderUrl) activeUploadStudent.folderUrl = json.folderUrl;
-
-          // حفظ محلي إضافي وتحديث فوري للواجهة
-          markRowSubmittedLocally(activeUploadStudent.rowIndex);
-          buildInitClassTabs();
-          renderInitiativeList();
-
-          alertEl.className = "alert success";
-          alertEl.textContent = "🎉 تم رفع المبادرة بنجاح وتحول اسم الطالب إلى اللون الأخضر الفاتح (سلّم المبادرة)!";
-          alertEl.style.display = "block";
-
-          setTimeout(() => closeUploadModal(), 1400);
+          alertEl.className = "alert success"; alertEl.textContent = "🎉 تم الرفع وحفظ الملاحظة بنجاح!"; alertEl.style.display = "block";
+          setTimeout(() => { closeUploadModal(); loadInitiativeData(); }, 1400);
         } else {
-          alertEl.className = "alert error";
-          alertEl.textContent = json.message || "حدث خطأ أثناء رفع المبادرة";
-          alertEl.style.display = "block";
+          alertEl.className = "alert error"; alertEl.textContent = json.message; alertEl.style.display = "block";
         }
       } catch (err) {
-        alertEl.className = "alert error";
-        alertEl.textContent = "تعذر الرفع، يرجى التأكد من اتصال الإنترنت والمحاولة مرة أخرى.";
-        alertEl.style.display = "block";
-      } finally {
-        btn.disabled = false;
-        btnText.textContent = "✅ رفع وحفظ المبادرة الآن";
-        spinner.style.display = "none";
-      }
-    }
-
-    // ====================================================
-    // دوال البحث بالرقم الشخصي وعرض الدرجات ورد ولي الأمر
-    // ====================================================
-    function setQuickReply(text) {
-      const textarea = document.getElementById("parentReply");
-      textarea.value = text;
-      textarea.focus();
-    }
-
-    function extractLastNoteText(rawText) {
-      if (!rawText) return "";
-      const lines = String(rawText).split("\n").filter(Boolean);
-      if (lines.length === 0) return "";
-      return lines[lines.length - 1].replace(/^📅\s*\[[^\]]+\]:\s*/, "").trim();
-    }
-
-    function setReplyMode(mode) {
-      replyMode = mode;
-      const btnAdd = document.getElementById("btnModeAdd");
-      const btnEdit = document.getElementById("btnModeEdit");
-      const textarea = document.getElementById("parentReply");
-      const hint = document.getElementById("modeHintText");
-      const replyBtnText = document.getElementById("replyBtnText");
-
-      if (mode === "edit") {
-        btnEdit.className = "mode-btn active-mode";
-        btnAdd.className = "mode-btn";
-        textarea.value = extractLastNoteText(existingRawReplies);
-        hint.textContent = "✏️ أنت الآن تقوم بتعديل ملاحظتك الأخيرة، وسيتم تحديثها بتاريخ اليوم.";
-        replyBtnText.textContent = "💾 حفظ التعديل على الملاحظة";
-      } else {
-        btnAdd.className = "mode-btn active-mode";
-        btnEdit.className = "mode-btn";
-        textarea.value = "";
-        hint.textContent = "➕ سيتم إضافة هذه الملاحظة كرسالة جديدة بتاريخ اليوم دون مسح ملاحظاتك السابقة.";
-        replyBtnText.textContent = "🚀 إرسال وحفظ الملاحظة الجديدة";
-      }
-    }
-
-    function updatePreviousRepliesUI(rawReplies) {
-      existingRawReplies = rawReplies ? String(rawReplies).trim() : "";
-      const prevBox = document.getElementById("previousRepliesBox");
-      const prevList = document.getElementById("previousRepliesList");
-
-      if (existingRawReplies) {
-        const lines = existingRawReplies.split("\n").filter(Boolean);
-        prevList.innerHTML = lines.map(l => `<div class="behavior-item-reply">${l}</div>`).join("");
-        prevBox.style.display = "block";
-        setReplyMode("add");
-      } else {
-        prevBox.style.display = "none";
-        replyMode = "add";
-        document.getElementById("parentReply").value = "";
-      }
-    }
-
-    function getAutoGradeBadge(scoreVal) {
-      const num = parseFloat(String(scoreVal).replace("٫", "."));
-      if (isNaN(num)) return null;
-      if (num >= 18) return { text: "ممتاز 🌟", cls: "badge-excellent", color: "#10b981", pct: (num / 20) * 100 };
-      if (num >= 16) return { text: "جيد جداً 👍", cls: "badge-vgood", color: "#3b82f6", pct: (num / 20) * 100 };
-      if (num >= 12) return { text: "جيد ✔️", cls: "badge-good", color: "#f59e0b", pct: (num / 20) * 100 };
-      return { text: "يحتاج إلى متابعة واهتمام ⚠️", cls: "badge-low", color: "#ef4444", pct: Math.max((num / 20) * 100, 8) };
+        alertEl.className = "alert error"; alertEl.textContent = "تعذر الرفع"; alertEl.style.display = "block";
+      } finally { btn.disabled = false; }
     }
 
     async function fetchStudentData() {
       const id = toEnglishDigits(studentIdInput.value.trim());
-      studentIdInput.value = id;
-
-      const alertBox = document.getElementById("alertBox");
-      const resultCard = document.getElementById("resultCard");
-      const dataTable = document.getElementById("dataTable");
-      const searchBtn = document.getElementById("searchBtn");
-      const btnText = document.getElementById("btnText");
-      const spinner = document.getElementById("spinner");
-
-      alertBox.style.display = "none";
-      resultCard.style.display = "none";
-      dataTable.innerHTML = "";
-
-      if (!id) {
-        alertBox.textContent = "يرجى إدخال الرقم الشخصي للطالب بالأرقام الإنجليزية أولاً";
-        alertBox.style.display = "block";
-        return;
-      }
-
-      searchBtn.disabled = true;
-      btnText.textContent = "جاري البحث...";
-      spinner.style.display = "inline-block";
-
+      if (!id) return;
       try {
-        const response = await fetch(`${SCRIPT_URL}?id=${encodeURIComponent(id)}&t=${Date.now()}`, { cache: "no-store" });
-        const json = await response.json();
-
+        const res = await fetch(`${SCRIPT_URL}?id=${encodeURIComponent(id)}&t=${Date.now()}`, { cache: "no-store" });
+        const json = await res.json();
         if (json.status === "success") {
-          currentStudentId = id;
           renderData(json.data);
-          resultCard.style.display = "block";
-          resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else {
-          alertBox.textContent = json.message || "لم يتم العثور على طالب بهذا الرقم الشخصي";
-          alertBox.style.display = "block";
+          document.getElementById("resultCard").style.display = "block";
         }
-      } catch (error) {
-        alertBox.textContent = "تعذر الاتصال بقاعدة البيانات، يرجى المحاولة مرة أخرى";
-        alertBox.style.display = "block";
-      } finally {
-        searchBtn.disabled = false;
-        btnText.textContent = "عرض النتيجة";
-        spinner.style.display = "none";
-      }
+      } catch (e) {}
     }
 
     function renderData(data) {
       const table = document.getElementById("dataTable");
-      const studentHero = document.getElementById("studentHero");
       table.innerHTML = "";
-
-      let firstAssessmentScore = null;
-      let sName = "";
-      let sClass = "";
-      let savedParentReplies = "";
-
-      for (const [key, value] of Object.entries(data)) {
-        if (key.includes("الوقفة الأولى")) firstAssessmentScore = value;
-        if (key.includes("اسم الطالب")) sName = value;
-        if (key.includes("الصف")) sClass = value;
-        if (key.includes("رد ولي الامر") || key.includes("رد ولي الأمر")) savedParentReplies = value || "";
-      }
-
-      currentStudentName = sName;
-      updatePreviousRepliesUI(savedParentReplies);
-
-      if (sName) {
-        document.getElementById("heroStudentName").textContent = sName;
-        document.getElementById("heroStudentId").textContent = "الرقم الشخصي: " + currentStudentId;
-        document.getElementById("heroStudentClass").textContent = sClass || "مادة العلوم";
-        studentHero.style.display = "flex";
-      }
-
-      const autoGrade = getAutoGradeBadge(firstAssessmentScore);
-
-      for (const [key, value] of Object.entries(data)) {
+      for (const [key, val] of Object.entries(data)) {
         const tr = document.createElement("tr");
-        const tdLabel = document.createElement("td");
-        tdLabel.className = "label-cell";
-        tdLabel.textContent = key;
-
-        const tdValue = document.createElement("td");
-        tdValue.className = "value-cell";
-        const hasVal = (value !== "" && value !== null && value !== undefined);
-
-        if (key.includes("الوقفة الأولى") && hasVal && autoGrade) {
-          tdValue.innerHTML = `
-            <div class="score-container">
-              <span style="color: var(--primary); font-size: 1.25rem; font-weight: 900;">${value} <small style="font-size:0.85rem; color:#64748b;">/ 20</small></span>
-              <div class="progress-bar-bg">
-                <div class="progress-bar-fill" style="width: ${autoGrade.pct}%; background: ${autoGrade.color};"></div>
-              </div>
-            </div>
-          `;
-        } else if (key.includes("التقدير")) {
-          tdValue.innerHTML = hasVal ? `<span class="badge badge-vgood">${value}</span>` : (autoGrade ? `<span class="badge ${autoGrade.cls}">${autoGrade.text}</span>` : "-");
-        } else if (key.includes("الايجابيات") || key.includes("الإيجابيات")) {
-          tdLabel.innerHTML = `🌟 ${key}`;
-          tdValue.innerHTML = hasVal ? `<div class="behavior-list">${String(value).split("\n").filter(Boolean).map(l => `<div class="behavior-item-pos">${l}</div>`).join("")}</div>` : "-";
-        } else if (key.includes("السلبيات")) {
-          tdLabel.innerHTML = `⚠️ ${key}`;
-          tdValue.innerHTML = hasVal ? `<div class="behavior-list">${String(value).split("\n").filter(Boolean).map(l => `<div class="behavior-item-neg">${l}</div>`).join("")}</div>` : `<span style="color:#059669;">لا توجد ملاحظات سلبية مسجلة ✓</span>`;
-        } else if (key.includes("رابط مجلد المبادرة")) {
-          tdLabel.innerHTML = `📂 ${key}`;
-          tdValue.innerHTML = hasVal ? `<a href="${value}" target="_blank" class="badge badge-vgood" style="text-decoration:none;">فتح مجلد مبادرة الطالب ⬅️</a>` : "-";
-        } else if (key.includes("حالة المبادرة")) {
-          const isDone = String(value).includes("سلّم") && !String(value).includes("لم");
-          tdValue.innerHTML = `<span class="badge ${isDone ? 'badge-excellent' : 'badge-low'}">${hasVal ? value : "لم يسلّم المبادرة"}</span>`;
-        } else if (key.includes("رد ولي الامر") || key.includes("رد ولي الأمر")) {
-          tdValue.id = "parentReplyCell";
-          tdValue.innerHTML = hasVal ? `<div class="behavior-list">${String(value).split("\n").filter(Boolean).map(l => `<div class="behavior-item-reply">${l}</div>`).join("")}</div>` : "لم يتم تسجيل رد بعد";
-        } else {
-          tdValue.textContent = hasVal ? value : "-";
-        }
-
-        tr.appendChild(tdLabel);
-        tr.appendChild(tdValue);
+        tr.innerHTML = `<td class="label-cell">${key}</td><td class="value-cell">${val || "-"}</td>`;
         table.appendChild(tr);
       }
     }
-
-    async function sendParentReply() {
-      const replyText = document.getElementById("parentReply").value.trim();
-      const replyBtn = document.getElementById("replyBtn");
-      const replyBtnText = document.getElementById("replyBtnText");
-      const replySpinner = document.getElementById("replySpinner");
-      const replyAlert = document.getElementById("replyAlert");
-
-      if (!replyText) {
-        replyAlert.className = "alert error";
-        replyAlert.textContent = "⚠️ يرجى كتابة الملاحظة أولاً قبل الإرسال";
-        replyAlert.style.display = "block";
-        return;
-      }
-
-      replyBtn.disabled = true;
-      replyBtnText.textContent = "جاري الحفظ...";
-      replySpinner.style.display = "inline-block";
-
-      const dateStr = getFormattedArabicDate();
-
-      try {
-        const url = `${SCRIPT_URL}?action=reply&id=${encodeURIComponent(currentStudentId)}&mode=${encodeURIComponent(replyMode)}&dateStr=${encodeURIComponent(dateStr)}&reply=${encodeURIComponent(replyText)}`;
-        const response = await fetch(url);
-        const json = await response.json();
-
-        if (json.status === "success") {
-          const updatedAll = json.updatedReply || `📅 [${dateStr}]: ${replyText}`;
-          const replyCell = document.getElementById("parentReplyCell");
-          if (replyCell) {
-            replyCell.innerHTML = `<div class="behavior-list">${String(updatedAll).split("\n").filter(Boolean).map(l => `<div class="behavior-item-reply">${l}</div>`).join("")}</div>`;
-          }
-          updatePreviousRepliesUI(updatedAll);
-          document.getElementById("modalMessage").innerHTML = `تم استلام وتوثيق ملاحظة ولي أمر الطالب <strong>(${currentStudentName})</strong> بتاريخ اليوم بنجاح.`;
-          document.getElementById("thankYouModal").style.display = "flex";
-        }
-      } catch (err) {
-        replyAlert.className = "alert error";
-        replyAlert.textContent = "تعذر إرسال الرد، حاول مرة أخرى";
-        replyAlert.style.display = "block";
-      } finally {
-        replyBtn.disabled = false;
-        replySpinner.style.display = "none";
-        setReplyMode("add");
-      }
-    }
-
-    function closeThankYouModal() {
-      document.getElementById("thankYouModal").style.display = "none";
-    }
-
-    studentIdInput.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") fetchStudentData();
-    });
   </script>
 </body>
 </html>
