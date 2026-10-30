@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>بوابة متابعة مادة العلوم - أ. صبري محمد حمد</title>
+  <title>بوابة متابعة مادة العلوم ومهمة العلوم (المبادرة) - أ. صبري محمد حمد</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -20,7 +20,10 @@
       --border: #e2e8f0;
       --success: #059669;
       --success-bg: #ecfdf5;
+      --success-border: #6ee7b7;
       --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --danger-border: #fca5a5;
       --warning: #d97706;
     }
 
@@ -43,7 +46,7 @@
 
     .container {
       width: 100%;
-      max-width: 750px;
+      max-width: 860px;
     }
 
     @keyframes slideDown {
@@ -57,9 +60,14 @@
     }
 
     @keyframes popIn {
-      0% { opacity: 0; transform: scale(0.8); }
-      70% { transform: scale(1.05); }
+      0% { opacity: 0; transform: scale(0.85); }
+      70% { transform: scale(1.03); }
       100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.45); }
+      50% { box-shadow: 0 0 0 10px rgba(5, 150, 105, 0); }
     }
 
     /* ترويسة المدرسة */
@@ -88,7 +96,7 @@
       background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
       color: white;
       text-align: center;
-      padding: 2rem 1.5rem;
+      padding: 1.9rem 1.5rem;
       border-radius: 22px;
       box-shadow: 0 12px 30px -5px rgba(30, 58, 138, 0.35);
       margin-bottom: 1.3rem;
@@ -109,10 +117,9 @@
     }
 
     .header-card h1 {
-      font-size: 1.65rem;
-      margin-bottom: 0.65rem;
+      font-size: 1.6rem;
+      margin-bottom: 0.6rem;
       font-weight: 900;
-      letter-spacing: 0.3px;
     }
 
     .header-card .teacher-badge {
@@ -123,9 +130,64 @@
       backdrop-filter: blur(6px);
       padding: 0.45rem 1.4rem;
       border-radius: 999px;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       font-weight: 700;
       border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    /* بطاقة زر مهمة العلوم (المبادرة) البارزة قبل تسجيل الدخول */
+    .initiative-launch-card {
+      background: linear-gradient(135deg, #065f46 0%, #059669 55%, #10b981 100%);
+      color: white;
+      border-radius: 22px;
+      padding: 1.5rem 1.6rem;
+      margin-bottom: 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 12px 28px -5px rgba(5, 150, 105, 0.38);
+      animation: fadeInUp 0.7s ease-out, pulseGlow 2.5s infinite;
+      border: 2px solid #6ee7b7;
+    }
+
+    .initiative-launch-info h2 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .initiative-launch-info p {
+      font-size: 0.96rem;
+      opacity: 0.95;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .launch-initiative-btn {
+      background: #ffffff;
+      color: #065f46;
+      border: none;
+      padding: 0.95rem 1.6rem;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .launch-initiative-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      background: #ecfdf5;
     }
 
     /* لوحة التوجيهات الهامة لولي الأمر */
@@ -195,15 +257,33 @@
       border-radius: 6px;
     }
 
-    /* صندوق البحث */
+    /* صندوق البحث بالرقم الشخصي */
     .search-box {
       background: var(--card-bg);
       padding: 1.7rem;
       border-radius: 20px;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
       margin-bottom: 1.5rem;
       animation: fadeInUp 0.85s ease-out;
+      transition: all 0.3s;
+    }
+
+    .search-box.highlight-prompt {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.18);
+    }
+
+    .selected-student-prompt {
+      background: #eff6ff;
+      border: 1.5px solid #93c5fd;
+      color: var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.9rem;
+      font-weight: 800;
+      font-size: 0.96rem;
+      display: none;
     }
 
     .form-group {
@@ -233,23 +313,23 @@
       margin-top: 0.35rem;
     }
 
-    input[type="text"] {
+    input[type="text"], input[type="url"] {
       flex: 1;
       padding: 0.95rem 1.2rem;
       border: 2px solid #cbd5e1;
       border-radius: 14px;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 800;
       outline: none;
       transition: all 0.25s ease;
       direction: ltr;
       text-align: center;
-      letter-spacing: 1.5px;
+      letter-spacing: 1px;
       color: var(--primary);
       background: #f8fafc;
     }
 
-    input[type="text"]::placeholder {
+    input[type="text"]::placeholder, input[type="url"]::placeholder {
       direction: rtl;
       letter-spacing: 0;
       font-weight: 500;
@@ -257,7 +337,7 @@
       color: #94a3b8;
     }
 
-    input[type="text"]:focus {
+    input[type="text"]:focus, input[type="url"]:focus {
       background: #ffffff;
       border-color: var(--primary-light);
       box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
@@ -268,8 +348,8 @@
       color: white;
       border: none;
       border-radius: 14px;
-      padding: 0.95rem 1.8rem;
-      font-size: 1.05rem;
+      padding: 0.95rem 1.6rem;
+      font-size: 1rem;
       font-weight: 800;
       cursor: pointer;
       transition: all 0.25s ease;
@@ -282,7 +362,6 @@
 
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
     }
 
     button:disabled {
@@ -292,7 +371,278 @@
       box-shadow: none;
     }
 
-    /* بطاقة عرض النتيجة */
+    /* ====================================================
+       واجهة مهمة العلوم (المبادرة)
+       ==================================================== */
+    #initiativeView {
+      display: none;
+      animation: fadeInUp 0.4s ease-out;
+    }
+
+    .init-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .btn-back-home {
+      background: white;
+      color: var(--primary);
+      border: 2px solid #bfdbfe;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-back-home:hover {
+      background: #eff6ff;
+    }
+
+    .btn-go-grades {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    }
+
+    .init-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .init-stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem 1.1rem;
+      border: 2px solid var(--border);
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .init-stat-card.stat-total { border-top: 5px solid var(--primary-light); }
+    .init-stat-card.stat-done { border-top: 5px solid var(--success); background: #f0fdf4; }
+    .init-stat-card.stat-pending { border-top: 5px solid var(--danger); background: #fef2f2; }
+
+    .init-stat-card span {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #475569;
+      margin-bottom: 0.25rem;
+    }
+
+    .init-stat-card strong {
+      font-size: 1.65rem;
+      font-weight: 900;
+    }
+
+    /* فلاتر الصفوف والحالة في واجهة المبادرة */
+    .init-controls-card {
+      background: white;
+      border-radius: 18px;
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1.2rem;
+    }
+
+    .class-tabs-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .class-tab-btn {
+      background: #f8fafc;
+      color: var(--text);
+      border: 2px solid var(--border);
+      padding: 0.55rem 1rem;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .class-tab-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .filter-search-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      align-items: center;
+    }
+
+    .filter-search-row input {
+      flex: 1;
+      min-width: 200px;
+      direction: rtl;
+      text-align: right;
+      letter-spacing: 0;
+      font-size: 0.98rem;
+      padding: 0.75rem 1rem;
+    }
+
+    .status-filter-pills {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .status-pill-btn {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1.5px solid #cbd5e1;
+      padding: 0.6rem 0.95rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      box-shadow: none;
+    }
+
+    .status-pill-btn.active-pill {
+      background: #0f172a;
+      color: white;
+      border-color: #0f172a;
+    }
+
+    /* كشف أسماء طلاب المبادرة (أخضر لمن سلّم / أحمر لمن لم يسلّم) */
+    .initiative-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .init-student-row {
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    /* الطالب الذي سلّم المبادرة (أخضر) */
+    .init-student-row.row-submitted {
+      background: linear-gradient(to left, #dcfce7 0%, #f0fdf4 35%, #ffffff 100%);
+      border: 2px solid #34d399;
+      border-right: 8px solid #059669;
+    }
+
+    /* الطالب الذي لم يسلّم المبادرة (أحمر) */
+    .init-student-row.row-not-submitted {
+      background: linear-gradient(to left, #fee2e2 0%, #fef2f2 35%, #ffffff 100%);
+      border: 2px solid #fca5a5;
+      border-right: 8px solid #dc2626;
+    }
+
+    .init-student-info {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+      cursor: pointer;
+    }
+
+    .init-num-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.95rem;
+      background: white;
+      border: 1.5px solid #cbd5e1;
+      color: var(--text);
+    }
+
+    .init-student-name {
+      font-size: 1.12rem;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .row-submitted .init-student-name {
+      color: #065f46;
+    }
+
+    .row-not-submitted .init-student-name {
+      color: #991b1b;
+    }
+
+    .init-status-badge {
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .badge-submitted {
+      background: #059669;
+      color: white;
+    }
+
+    .badge-not-submitted {
+      background: #dc2626;
+      color: white;
+    }
+
+    .init-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .act-btn {
+      padding: 0.55rem 0.95rem;
+      border-radius: 10px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      text-decoration: none;
+      box-shadow: none;
+    }
+
+    .act-view-folder {
+      background: #059669;
+      color: white;
+    }
+
+    .act-open-empty {
+      background: #fff1f2;
+      color: #be123c;
+      border: 1.5px solid #fda4af;
+    }
+
+    .act-upload {
+      background: #2563eb;
+      color: white;
+    }
+
+    .act-grades {
+      background: #f1f5f9;
+      color: #1e3a8a;
+      border: 1.5px solid #bfdbfe;
+    }
+
+    /* بطاقة عرض النتيجة في الصفحة الرئيسية */
     .result-card {
       background: var(--card-bg);
       border-radius: 22px;
@@ -318,9 +668,6 @@
       font-size: 1.25rem;
       color: var(--primary);
       font-weight: 900;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
     .print-btn {
@@ -331,11 +678,6 @@
       font-size: 0.9rem;
       border-radius: 10px;
       box-shadow: none;
-    }
-
-    .print-btn:hover {
-      background: var(--primary);
-      color: white;
     }
 
     .result-body {
@@ -362,12 +704,6 @@
       margin-bottom: 0.25rem;
     }
 
-    .student-hero .name-box span {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      font-weight: 700;
-    }
-
     .class-badge {
       background: var(--primary);
       color: white;
@@ -384,15 +720,6 @@
 
     .data-table tr {
       border-bottom: 1px solid #f1f5f9;
-      transition: background 0.15s ease;
-    }
-
-    .data-table tr:hover {
-      background-color: #f8fafc;
-    }
-
-    .data-table tr:last-child {
-      border-bottom: none;
     }
 
     .data-table td {
@@ -413,7 +740,6 @@
       text-align: left;
     }
 
-    /* تنسيق صناديق الإيجابيات والسلبيات وسجل ردود ولي الأمر */
     .behavior-list {
       display: flex;
       flex-direction: column;
@@ -433,7 +759,6 @@
       font-size: 0.92rem;
       font-weight: 800;
       width: 100%;
-      line-height: 1.5;
     }
 
     .behavior-item-neg {
@@ -446,7 +771,6 @@
       font-size: 0.92rem;
       font-weight: 800;
       width: 100%;
-      line-height: 1.5;
     }
 
     .behavior-item-reply {
@@ -459,7 +783,6 @@
       font-size: 0.93rem;
       font-weight: 800;
       width: 100%;
-      line-height: 1.55;
     }
 
     .score-container {
@@ -481,7 +804,6 @@
     .progress-bar-fill {
       height: 100%;
       border-radius: 99px;
-      transition: width 0.8s ease-out;
     }
 
     .badge {
@@ -498,7 +820,7 @@
     .badge-low { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
     .badge-note { background: #ecfdf5; color: #047857; border: 1px solid #6ee7b7; padding: 0.45rem 0.85rem; border-radius: 10px; display: inline-block; }
 
-    /* قسم رد ولي الأمر المطور */
+    /* قسم رد ولي الأمر */
     .reply-section {
       margin-top: 1.8rem;
       padding: 1.4rem;
@@ -507,16 +829,6 @@
       border: 2px solid #e2e8f0;
     }
 
-    .reply-section label {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.8rem;
-      color: var(--primary);
-      font-size: 1.08rem;
-    }
-
-    /* صندوق الملاحظات السابقة وخيارات الإضافة أو التعديل */
     .previous-replies-box {
       background: white;
       border: 1.5px solid #cbd5e1;
@@ -524,13 +836,6 @@
       padding: 1rem;
       margin-bottom: 1.1rem;
       display: none;
-    }
-
-    .previous-replies-box h4 {
-      font-size: 0.95rem;
-      color: #334155;
-      font-weight: 800;
-      margin-bottom: 0.6rem;
     }
 
     .mode-switcher {
@@ -548,14 +853,6 @@
       border-radius: 12px;
       font-size: 0.92rem;
       font-weight: 800;
-      cursor: pointer;
-      box-shadow: none;
-      transition: all 0.2s;
-    }
-
-    .mode-btn:hover {
-      background: #e2e8f0;
-      transform: none;
       box-shadow: none;
     }
 
@@ -563,7 +860,6 @@
       background: #eff6ff;
       color: var(--primary-light);
       border-color: var(--primary-light);
-      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.12);
     }
 
     .mode-hint {
@@ -589,16 +885,7 @@
       padding: 0.4rem 0.9rem;
       font-size: 0.85rem;
       font-weight: 700;
-      cursor: pointer;
       box-shadow: none;
-      transition: all 0.2s;
-    }
-
-    .chip-btn:hover {
-      background: #eff6ff;
-      color: var(--primary-light);
-      border-color: #93c5fd;
-      transform: translateY(-1px);
     }
 
     .reply-section textarea {
@@ -608,17 +895,9 @@
       border-radius: 14px;
       font-size: 1rem;
       font-weight: 600;
-      resize: vertical;
       min-height: 95px;
       margin-bottom: 0.9rem;
       outline: none;
-      background: white;
-      transition: border 0.2s;
-    }
-
-    .reply-section textarea:focus {
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
     }
 
     .alert {
@@ -628,20 +907,10 @@
       font-weight: 800;
       display: none;
       text-align: center;
-      animation: popIn 0.3s ease-out;
     }
 
-    .alert.error {
-      background-color: #fef2f2;
-      color: var(--danger);
-      border: 1px solid #fecaca;
-    }
-
-    .alert.success {
-      background-color: var(--success-bg);
-      color: var(--success);
-      border: 1px solid #a7f3d0;
-    }
+    .alert.error { background-color: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+    .alert.success { background-color: var(--success-bg); color: var(--success); border: 1px solid #a7f3d0; }
 
     .spinner {
       display: inline-block;
@@ -657,7 +926,7 @@
       to { transform: rotate(360deg); }
     }
 
-    /* نافذة الشكر المنبثقة */
+    /* النوافذ المنبثقة (Modal) */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -672,51 +941,29 @@
 
     .modal-box {
       background: white;
-      max-width: 440px;
+      max-width: 520px;
       width: 100%;
       border-radius: 24px;
-      padding: 2.2rem 1.6rem;
+      padding: 1.8rem 1.5rem;
       text-align: center;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      animation: popIn 0.4s ease-out;
+      animation: popIn 0.35s ease-out;
       border-top: 6px solid var(--success);
     }
 
-    .check-icon {
-      width: 72px;
-      height: 72px;
-      background: #dcfce7;
-      color: var(--success);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.3rem;
-      margin: 0 auto 1.2rem;
-      box-shadow: 0 0 0 8px #ecfdf5;
+    .upload-drop-area {
+      border: 2.5px dashed #93c5fd;
+      background: #eff6ff;
+      border-radius: 16px;
+      padding: 1.4rem 1rem;
+      margin: 1rem 0;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .modal-box h3 {
-      font-size: 1.4rem;
-      color: #065f46;
-      font-weight: 900;
-      margin-bottom: 0.6rem;
-    }
-
-    .modal-box p {
-      color: #334155;
-      font-size: 1.02rem;
-      line-height: 1.65;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-    }
-
-    .modal-close-btn {
-      background: linear-gradient(135deg, #059669, #047857);
-      width: 100%;
-      padding: 0.9rem;
-      border-radius: 14px;
-      font-size: 1.05rem;
+    .upload-drop-area:hover {
+      background: #dbeafe;
+      border-color: var(--primary-light);
     }
 
     footer {
@@ -727,18 +974,12 @@
       font-weight: 700;
     }
 
-    @media print {
-      body { background: white; padding: 0; }
-      .search-box, .reply-section, .print-btn, .instructions-card, footer { display: none !important; }
-      .result-card { display: block !important; box-shadow: none; border: 2px solid #000; }
-    }
-
-    @media (max-width: 520px) {
-      .header-card h1 { font-size: 1.35rem; }
-      .input-wrapper { flex-direction: column; }
-      .mode-switcher { grid-template-columns: 1fr; }
-      button { width: 100%; }
-      .student-hero { flex-direction: column; align-items: flex-start; }
+    @media (max-width: 600px) {
+      .init-stats-grid { grid-template-columns: 1fr; }
+      .input-wrapper, .mode-switcher { flex-direction: column; grid-template-columns: 1fr; }
+      .init-student-row { flex-direction: column; align-items: flex-start; }
+      .init-actions { width: 100%; }
+      .act-btn { flex: 1; justify-content: center; }
     }
   </style>
 </head>
@@ -756,85 +997,154 @@
       <div class="teacher-badge">👨‍🏫 إشراف الأستاذ: صبري محمد حمد</div>
     </div>
 
-    <!-- توجيهات هامة لولي الأمر -->
-    <div class="instructions-card">
-      <h3>📌 توجيهات وملاحظات هامة لولي الأمر:</h3>
-      <ul class="instructions-list">
-        <li>هذه البوابة مخصصة <strong>فقط لمادة العلوم</strong> لطلاب الأستاذ <strong>صبري محمد حمد</strong> في <span class="highlight-blue">الصف السادس الابتدائي فرقة 1</span> و<span class="highlight-blue">صفوف الثاني الإعدادي</span> فقط.</li>
-        <li><strong>درجة الاختبار التشخيصي:</strong> هي لقياس المستوى القبلي فقط <span class="highlight-red">ولن تُضاف</span> إلى درجات الطالب.</li>
-        <li><strong>درجات الوقفة التقويمية الأولى:</strong> <span class="highlight-red">هامة جداً</span> وستُضاف مباشرة إلى درجات الطالب وأعمال السنة.</li>
-        <li><strong>ملزمة العلوم:</strong> نرجو من ولي الأمر الكريم حث الطالب على الاهتمام بملزمة العلوم وتكملة الصفحات الناقصة حتى لا تضيع منه درجات الملزمة، وإن شاء الله سوف يتم إضافة درجات الملزمة <strong>بعد أول شهر نوفمبر 2026</strong>.</li>
-      </ul>
-    </div>
+    <!-- ====================================================
+         القسم الأول: الواجهة الرئيسية (قبل وبعد تسجيل الدخول)
+         ==================================================== -->
+    <div id="homeView">
 
-    <!-- صندوق البحث بالرقم الشخصي -->
-    <div class="search-box">
-      <div class="form-group">
-        <label for="studentId">🔍 الاستعلام بالرقم الشخصي للطالب:</label>
-        <div class="english-note">⚠️ يرجى كتابة الرقم الشخصي بالأرقام الإنجليزية (يتم التحويل تلقائياً)</div>
-        <div class="input-wrapper">
-          <input type="text" id="studentId" inputmode="numeric" placeholder="أدخل الرقم الشخصي بالإنجليزية هنا (مثال: 150413912)..." autocomplete="off">
-          <button id="searchBtn" onclick="fetchStudentData()">
-            <span id="btnText">عرض النتيجة</span>
-            <span id="spinner" class="spinner" style="display: none;"></span>
-          </button>
+      <!-- زر فتح واجهة مهمة العلوم (المبادرة) قبل تسجيل الدخول -->
+      <div class="initiative-launch-card">
+        <div class="initiative-launch-info">
+          <h2>🚀 مهمة العلوم (المبادرة العلمية)</h2>
+          <p>اضغط هنا للاطلاع على كشوف الطلاب الذين سلّموا المبادرة (بالأخضر) أو رفع أعمال الطالب (صور، فيديو، PDF) مباشرة في مجلده الخاص.</p>
         </div>
+        <button type="button" class="launch-initiative-btn" onclick="openInitiativeView()">
+          📂 فتح مهمة العلوم (المبادرة) ⬅️
+        </button>
       </div>
-      <div id="alertBox" class="alert error"></div>
-    </div>
 
-    <!-- بطاقة عرض النتائج -->
-    <div id="resultCard" class="result-card">
-      <div class="result-header">
-        <h2>📊 بطاقة أداء الطالب في مادة العلوم</h2>
-        <button class="print-btn" onclick="window.print()">🖨️ طباعة البطاقة</button>
+      <!-- توجيهات هامة لولي الأمر -->
+      <div class="instructions-card">
+        <h3>📌 توجيهات وملاحظات هامة لولي الأمر:</h3>
+        <ul class="instructions-list">
+          <li>هذه البوابة مخصصة <strong>فقط لمادة العلوم</strong> لطلاب الأستاذ <strong>صبري محمد حمد</strong> في <span class="highlight-blue">الصف السادس الابتدائي فرقة 1</span> و<span class="highlight-blue">صفوف الثاني الإعدادي</span> فقط.</li>
+          <li><strong>درجة الاختبار التشخيصي:</strong> هي لقياس المستوى القبلي فقط <span class="highlight-red">ولن تُضاف</span> إلى درجات الطالب.</li>
+          <li><strong>درجات الوقفة التقويمية الأولى:</strong> <span class="highlight-red">هامة جداً</span> وستُضاف مباشرة إلى درجات الطالب وأعمال السنة.</li>
+          <li><strong>ملزمة العلوم:</strong> نرجو من ولي الأمر الكريم حث الطالب على الاهتمام بملزمة العلوم وتكملة الصفحات الناقصة حتى لا تضيع منه درجات الملزمة، وإن شاء الله سوف يتم إضافة درجات الملزمة <strong>بعد أول شهر نوفمبر 2026</strong>.</li>
+        </ul>
       </div>
-      <div class="result-body">
-        <div id="studentHero" class="student-hero" style="display: none;">
-          <div class="name-box">
-            <h3 id="heroStudentName">-</h3>
-            <span id="heroStudentId">-</span>
+
+      <!-- صندوق البحث بالرقم الشخصي لعرض الدرجات -->
+      <div class="search-box" id="gradesSearchBox">
+        <div id="selectedStudentPrompt" class="selected-student-prompt"></div>
+        <div class="form-group">
+          <label for="studentId">🔍 الاستعلام عن درجات الطالب بالرقم الشخصي:</label>
+          <div class="english-note">⚠️ يرجى كتابة الرقم الشخصي بالأرقام الإنجليزية (يتم التحويل تلقائياً)</div>
+          <div class="input-wrapper">
+            <input type="text" id="studentId" inputmode="numeric" placeholder="أدخل الرقم الشخصي بالإنجليزية هنا (مثال: 150413912)..." autocomplete="off">
+            <button id="searchBtn" onclick="fetchStudentData()">
+              <span id="btnText">عرض النتيجة</span>
+              <span id="spinner" class="spinner" style="display: none;"></span>
+            </button>
           </div>
-          <div class="class-badge" id="heroStudentClass">-</div>
         </div>
+        <div id="alertBox" class="alert error"></div>
+      </div>
 
-        <table class="data-table" id="dataTable"></table>
-
-        <!-- قسم إرسال أو إضافة أو تعديل رد ولي الأمر -->
-        <div class="reply-section">
-          <label for="parentReply">✉️ تواصل وملاحظات ولي الأمر للمعلم:</label>
-
-          <!-- يظهر هذا الصندوق تلقائياً إذا كان لولي الأمر ملاحظة سابقة -->
-          <div id="previousRepliesBox" class="previous-replies-box">
-            <h4>📋 ملاحظاتك المسجلة سابقاً:</h4>
-            <div id="previousRepliesList" class="behavior-list"></div>
-
-            <div class="mode-switcher">
-              <button type="button" id="btnModeAdd" class="mode-btn active-mode" onclick="setReplyMode('add')">
-                ➕ إضافة ملاحظة جديدة (مع الاحتفاظ بالسابق)
-              </button>
-              <button type="button" id="btnModeEdit" class="mode-btn" onclick="setReplyMode('edit')">
-                ✏️ تعديل الملاحظة الأخيرة
-              </button>
+      <!-- بطاقة عرض درجات الطالب -->
+      <div id="resultCard" class="result-card">
+        <div class="result-header">
+          <h2>📊 بطاقة أداء الطالب في مادة العلوم</h2>
+          <button class="print-btn" onclick="window.print()">🖨️ طباعة البطاقة</button>
+        </div>
+        <div class="result-body">
+          <div id="studentHero" class="student-hero" style="display: none;">
+            <div class="name-box">
+              <h3 id="heroStudentName">-</h3>
+              <span id="heroStudentId">-</span>
             </div>
+            <div class="class-badge" id="heroStudentClass">-</div>
           </div>
 
-          <span id="modeHintText" class="mode-hint">📌 سيتم حفظ الملاحظة مع تسجيل اليوم والتاريخ تلقائياً.</span>
-          
-          <div class="quick-replies">
-            <button type="button" class="chip-btn" onclick="setQuickReply('تم الاطلاع على النتيجة، جزاكم الله خيراً أستاذ صبري على جهودكم.')">👍 تم الاطلاع وشكراً لجهودكم</button>
-            <button type="button" class="chip-btn" onclick="setQuickReply('تم الاطلاع، وإن شاء الله سنتابع الطالب لتكملة صفحات الملزمة الناقصة.')">📘 سنتابع تكملة الملزمة</button>
-            <button type="button" class="chip-btn" onclick="setQuickReply('شكراً جزيلاً لكم، وسنحرص على رفع مستوى الطالب في التقييمات القادمة.')">📈 سنحرص على تطوير مستواه</button>
-          </div>
+          <table class="data-table" id="dataTable"></table>
 
-          <textarea id="parentReply" placeholder="اكتب ردك أو ملاحظتك الجديدة هنا ليصل مباشرة إلى الأستاذ صبري محمد حمد..."></textarea>
-          <button id="replyBtn" onclick="sendParentReply()">
-            <span id="replyBtnText">🚀 إرسال وحفظ الملاحظة</span>
-            <span id="replySpinner" class="spinner" style="display: none;"></span>
-          </button>
-          <div id="replyAlert" class="alert"></div>
+          <!-- قسم إرسال أو تعديل رد ولي الأمر -->
+          <div class="reply-section">
+            <label for="parentReply">✉️ تواصل وملاحظات ولي الأمر للمعلم:</label>
+
+            <div id="previousRepliesBox" class="previous-replies-box">
+              <h4 style="margin-bottom:0.5rem;">📋 ملاحظاتك المسجلة سابقاً:</h4>
+              <div id="previousRepliesList" class="behavior-list"></div>
+              <div class="mode-switcher">
+                <button type="button" id="btnModeAdd" class="mode-btn active-mode" onclick="setReplyMode('add')">
+                  ➕ إضافة ملاحظة جديدة (مع الاحتفاظ بالسابق)
+                </button>
+                <button type="button" id="btnModeEdit" class="mode-btn" onclick="setReplyMode('edit')">
+                  ✏️ تعديل الملاحظة الأخيرة
+                </button>
+              </div>
+            </div>
+
+            <span id="modeHintText" class="mode-hint">📌 سيتم حفظ الملاحظة مع تسجيل اليوم والتاريخ تلقائياً.</span>
+            
+            <div class="quick-replies">
+              <button type="button" class="chip-btn" onclick="setQuickReply('تم الاطلاع على النتيجة، جزاكم الله خيراً أستاذ صبري على جهودكم.')">👍 تم الاطلاع وشكراً لجهودكم</button>
+              <button type="button" class="chip-btn" onclick="setQuickReply('تم الاطلاع، وإن شاء الله سنتابع الطالب لتكملة صفحات الملزمة الناقصة.')">📘 سنتابع تكملة الملزمة</button>
+              <button type="button" class="chip-btn" onclick="setQuickReply('شكراً جزيلاً لكم، وسنحرص على رفع مستوى الطالب في التقييمات القادمة.')">📈 سنحرص على تطوير مستواه</button>
+            </div>
+
+            <textarea id="parentReply" placeholder="اكتب ردك أو ملاحظتك الجديدة هنا ليصل مباشرة إلى الأستاذ صبري محمد حمد..."></textarea>
+            <button id="replyBtn" onclick="sendParentReply()">
+              <span id="replyBtnText">🚀 إرسال وحفظ الملاحظة</span>
+              <span id="replySpinner" class="spinner" style="display: none;"></span>
+            </button>
+            <div id="replyAlert" class="alert"></div>
+          </div>
         </div>
       </div>
+
+    </div>
+
+    <!-- ====================================================
+         القسم الثاني: واجهة مهمة العلوم (المبادرة)
+         ==================================================== -->
+    <div id="initiativeView">
+      <div class="init-nav-bar">
+        <button type="button" class="btn-back-home" onclick="backToHomeView()">
+          🏠 الرجوع للصفحة الرئيسية
+        </button>
+        <button type="button" class="btn-go-grades" onclick="goToGradesWithPrompt('')">
+          📊 الاطلاع على درجات الطالب (بالرقم الشخصي)
+        </button>
+      </div>
+
+      <!-- عدادات تسليم المبادرة -->
+      <div class="init-stats-grid">
+        <div class="init-stat-card stat-total">
+          <span>👥 إجمالي طلاب الصف</span>
+          <strong id="initTotalCount" style="color:var(--primary);">0</strong>
+        </div>
+        <div class="init-stat-card stat-done">
+          <span>✅ سلّم المبادرة (بالأخضر)</span>
+          <strong id="initDoneCount" style="color:var(--success);">0</strong>
+        </div>
+        <div class="init-stat-card stat-pending">
+          <span>❌ لم يسلّم المبادرة (بالأحمر)</span>
+          <strong id="initPendingCount" style="color:var(--danger);">0</strong>
+        </div>
+      </div>
+
+      <!-- فلاتر الصفوف والبحث -->
+      <div class="init-controls-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+          <strong style="color:var(--primary); font-size:1.05rem;">🏫 اختر الصف لعرض كشف المبادرة:</strong>
+          <button type="button" class="chip-btn" onclick="loadInitiativeData(true)">🔄 تحديث وفحص المجلدات</button>
+        </div>
+
+        <div class="class-tabs-bar" id="initClassTabs"></div>
+
+        <div class="filter-search-row">
+          <input type="text" id="initSearchInput" placeholder="🔍 ابحث باسم الطالب في الكشف..." oninput="renderInitiativeList()">
+          <div class="status-filter-pills">
+            <button type="button" id="pillAll" class="status-pill-btn active-pill" onclick="setInitStatusFilter('all')">الكل</button>
+            <button type="button" id="pillDone" class="status-pill-btn" onclick="setInitStatusFilter('done')">✅ سلّم المبادرة</button>
+            <button type="button" id="pillPending" class="status-pill-btn" onclick="setInitStatusFilter('pending')">❌ لم يسلّم بعد</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- قائمة كشف الطلاب -->
+      <div id="initiativeListContainer" class="initiative-list"></div>
     </div>
 
     <footer>
@@ -842,16 +1152,58 @@
     </footer>
   </div>
 
+  <!-- نافذة رفع ملف المبادرة للطالب (بدون الحاجة لحساب جوجل) -->
+  <div id="uploadModal" class="modal-overlay" onclick="if(event.target===this) closeUploadModal()">
+    <div class="modal-box" style="text-align:right;">
+      <h3 style="color:var(--primary); font-size:1.25rem; font-weight:900; margin-bottom:0.4rem;">📤 تسليم ورفع مهمة العلوم (المبادرة)</h3>
+      <p id="uploadStudentBanner" style="color:#475569; font-weight:800; font-size:0.96rem; margin-bottom:1rem;"></p>
+
+      <div class="mode-switcher" style="margin-top:0; margin-bottom:1rem;">
+        <button type="button" id="tabUploadFile" class="mode-btn active-mode" onclick="switchUploadTab('file')">📁 رفع ملف (صورة / PDF / فيديو)</button>
+        <button type="button" id="tabUploadLink" class="mode-btn" onclick="switchUploadTab('link')">🔗 إرسال رابط عمل أو فيديو</button>
+      </div>
+
+      <!-- خيار رفع ملف مباشر من الهاتف أو الكمبيوتر -->
+      <div id="fileUploadSection">
+        <div class="upload-drop-area" onclick="document.getElementById('initiativeFileInput').click()">
+          <div style="font-size:2.2rem; margin-bottom:0.4rem;">📲</div>
+          <strong id="selectedFileLabel" style="color:var(--primary); display:block;">اضغط هنا لاختيار ملف المبادرة من جهازك</strong>
+          <span style="font-size:0.82rem; color:#64748b; font-weight:700;">يدعم الصور، ملفات PDF، العروض، ومقاطع الفيديو القصيرة</span>
+          <input type="file" id="initiativeFileInput" style="display:none;" onchange="handleFileSelection(this)">
+        </div>
+      </div>
+
+      <!-- خيار إرسال رابط -->
+      <div id="linkUploadSection" style="display:none; margin-bottom:1rem;">
+        <label style="font-size:0.92rem; display:block; margin-bottom:0.4rem;">ضع رابط الفيديو أو العمل:</label>
+        <input type="url" id="initiativeLinkInput" placeholder="https://..." style="width:100%; margin-bottom:0.7rem;">
+        <label style="font-size:0.92rem; display:block; margin-bottom:0.4rem;">عنوان أو وصف قصير للمبادرة:</label>
+        <input type="text" id="initiativeLinkNote" placeholder="مثال: فيديو تجربة علمية عن الكثافة..." style="width:100%; direction:rtl; text-align:right;">
+      </div>
+
+      <div id="uploadDirectDriveWrap" style="margin-bottom:1rem; padding:0.7rem; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0; font-size:0.86rem; font-weight:700; color:#475569;">
+        💡 يمكنك أيضاً <a id="directDriveFolderLink" href="#" target="_blank" style="color:var(--primary-light); font-weight:900;">فتح مجلد الطالب في Google Drive مباشرة</a> لمشاهدة المحتويات.
+      </div>
+
+      <div style="display:flex; gap:0.6rem;">
+        <button type="button" id="confirmUploadBtn" onclick="submitInitiativeUpload()" style="flex:1; background:linear-gradient(135deg,#059669,#047857);">
+          <span id="uploadBtnText">✅ رفع وحفظ المبادرة الآن</span>
+          <span id="uploadSpinner" class="spinner" style="display:none;"></span>
+        </button>
+        <button type="button" onclick="closeUploadModal()" style="background:#e2e8f0; color:#334155; box-shadow:none;">إلغاء</button>
+      </div>
+
+      <div id="uploadAlert" class="alert"></div>
+    </div>
+  </div>
+
   <!-- نافذة رسالة الشكر المنبثقة -->
   <div id="thankYouModal" class="modal-overlay">
     <div class="modal-box">
-      <div class="check-icon">✓</div>
-      <h3>شكراً لتعاونكم وتواصلكم الكريم!</h3>
-      <p id="modalMessage">
-        تم استلام ردكم بنجاح ووصلت رسالتكم مباشرة إلى كشف الأستاذ <strong>صبري محمد حمد</strong>.<br>
-        تعاونكم المستمر ومتابعتكم لملزمة العلوم هما سر تفوق وتميز أبنائنا الطلاب.
-      </p>
-      <button class="modal-close-btn" onclick="closeThankYouModal()">حسناً، إغلاق</button>
+      <div style="width:70px;height:70px;background:#dcfce7;color:#059669;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 1rem;">✓</div>
+      <h3 style="color:#065f46;font-weight:900;margin-bottom:0.6rem;">شكراً لتعاونكم وتواصلكم الكريم!</h3>
+      <p id="modalMessage" style="color:#334155;font-weight:600;line-height:1.6;margin-bottom:1.4rem;"></p>
+      <button onclick="closeThankYouModal()" style="width:100%;background:#059669;">حسناً، إغلاق</button>
     </div>
   </div>
 
@@ -861,7 +1213,14 @@
     let currentStudentId = "";
     let currentStudentName = "";
     let existingRawReplies = "";
-    let replyMode = "add"; // "add" أو "edit"
+    let replyMode = "add";
+
+    // متغيرات واجهة المبادرة
+    let initiativeStudents = [];
+    let selectedInitClass = "";
+    let selectedInitStatus = "all"; // "all" | "done" | "pending"
+    let activeUploadStudent = null;
+    let currentUploadMode = "file"; // "file" | "link"
 
     function toEnglishDigits(str) {
       return str.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
@@ -869,15 +1228,10 @@
                 .replace(/[^0-9]/g, "");
     }
 
-    // توليد اليوم والتاريخ بالعربية لتوثيق وقت كتابة كل ملاحظة
     function getFormattedArabicDate() {
       const days = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
       const now = new Date();
-      const dayName = days[now.getDay()];
-      const yyyy = now.getFullYear();
-      const mm = String(now.getMonth() + 1).padStart(2, "0");
-      const dd = String(now.getDate()).padStart(2, "0");
-      return `${dayName} ${yyyy}/${mm}/${dd}`;
+      return `${days[now.getDay()]} ${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")}`;
     }
 
     const studentIdInput = document.getElementById("studentId");
@@ -885,22 +1239,362 @@
       this.value = toEnglishDigits(this.value);
     });
 
+    // ====================================================
+    // التنقل بين الواجهة الرئيسية وواجهة المبادرة
+    // ====================================================
+    function openInitiativeView() {
+      document.getElementById("homeView").style.display = "none";
+      document.getElementById("initiativeView").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (initiativeStudents.length === 0) {
+        loadInitiativeData(false);
+      } else {
+        renderInitiativeList();
+      }
+    }
+
+    function backToHomeView() {
+      document.getElementById("initiativeView").style.display = "none";
+      document.getElementById("homeView").style.display = "block";
+      document.getElementById("selectedStudentPrompt").style.display = "none";
+      document.getElementById("gradesSearchBox").classList.remove("highlight-prompt");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // عند الضغط على "الاطلاع على درجات الطالب" من واجهة المبادرة يطلب الرقم الشخصي
+    function goToGradesWithPrompt(studentName) {
+      document.getElementById("initiativeView").style.display = "none";
+      document.getElementById("homeView").style.display = "block";
+
+      const promptBox = document.getElementById("selectedStudentPrompt");
+      const searchBox = document.getElementById("gradesSearchBox");
+
+      if (studentName) {
+        promptBox.innerHTML = `🔒 للاطلاع على درجات وبطاقة أداء الطالب <strong>(${studentName})</strong>، يرجى كتابة <strong>الرقم الشخصي للطالب</strong> بالأرقام الإنجليزية أدناه:`;
+      } else {
+        promptBox.innerHTML = `🔒 للاطلاع على درجات الطالب، يرجى إدخال <strong>الرقم الشخصي للطالب</strong> بالأرقام الإنجليزية في الخانة أدناه:`;
+      }
+
+      promptBox.style.display = "block";
+      searchBox.classList.add("highlight-prompt");
+      searchBox.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => studentIdInput.focus(), 400);
+    }
+
+    // ====================================================
+    // إدارة بيانات وعرض كشف المبادرة
+    // ====================================================
+    async function loadInitiativeData(forceSyncFolders) {
+      const container = document.getElementById("initiativeListContainer");
+      container.innerHTML = `<div style="background:white;padding:2.5rem;border-radius:16px;text-align:center;font-weight:800;color:#475569;">⏳ جاري تحميل كشوف المبادرة وفحص حالة التسليم...</div>`;
+
+      try {
+        if (forceSyncFolders) {
+          await fetch(`${SCRIPT_URL}?action=syncFolders`);
+        }
+        const res = await fetch(`${SCRIPT_URL}?action=getInitiativeList`);
+        const json = await res.json();
+
+        if (json.status === "success") {
+          initiativeStudents = json.students || [];
+          buildInitClassTabs();
+          renderInitiativeList();
+        } else {
+          container.innerHTML = `<div class="alert error" style="display:block;">${json.message || "تعذر تحميل كشف المبادرة"}</div>`;
+        }
+      } catch (e) {
+        container.innerHTML = `<div class="alert error" style="display:block;">تعذر الاتصال بقاعدة البيانات، يرجى التأكد من تحديث كود Apps Script.</div>`;
+      }
+    }
+
+    function buildInitClassTabs() {
+      const tabsBar = document.getElementById("initClassTabs");
+      const classes = [...new Set(initiativeStudents.map(s => s.className).filter(Boolean))];
+
+      if (classes.length > 0 && !selectedInitClass) {
+        selectedInitClass = classes[0];
+      }
+
+      tabsBar.innerHTML = "";
+      classes.forEach(cls => {
+        const clsList = initiativeStudents.filter(s => s.className === cls);
+        const doneCount = clsList.filter(s => s.submitted).length;
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `class-tab-btn ${selectedInitClass === cls ? "active" : ""}`;
+        btn.innerHTML = `${cls} <span style="font-size:0.8rem;opacity:0.85;">(${doneCount}/${clsList.length})</span>`;
+        btn.onclick = () => {
+          selectedInitClass = cls;
+          buildInitClassTabs();
+          renderInitiativeList();
+        };
+        tabsBar.appendChild(btn);
+      });
+    }
+
+    function setInitStatusFilter(status) {
+      selectedInitStatus = status;
+      document.getElementById("pillAll").className = `status-pill-btn ${status === "all" ? "active-pill" : ""}`;
+      document.getElementById("pillDone").className = `status-pill-btn ${status === "done" ? "active-pill" : ""}`;
+      document.getElementById("pillPending").className = `status-pill-btn ${status === "pending" ? "active-pill" : ""}`;
+      renderInitiativeList();
+    }
+
+    function renderInitiativeList() {
+      const container = document.getElementById("initiativeListContainer");
+      const searchQ = document.getElementById("initSearchInput").value.trim().toLowerCase();
+
+      const classList = initiativeStudents.filter(s => !selectedInitClass || s.className === selectedInitClass);
+
+      // تحديث العدادات العلوية للصف المختار
+      const totalCls = classList.length;
+      const doneCls = classList.filter(s => s.submitted).length;
+      const pendingCls = totalCls - doneCls;
+
+      document.getElementById("initTotalCount").textContent = totalCls;
+      document.getElementById("initDoneCount").textContent = doneCls;
+      document.getElementById("initPendingCount").textContent = pendingCls;
+
+      const filtered = classList.filter(s => {
+        const matchName = !searchQ || s.name.toLowerCase().includes(searchQ) || String(s.listNum).includes(searchQ);
+        const matchStatus = selectedInitStatus === "all" ||
+          (selectedInitStatus === "done" && s.submitted) ||
+          (selectedInitStatus === "pending" && !s.submitted);
+        return matchName && matchStatus;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div style="background:white;padding:2rem;border-radius:16px;text-align:center;font-weight:800;color:#64748b;">لا يوجد طلاب مطابقون للفلتر المحدد في هذا الصف.</div>`;
+        return;
+      }
+
+      container.innerHTML = "";
+
+      filtered.forEach(st => {
+        const row = document.createElement("div");
+        row.className = `init-student-row ${st.submitted ? "row-submitted" : "row-not-submitted"}`;
+
+        const safeFolderUrl = st.folderUrl || "#";
+
+        row.innerHTML = `
+          <div class="init-student-info" onclick="handleStudentRowClick(${st.rowIndex})">
+            <div class="init-num-badge">${st.listNum || "-"}</div>
+            <div>
+              <div class="init-student-name">${st.name}</div>
+              <div style="font-size:0.82rem; font-weight:700; color:#475569; margin-top:0.15rem;">
+                ${st.className} — ${st.submitted ? "اضغط لفتح مجلد أعمال الطالب" : "المجلد فارغ حالياً - اضغط لرفع المبادرة"}
+              </div>
+            </div>
+            <span class="init-status-badge ${st.submitted ? "badge-submitted" : "badge-not-submitted"}">
+              ${st.submitted ? "✅ سلّم المبادرة" : "❌ لم يسلّم المبادرة"}
+            </span>
+          </div>
+
+          <div class="init-actions">
+            ${st.folderUrl ? `
+              <a href="${safeFolderUrl}" target="_blank" class="act-btn ${st.submitted ? "act-view-folder" : "act-open-empty"}">
+                ${st.submitted ? "👁️ مشاهدة المبادرة" : "📂 فتح المجلد"}
+              </a>
+            ` : ``}
+            <button type="button" class="act-btn act-upload" onclick="openUploadModal(${st.rowIndex})">
+              📤 ${st.submitted ? "إضافة عمل آخر" : "رفع المبادرة"}
+            </button>
+            <button type="button" class="act-btn act-grades" onclick="goToGradesWithPrompt('${st.name.replace(/'/g, "\\'")}')">
+              📊 درجات الطالب
+            </button>
+          </div>
+        `;
+
+        container.appendChild(row);
+      });
+    }
+
+    function handleStudentRowClick(rowIndex) {
+      const st = initiativeStudents.find(x => x.rowIndex === rowIndex);
+      if (!st) return;
+      if (st.submitted && st.folderUrl) {
+        window.open(st.folderUrl, "_blank");
+      } else {
+        openUploadModal(rowIndex);
+      }
+    }
+
+    // ====================================================
+    // نافذة رفع ملف المبادرة مباشرة لمجلد الطالب في Google Drive
+    // ====================================================
+    function openUploadModal(rowIndex) {
+      activeUploadStudent = initiativeStudents.find(x => x.rowIndex === rowIndex);
+      if (!activeUploadStudent) return;
+
+      document.getElementById("uploadStudentBanner").textContent =
+        `الطالب: ${activeUploadStudent.name} (${activeUploadStudent.className})`;
+      document.getElementById("initiativeFileInput").value = "";
+      document.getElementById("selectedFileLabel").textContent = "اضغط هنا لاختيار ملف المبادرة من جهازك";
+      document.getElementById("initiativeLinkInput").value = "";
+      document.getElementById("initiativeLinkNote").value = "";
+      document.getElementById("uploadAlert").style.display = "none";
+
+      const directWrap = document.getElementById("uploadDirectDriveWrap");
+      const directLink = document.getElementById("directDriveFolderLink");
+      if (activeUploadStudent.folderUrl) {
+        directWrap.style.display = "block";
+        directLink.href = activeUploadStudent.folderUrl;
+      } else {
+        directWrap.style.display = "none";
+      }
+
+      switchUploadTab("file");
+      document.getElementById("uploadModal").style.display = "flex";
+    }
+
+    function closeUploadModal() {
+      document.getElementById("uploadModal").style.display = "none";
+    }
+
+    function switchUploadTab(mode) {
+      currentUploadMode = mode;
+      document.getElementById("tabUploadFile").className = `mode-btn ${mode === "file" ? "active-mode" : ""}`;
+      document.getElementById("tabUploadLink").className = `mode-btn ${mode === "link" ? "active-mode" : ""}`;
+      document.getElementById("fileUploadSection").style.display = mode === "file" ? "block" : "none";
+      document.getElementById("linkUploadSection").style.display = mode === "link" ? "block" : "none";
+    }
+
+    function handleFileSelection(input) {
+      const label = document.getElementById("selectedFileLabel");
+      if (input.files && input.files[0]) {
+        const f = input.files[0];
+        const sizeMB = (f.size / (1024 * 1024)).toFixed(2);
+        label.textContent = `✅ الملف المختار: ${f.name} (${sizeMB} MB)`;
+      } else {
+        label.textContent = "اضغط هنا لاختيار ملف المبادرة من جهازك";
+      }
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64 = reader.result.split(",")[1];
+          resolve(base64);
+        };
+        reader.onerror = err => reject(err);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function submitInitiativeUpload() {
+      if (!activeUploadStudent) return;
+
+      const alertEl = document.getElementById("uploadAlert");
+      const btn = document.getElementById("confirmUploadBtn");
+      const btnText = document.getElementById("uploadBtnText");
+      const spinner = document.getElementById("uploadSpinner");
+
+      alertEl.style.display = "none";
+
+      let payload = {
+        action: "uploadInitiative",
+        rowIndex: activeUploadStudent.rowIndex,
+        studentName: activeUploadStudent.name,
+        className: activeUploadStudent.className,
+        uploadType: currentUploadMode,
+        dateStr: getFormattedArabicDate()
+      };
+
+      if (currentUploadMode === "file") {
+        const fileInput = document.getElementById("initiativeFileInput");
+        if (!fileInput.files || !fileInput.files[0]) {
+          alertEl.className = "alert error";
+          alertEl.textContent = "⚠️ يرجى اختيار ملف (صورة أو PDF أو فيديو) من جهازك أولاً.";
+          alertEl.style.display = "block";
+          return;
+        }
+        const file = fileInput.files[0];
+        if (file.size > 35 * 1024 * 1024) {
+          alertEl.className = "alert error";
+          alertEl.textContent = "⚠️ حجم الملف كبير جداً؛ يرجى اختيار ملف أقل من 35 ميجابايت أو استخدام خيار (إرسال رابط).";
+          alertEl.style.display = "block";
+          return;
+        }
+
+        btn.disabled = true;
+        btnText.textContent = "⏳ جاري رفع الملف إلى مجلد الطالب...";
+        spinner.style.display = "inline-block";
+
+        payload.fileName = file.name;
+        payload.mimeType = file.type || "application/octet-stream";
+        payload.base64Data = await fileToBase64(file);
+      } else {
+        const linkUrl = document.getElementById("initiativeLinkInput").value.trim();
+        const linkNote = document.getElementById("initiativeLinkNote").value.trim();
+        if (!linkUrl) {
+          alertEl.className = "alert error";
+          alertEl.textContent = "⚠️ يرجى لصق الرابط أولاً.";
+          alertEl.style.display = "block";
+          return;
+        }
+        btn.disabled = true;
+        btnText.textContent = "⏳ جاري حفظ الرابط في مجلد الطالب...";
+        spinner.style.display = "inline-block";
+
+        payload.linkUrl = linkUrl;
+        payload.linkNote = linkNote;
+      }
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+
+        if (json.status === "success") {
+          // تحويل حالة الطالب فوراً إلى الأخضر (سلّم المبادرة)
+          activeUploadStudent.submitted = true;
+          activeUploadStudent.statusText = "سلّم المبادرة";
+          if (json.folderUrl) activeUploadStudent.folderUrl = json.folderUrl;
+
+          buildInitClassTabs();
+          renderInitiativeList();
+
+          alertEl.className = "alert success";
+          alertEl.textContent = "🎉 تم رفع المبادرة بنجاح وتحول اسم الطالب إلى اللون الأخضر (سلّم المبادرة)!";
+          alertEl.style.display = "block";
+
+          setTimeout(() => closeUploadModal(), 1500);
+        } else {
+          alertEl.className = "alert error";
+          alertEl.textContent = json.message || "حدث خطأ أثناء رفع المبادرة";
+          alertEl.style.display = "block";
+        }
+      } catch (err) {
+        alertEl.className = "alert error";
+        alertEl.textContent = "تعذر الرفع، يرجى التأكد من اتصال الإنترنت والمحاولة مرة أخرى.";
+        alertEl.style.display = "block";
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = "✅ رفع وحفظ المبادرة الآن";
+        spinner.style.display = "none";
+      }
+    }
+
+    // ====================================================
+    // دوال البحث بالرقم الشخصي وعرض الدرجات ورد ولي الأمر
+    // ====================================================
     function setQuickReply(text) {
       const textarea = document.getElementById("parentReply");
       textarea.value = text;
       textarea.focus();
     }
 
-    // استخراج النص الصافي لآخر ملاحظة بدون البادئة الخاصة بالتاريخ (لتسهيل تعديلها)
     function extractLastNoteText(rawText) {
       if (!rawText) return "";
       const lines = String(rawText).split("\n").filter(Boolean);
       if (lines.length === 0) return "";
-      const lastLine = lines[lines.length - 1];
-      return lastLine.replace(/^📅\s*\[[^\]]+\]:\s*/, "").trim();
+      return lines[lines.length - 1].replace(/^📅\s*\[[^\]]+\]:\s*/, "").trim();
     }
 
-    // التبديل بين وضع "إضافة ملاحظة جديدة" ووضع "تعديل الملاحظة الأخيرة"
     function setReplyMode(mode) {
       replyMode = mode;
       const btnAdd = document.getElementById("btnModeAdd");
@@ -913,15 +1607,12 @@
         btnEdit.className = "mode-btn active-mode";
         btnAdd.className = "mode-btn";
         textarea.value = extractLastNoteText(existingRawReplies);
-        textarea.placeholder = "عدّل ملاحظتك الأخيرة هنا...";
         hint.textContent = "✏️ أنت الآن تقوم بتعديل ملاحظتك الأخيرة، وسيتم تحديثها بتاريخ اليوم.";
         replyBtnText.textContent = "💾 حفظ التعديل على الملاحظة";
-        textarea.focus();
       } else {
         btnAdd.className = "mode-btn active-mode";
         btnEdit.className = "mode-btn";
         textarea.value = "";
-        textarea.placeholder = "اكتب ملاحظتك الجديدة هنا ليتم إضافتها مع الاحتفاظ بملاحظاتك السابقة...";
         hint.textContent = "➕ سيتم إضافة هذه الملاحظة كرسالة جديدة بتاريخ اليوم دون مسح ملاحظاتك السابقة.";
         replyBtnText.textContent = "🚀 إرسال وحفظ الملاحظة الجديدة";
       }
@@ -936,14 +1627,11 @@
         const lines = existingRawReplies.split("\n").filter(Boolean);
         prevList.innerHTML = lines.map(l => `<div class="behavior-item-reply">${l}</div>`).join("");
         prevBox.style.display = "block";
-        // نجعل الوضع الافتراضي هو "إضافة ملاحظة جديدة" حتى لا يمسح ولي الأمر ملاحظته السابقة بالخطأ
         setReplyMode("add");
       } else {
         prevBox.style.display = "none";
         replyMode = "add";
         document.getElementById("parentReply").value = "";
-        document.getElementById("modeHintText").textContent = "📌 سيتم حفظ الملاحظة مع تسجيل اليوم والتاريخ تلقائياً.";
-        document.getElementById("replyBtnText").textContent = "🚀 إرسال وحفظ الملاحظة";
       }
     }
 
@@ -966,15 +1654,14 @@
       const searchBtn = document.getElementById("searchBtn");
       const btnText = document.getElementById("btnText");
       const spinner = document.getElementById("spinner");
-      const replyAlert = document.getElementById("replyAlert");
 
       alertBox.style.display = "none";
-      replyAlert.style.display = "none";
       resultCard.style.display = "none";
       dataTable.innerHTML = "";
 
       if (!id) {
-        showAlert("يرجى إدخال الرقم الشخصي للطالب بالأرقام الإنجليزية أولاً");
+        alertBox.textContent = "يرجى إدخال الرقم الشخصي للطالب بالأرقام الإنجليزية أولاً";
+        alertBox.style.display = "block";
         return;
       }
 
@@ -992,11 +1679,12 @@
           resultCard.style.display = "block";
           resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
         } else {
-          showAlert(json.message || "لم يتم العثور على طالب بهذا الرقم الشخصي ضمن الصفوف المشمولة");
+          alertBox.textContent = json.message || "لم يتم العثور على طالب بهذا الرقم الشخصي";
+          alertBox.style.display = "block";
         }
       } catch (error) {
-        console.error(error);
-        showAlert("تعذر الاتصال بقاعدة البيانات، يرجى التأكد من اتصال الإنترنت وإعدادات النشر");
+        alertBox.textContent = "تعذر الاتصال بقاعدة البيانات، يرجى المحاولة مرة أخرى";
+        alertBox.style.display = "block";
       } finally {
         searchBtn.disabled = false;
         btnText.textContent = "عرض النتيجة";
@@ -1018,9 +1706,7 @@
         if (key.includes("الوقفة الأولى")) firstAssessmentScore = value;
         if (key.includes("اسم الطالب")) sName = value;
         if (key.includes("الصف")) sClass = value;
-        if (key.includes("رد ولي الامر") || key.includes("رد ولي الأمر")) {
-          savedParentReplies = value || "";
-        }
+        if (key.includes("رد ولي الامر") || key.includes("رد ولي الأمر")) savedParentReplies = value || "";
       }
 
       currentStudentName = sName;
@@ -1031,22 +1717,18 @@
         document.getElementById("heroStudentId").textContent = "الرقم الشخصي: " + currentStudentId;
         document.getElementById("heroStudentClass").textContent = sClass || "مادة العلوم";
         studentHero.style.display = "flex";
-      } else {
-        studentHero.style.display = "none";
       }
 
       const autoGrade = getAutoGradeBadge(firstAssessmentScore);
 
       for (const [key, value] of Object.entries(data)) {
         const tr = document.createElement("tr");
-
         const tdLabel = document.createElement("td");
         tdLabel.className = "label-cell";
         tdLabel.textContent = key;
 
         const tdValue = document.createElement("td");
         tdValue.className = "value-cell";
-
         const hasVal = (value !== "" && value !== null && value !== undefined);
 
         if (key.includes("الوقفة الأولى") && hasVal && autoGrade) {
@@ -1058,53 +1740,24 @@
               </div>
             </div>
           `;
-        }
-        else if (key.includes("التقدير")) {
-          if (hasVal) {
-            tdValue.innerHTML = `<span class="badge badge-vgood">${value}</span>`;
-          } else if (autoGrade) {
-            tdValue.innerHTML = `<span class="badge ${autoGrade.cls}">${autoGrade.text}</span>`;
-          } else {
-            tdValue.textContent = "-";
-          }
-        }
-        else if (key.includes("الايجابيات") || key.includes("الإيجابيات")) {
+        } else if (key.includes("التقدير")) {
+          tdValue.innerHTML = hasVal ? `<span class="badge badge-vgood">${value}</span>` : (autoGrade ? `<span class="badge ${autoGrade.cls}">${autoGrade.text}</span>` : "-");
+        } else if (key.includes("الايجابيات") || key.includes("الإيجابيات")) {
           tdLabel.innerHTML = `🌟 ${key}`;
-          if (hasVal) {
-            const lines = String(value).split("\n").filter(Boolean);
-            tdValue.innerHTML = `<div class="behavior-list">` +
-              lines.map(line => `<div class="behavior-item-pos">${line}</div>`).join("") +
-              `</div>`;
-          } else {
-            tdValue.textContent = "-";
-          }
-        }
-        else if (key.includes("السلبيات")) {
+          tdValue.innerHTML = hasVal ? `<div class="behavior-list">${String(value).split("\n").filter(Boolean).map(l => `<div class="behavior-item-pos">${l}</div>`).join("")}</div>` : "-";
+        } else if (key.includes("السلبيات")) {
           tdLabel.innerHTML = `⚠️ ${key}`;
-          if (hasVal) {
-            const lines = String(value).split("\n").filter(Boolean);
-            tdValue.innerHTML = `<div class="behavior-list">` +
-              lines.map(line => `<div class="behavior-item-neg">${line}</div>`).join("") +
-              `</div>`;
-          } else {
-            tdValue.innerHTML = `<span style="color:#059669; font-weight:700;">لا توجد ملاحظات سلبية مسجلة ✓</span>`;
-          }
-        }
-        else if (key.includes("ملاحظات المعلم") && hasVal) {
-          tdValue.innerHTML = `<span class="badge-note">🌟 ${value}</span>`;
-        }
-        else if (key.includes("رد ولي الامر") || key.includes("رد ولي الأمر")) {
+          tdValue.innerHTML = hasVal ? `<div class="behavior-list">${String(value).split("\n").filter(Boolean).map(l => `<div class="behavior-item-neg">${l}</div>`).join("")}</div>` : `<span style="color:#059669;">لا توجد ملاحظات سلبية مسجلة ✓</span>`;
+        } else if (key.includes("رابط مجلد المبادرة")) {
+          tdLabel.innerHTML = `📂 ${key}`;
+          tdValue.innerHTML = hasVal ? `<a href="${value}" target="_blank" class="badge badge-vgood" style="text-decoration:none;">فتح مجلد مبادرة الطالب ⬅️</a>` : "-";
+        } else if (key.includes("حالة المبادرة")) {
+          const isDone = String(value).includes("سلّم") && !String(value).includes("لم");
+          tdValue.innerHTML = `<span class="badge ${isDone ? 'badge-excellent' : 'badge-low'}">${hasVal ? value : "لم يسلّم المبادرة"}</span>`;
+        } else if (key.includes("رد ولي الامر") || key.includes("رد ولي الأمر")) {
           tdValue.id = "parentReplyCell";
-          if (hasVal) {
-            const lines = String(value).split("\n").filter(Boolean);
-            tdValue.innerHTML = `<div class="behavior-list">` +
-              lines.map(line => `<div class="behavior-item-reply">${line}</div>`).join("") +
-              `</div>`;
-          } else {
-            tdValue.textContent = "لم يتم تسجيل رد بعد";
-          }
-        }
-        else {
+          tdValue.innerHTML = hasVal ? `<div class="behavior-list">${String(value).split("\n").filter(Boolean).map(l => `<div class="behavior-item-reply">${l}</div>`).join("")}</div>` : "لم يتم تسجيل رد بعد";
+        } else {
           tdValue.textContent = hasVal ? value : "-";
         }
 
@@ -1123,15 +1776,14 @@
 
       if (!replyText) {
         replyAlert.className = "alert error";
-        replyAlert.textContent = "⚠️ يرجى كتابة الملاحظة أو اختيار أحد الردود السريعة أولاً قبل الإرسال";
+        replyAlert.textContent = "⚠️ يرجى كتابة الملاحظة أولاً قبل الإرسال";
         replyAlert.style.display = "block";
         return;
       }
 
       replyBtn.disabled = true;
-      replyBtnText.textContent = "جاري الحفظ والإرسال للمعلم...";
+      replyBtnText.textContent = "جاري الحفظ...";
       replySpinner.style.display = "inline-block";
-      replyAlert.style.display = "none";
 
       const dateStr = getFormattedArabicDate();
 
@@ -1142,31 +1794,17 @@
 
         if (json.status === "success") {
           const updatedAll = json.updatedReply || `📅 [${dateStr}]: ${replyText}`;
-          
-          // تحديث الخلية في الجدول وقائمة الملاحظات السابقة فوراً أمام ولي الأمر
           const replyCell = document.getElementById("parentReplyCell");
           if (replyCell) {
-            const lines = String(updatedAll).split("\n").filter(Boolean);
-            replyCell.innerHTML = `<div class="behavior-list">` +
-              lines.map(line => `<div class="behavior-item-reply">${line}</div>`).join("") +
-              `</div>`;
+            replyCell.innerHTML = `<div class="behavior-list">${String(updatedAll).split("\n").filter(Boolean).map(l => `<div class="behavior-item-reply">${l}</div>`).join("")}</div>`;
           }
-
           updatePreviousRepliesUI(updatedAll);
-
-          replyAlert.className = "alert success";
-          replyAlert.textContent = "✅ تم حفظ الملاحظة بالتاريخ واليوم ووصلت إلى الأستاذ صبري محمد حمد بنجاح.";
-          replyAlert.style.display = "block";
-
-          openThankYouModal();
-        } else {
-          replyAlert.className = "alert error";
-          replyAlert.textContent = json.message || "حدث خطأ أثناء حفظ الرد";
-          replyAlert.style.display = "block";
+          document.getElementById("modalMessage").innerHTML = `تم استلام وتوثيق ملاحظة ولي أمر الطالب <strong>(${currentStudentName})</strong> بتاريخ اليوم بنجاح.`;
+          document.getElementById("thankYouModal").style.display = "flex";
         }
       } catch (err) {
         replyAlert.className = "alert error";
-        replyAlert.textContent = "تعذر إرسال الرد، يرجى التأكد من اتصال الإنترنت والمحاولة مرة أخرى";
+        replyAlert.textContent = "تعذر إرسال الرد، حاول مرة أخرى";
         replyAlert.style.display = "block";
       } finally {
         replyBtn.disabled = false;
@@ -1175,32 +1813,12 @@
       }
     }
 
-    function openThankYouModal() {
-      const modal = document.getElementById("thankYouModal");
-      const modalMessage = document.getElementById("modalMessage");
-      if (currentStudentName) {
-        modalMessage.innerHTML = `
-          تم استلام وتوثيق ملاحظة ولي أمر الطالب <strong>(${currentStudentName})</strong> بتاريخ اليوم بنجاح، ووصلت مباشرة إلى سجل الأستاذ <strong>صبري محمد حمد</strong>.<br><br>
-          نشكر لكم اهتمامكم وحرصكم على متابعة الطالب وتكملة <strong>ملزمة العلوم</strong>.
-        `;
-      }
-      modal.style.display = "flex";
-    }
-
     function closeThankYouModal() {
       document.getElementById("thankYouModal").style.display = "none";
     }
 
-    function showAlert(msg) {
-      const alertBox = document.getElementById("alertBox");
-      alertBox.textContent = msg;
-      alertBox.style.display = "block";
-    }
-
     studentIdInput.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        fetchStudentData();
-      }
+      if (e.key === "Enter") fetchStudentData();
     });
   </script>
 </body>
